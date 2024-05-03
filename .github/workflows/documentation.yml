@@ -34,6 +34,11 @@ jobs:
     - name: Move built docs to public folder
       run: |
         mv build/html/ public/
+        
+    - name: Configure git user
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
