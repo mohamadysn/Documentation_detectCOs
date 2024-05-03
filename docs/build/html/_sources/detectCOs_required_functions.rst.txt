@@ -1,0 +1,182 @@
+detectCOs_required_functions.py
+================================
+
+
+.. code-block:: python
+
+    import math
+    import numpy as np
+    from decimal import *
+    import scipy
+..
+
+Function : CalculateHomoProbability
+------------------------------------
+
+**Code :**
+
+.. code-block:: python
+
+    def CalculateHomoProbability(a:float, b:float):
+        """
+        Description:	calculate the probability to be homozygous a
+        Input:			a = ratio ADa/DP ; b = ratio ADb/DP
+        Output: 		probability to be homozygous a 
+        """
+        prob = scipy.special.comb(a+b, a) * pow(0.99, a) * pow(0.01, b)
+        if math.isnan(prob) or math.isinf(prob):
+            prob = np.nan_to_num(prob)
+        return prob
+
+..
+
+**Explication :**
+
+`CalculateHomoProbability`: Cette fonction calcule la probabilité d'être homozygote pour un allèle spécifique. Cette probabilité est calculée en utilisant la formule de la loi binomiale, où `a` est le ratio ADa/DP (nombre de lectures soutenant l'allèle a divisé par la profondeur de séquençage) et `b` est le ratio ADb/DP (nombre de lectures soutenant l'allèle b divisé par la profondeur de séquençage). 
+    - Entrée :
+        - `a` : Ratio ADa/DP.
+        - `b` : Ratio ADb/DP. 
+    - Fonctionnement :
+        - La fonction utilise la fonction `scipy.special.comb()` pour calculer le coefficient binomial (a + b choisi a).
+        - Elle multiplie le coefficient binomial par la probabilité d'avoir `a` succès (0.99) et `b` échecs (0.01).
+        - Si le résultat est un nombre flottant non fini (`nan` ou `inf`), elle le convertit en un nombre fini à l'aide de `np.nan_to_num()`.
+    - Sortie :
+        - `prob` : Probabilité d'être homozygote pour l'allèle `a`.
+    
+    Cette fonction est utile pour estimer la probabilité d'homozygotie d'un allèle en fonction des ratios AD/DP des deux allèles dans un SNP donné.
+
+
+Function : CalculateHeteroProbability
+--------------------------------------
+
+**Code :**
+
+.. code-block:: python
+
+    def CalculateHeteroProbability(a:float, b:float):
+        """
+        Description:	calculate the probability to be heterozygous
+        Input:			a = ratio ADa/DP ; b = ratio ADb/DP
+        Output:			probability to be heterozygous
+        """
+        prob = scipy.special.comb(a+b, a) * pow(0.5, a) * pow(0.5, b)
+        if math.isnan(prob) or math.isinf(prob):
+            prob = np.nan_to_num(prob)
+        return prob
+..
+
+**Explication :**
+
+`CalculateHeteroProbability`: Cette fonction calcule la probabilité d'être hétérozygote pour deux allèles différents. La probabilité est calculée en utilisant la formule de la loi binomiale, où `a` est le ratio ADa/DP (nombre de lectures soutenant l'allèle a divisé par la profondeur de séquençage) et `b` est le ratio ADb/DP (nombre de lectures soutenant l'allèle b divisé par la profondeur de séquençage).
+    - Entrée :
+        - `a` : Ratio ADa/DP.
+        - `b` : Ratio ADb/DP. 
+    - Fonctionnement :
+        - La fonction utilise la fonction `scipy.special.comb()` pour calculer le coefficient binomial (a + b choisi a).
+        - Elle multiplie le coefficient binomial par la probabilité d'avoir `a` succès (0.5) et `b` échecs (0.5).
+        - Si le résultat est un nombre flottant non fini (`nan` ou `inf`), elle le convertit en un nombre fini à l'aide de `np.nan_to_num()`.
+    - Sortie :
+        - `prob` : Probabilité d'être hétérozygote.
+    
+    Cette fonction est utile pour estimer la probabilité d'hétérozygotie d'un SNP en fonction des ratios AD/DP des deux allèles.
+
+Function : GetGenoWindow
+-------------------------
+
+**Code :**
+
+.. code-block:: python
+
+    def GetGenoWindow(cur_window:list, genoRef:str, genoAlt:str, min_homo_freq:float=0.9):
+        """
+        Description:	determine the genotype according to the ratio of ADref/DP 
+                        and ADalt/DP
+        Input:	cur_window = [start, stop, ADref, ADalt, DP]
+        Output:	cur_geno = [start, stop, ADref/DP, ADalt/DP, probHomoRef, 
+                            probHetero, probHomoAlt, genotype]
+        """
+            
+        min_hetero_freq = 1 - min_homo_freq
+
+        # Save each element of the list cur_window into specific variable
+        start, stop, ADref, ADalt, depth = cur_window 
+
+        # Calculate ratio ADref/DP and ADalt/DP
+        if depth == 0 :
+            ratio_ADref_DP = float(0.0)
+            ratio_ADalt_DP = float(0.0)
+        else : 
+            ratio_ADref_DP = ADref/depth
+            ratio_ADalt_DP = ADalt/depth
+
+        # Define the probability to be homozygous Ref/Alt and heterozygous	
+        prob_homoRef = prob_homoAlt = prob_hetero = 0.0
+
+        if ratio_ADref_DP > ratio_ADalt_DP:
+            if ratio_ADref_DP >= min_homo_freq or ratio_ADalt_DP <= min_hetero_freq:
+                prob_homoRef = 1.0
+            elif ratio_ADref_DP >= 0.3 and ratio_ADref_DP <= 0.7:
+                prob_hetero = 1.0
+            else:
+                prob_homoRef = CalculateHomoProbability(ADref, ADalt)
+                prob_hetero = CalculateHeteroProbability(ADref, ADalt)
+                prob_homoAlt = CalculateHomoProbability(ADalt, ADref)
+                if prob_homoRef == prob_homoAlt == prob_hetero == 0:
+                    prob_hetero = 1.0
+
+        elif ratio_ADref_DP == ratio_ADalt_DP and ratio_ADref_DP != 0:
+            prob_hetero = 1.0
+
+        elif ratio_ADref_DP < ratio_ADalt_DP:
+            if ratio_ADalt_DP >= min_homo_freq or ratio_ADref_DP <= min_hetero_freq:
+                prob_homoAlt = 1.0
+            elif ratio_ADalt_DP >= 0.3 and ratio_ADalt_DP <= 0.7:
+                prob_hetero = 1.0
+            else:
+                prob_homoRef = CalculateHomoProbability(ADref, ADalt)
+                prob_hetero = CalculateHeteroProbability(ADref, ADalt)
+                prob_homoAlt = CalculateHomoProbability(ADalt, ADref)
+                if prob_homoRef == prob_homoAlt == prob_hetero == 0:
+                    prob_hetero = 1.0
+
+        else: # ratio ADref/DP == ADalt/DP == 0
+            # do nothing: prob_homoRef = prob_homoAlt = prob_hetero = 0.0
+            pass
+        
+        # Edit prob_geno
+        prob_geno = [prob_homoRef, prob_hetero, prob_homoAlt, 'NA']
+        if prob_homoRef > prob_hetero and prob_homoRef > prob_homoAlt:
+            prob_geno[3] = genoRef
+        elif prob_homoAlt > prob_hetero and prob_homoAlt > prob_homoRef:
+            prob_geno[3] = genoAlt
+        elif prob_hetero > prob_homoRef and prob_hetero > prob_homoAlt:
+            prob_geno[3] = genoRef + "/" + genoAlt
+        else: # prob_homoRef == prob_homoAlt == heteroAB == 0.0
+            pass # do nothing: prob_geno = [0.0, 0.0, 0.0, "NA"]
+        
+        cur_geno = [start, stop, ratio_ADref_DP, ratio_ADalt_DP] + prob_geno
+
+        return cur_geno
+
+..
+
+
+
+**Explication :**
+
+`GetGenoWindow`: Cette fonction détermine le génotype d'une fenêtre génétique en fonction des ratios de lectures alignées à la référence et à l'allèle alternatif, ainsi que de la profondeur de séquençage. Elle retourne une liste contenant les informations sur la fenêtre génétique, y compris les probabilités d'être homozygote pour la référence et l'allèle alternatif, la probabilité d'être hétérozygote, le génotype prédit, etc.
+    - Entrée :
+        - `cur_window` : Liste contenant les éléments de la fenêtre [start, stop, ADref, ADalt, DP].
+        - `genoRef` : Génotype de référence.
+        - `genoAlt` : Génotype alternatif.
+        - `min_homo_freq` : Fréquence minimale d'homozygotie (par défaut à 0.9). 
+    - Fonctionnement :
+        - La fonction calcule d'abord les ratios ADref/DP et ADalt/DP.
+        - Ensuite, elle détermine les probabilités d'être homozygote pour le génotype de référence (`prob_homoRef`), homozygote pour l'allèle alternatif (`prob_homoAlt`) et hétérozygote (`prob_hetero`) en fonction de ces ratios.
+        - Si les probabilités ne sont pas claires à partir des ratios, elles sont calculées à l'aide des fonctions `CalculateHomoProbability` et `CalculateHeteroProbability`.
+        - Finalement, elle détermine le génotype de la fenêtre en fonction des probabilités et le retourne dans `cur_geno`.
+    - Sortie :
+        - `cur_geno` : Liste contenant les éléments de la fenêtre ainsi que les probabilités et le génotype déterminés.
+
+
+

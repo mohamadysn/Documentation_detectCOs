@@ -1,0 +1,41 @@
+Usage
+=====
+
+.. _installation:
+
+Installation
+------------
+
+
+To use detectCOs, first create a virtual environment using mamba:
+
+.. code-block:: console
+
+   $ mamba env create -f config_detectCOs_CG.yaml -p ~/miniconda3/envs/detectCOs_env
+..
+
+.. code-block:: console
+
+   $ conda activate ~/miniconda3/envs/detectCOs_env
+..
+
+.. _launchment:
+
+launchment
+----------
+
+.. code-block:: console
+
+   $ python3 path/to/folder/launcher_detectCOs_v2_polyrec.py config_detectCOs.yaml
+..
+
+
+
+
+  
+
+
+
+
+
+

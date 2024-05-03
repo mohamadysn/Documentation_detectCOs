@@ -1,0 +1,850 @@
+detectCOs_read_files.py
+========================
+
+
+
+.. code-block:: python
+
+    import hues,os,sys,re
+    from collections import OrderedDict
+    from detectCOs_required_functions import *
+..
+
+Function : CheckInput
+-----------------------
+
+**Code :**
+
+.. code-block:: python
+    
+    def CheckInput(input_file:str):
+        """
+        Description:	Check if the file exist and if it's not empty
+        Input: 			path-to-file/input_file
+        """
+        if os.path.exists(input_file):
+            hues.log("Found input file:\t" + input_file)
+
+            if os.path.getsize(input_file):
+                hues.log("Input file:\t" + input_file + " is not empty")
+            else:
+                hues.error("Input file:\t" + input_file + " is empty")
+                sys.exit()
+        else:
+            hues.error("Not found input file:\t" + input_file)
+            sys.exit()
+..
+
+**Explication :**
+
+`CheckInput`: Cette fonction vérifie si un fichier d'entrée existe et n'est pas vide.
+    - Entrée :
+        - `input_file` : Le chemin du fichier d'entrée. 
+    - Fonctionnement :
+        - Vérifie si le fichier spécifié existe en utilisant `os.path.exists()`.
+        - Si le fichier existe :
+        - Vérifie si sa taille est supérieure à zéro en utilisant `os.path.getsize()`.
+        - Si le fichier n'est pas vide, affiche un message indiquant que le fichier d'entrée a été trouvé et n'est pas vide.
+        - Sinon, affiche un message d'erreur indiquant que le fichier d'entrée est vide et quitte le programme en utilisant `sys.exit()`.
+        - Si le fichier n'existe pas, affiche un message d'erreur indiquant que le fichier d'entrée n'a pas été trouvé et quitte le programme en utilisant `sys.exit()`.
+    - Sortie :
+        - Aucune sortie explicite, mais la fonction affiche des messages à la console en fonction du résultat de la vérification. Si le fichier d'entrée n'existe pas ou s'il est vide, le programme se termine avec un code de sortie de 1.
+
+
+Function : RemoveFile
+-----------------------
+
+**Code :**
+
+.. code-block:: python
+
+    def RemoveFile(output_file:str): #old name CheckOuput
+        """
+        Description:	Remove output file if it exist
+        Input:			path-to-file/output_file
+        """
+        if os.path.exists(output_file):
+            hues.warn("Found output file:\t" + output_file)
+            hues.warn("Remove\t" + output_file + "\t...")
+            os.remove(output_file)
+..
+
+**Explication :**
+
+`RemoveFile`: Cette fonction supprime un fichier de sortie s'il existe.
+    - Entrée : 
+        - `output_file` : Le chemin du fichier de sortie à supprimer.
+    - Fonctionnement :
+        - Vérifie si le fichier spécifié existe en utilisant `os.path.exists()`.
+        - Si le fichier existe, affiche un message d'avertissement indiquant que le fichier de sortie a été trouvé.
+        - Supprime ensuite le fichier en utilisant `os.remove(output_file)`.
+    - Sortie :
+        - Aucune sortie explicite, mais la fonction affiche des messages à la console en fonction du résultat de la suppression du fichier.
+
+Function : load_file_in_dict
+-----------------------------
+
+**Code :**
+
+.. code-block:: python
+
+    def load_file_in_dict(input_file:str, prefix_chr:str="Chr"):
+        """
+        Description:	convert file in dictionnary
+        Input:			Tab-separated file
+        Output: 		my_dict[value_col0] = [value_col1, ..., value_coln]
+        """
+        my_dict = OrderedDict()
+        values_list = []
+
+        with open(input_file) as input:
+            for line in input:
+                value = line.strip().split("\t")
+                # .strip() remove space at the beginning and at the end of the string
+                if value[0].startswith(prefix_chr):
+                    values_list = value[1:]
+                    for i in range(len(values_list)):
+                        # convert all element in value_list if it match with
+                        # regex_integer and regex_float
+                        regex_int = "\d+" # equal to "[0-9]+"
+                        regex_float = "\d+\.\d+" # equal to "[0-9]+\.[0-9]+"
+
+                        if re.fullmatch(regex_int, values_list[i]):
+                            values_list[i] = int(values_list[i])
+                        elif re.fullmatch(regex_float, values_list[i]):
+                            values_list[i] = float(values_list[i])
+
+                    if len(values_list) == 1 :
+                        # if the list has only 1 element, return the element and not the list
+                        my_dict[value[0]] = values_list[0]
+                    else:	
+                        my_dict[value[0]] = values_list
+
+        return my_dict
+    
+..
+
+**Explication :**
+
+`load_file_in_dict`: Cette fonction convertit un fichier tabulé en un dictionnaire.
+    - Entrée :
+        - `input_file` : Le chemin du fichier d'entrée à charger.
+        - `prefix_chr` : Le préfixe utilisé pour filtrer les lignes du fichier d'entrée. Par défaut, il est défini sur `"Chr"`.
+    - Fonctionnement :
+        - Ouvre le fichier spécifié en utilisant la syntaxe `with open(input_file) as input`.
+        - Parcourt chaque ligne du fichier.
+        - Divise chaque ligne en éléments en utilisant `line.strip().split("\t")` pour séparer les valeurs par tabulation.
+        - Si le premier élément de la ligne commence par le préfixe spécifié (`prefix_chr`), alors les valeurs suivantes de la ligne sont ajoutées à une liste.
+        - Chaque élément de la liste est converti en entier ou en flottant si cela correspond à des nombres entiers ou des nombres flottants respectivement.
+        - Si la liste résultante ne contient qu'un seul élément, ce dernier est ajouté au dictionnaire avec la clé correspondant au premier élément de la ligne. Sinon, la liste entière est ajoutée au dictionnaire.
+        - Une fois toutes les lignes traitées, le dictionnaire résultant est retourné.
+
+    - Sortie :
+        - Un dictionnaire où les clés sont les valeurs de la première colonne (après filtrage avec `prefix_chr`) et les valeurs sont soit des listes des valeurs des autres colonnes, soit directement la valeur si une seule colonne est présente après filtrage.
+
+
+
+Function : export_dict_in_file
+-------------------------------
+
+**Code :**
+
+.. code-block:: python
+
+    def export_dict_in_file(my_dict:OrderedDict, output_file:str, header:str, overwrite:bool=False):
+        """
+        Description: 	save dictionnary into file
+        Input: 
+        - my_dict: 		the dictionnary to convert
+        - output_file: 	path to output file
+        - header: 		Each column must be separated by tabulation "\t".
+                        If header = "", no header will be added.
+        - overwrite:	Overwrite file if it already exist
+        """
+
+        if os.path.exists(output_file) and overwrite is False:
+            print(output_file, " already exists.")
+            exit
+        
+        else:
+            if os.path.exists(output_file) and overwrite is True:
+                RemoveFile(output_file)
+
+            with open(output_file, "w") as output:
+                # write header
+                if header != "" :
+                    output.write(header + "\n")
+
+                # write one item key, value per line
+                for key, value in my_dict.items():
+                    line = str(key)
+
+                    if isinstance(value, list):
+                        for i in range(len(value)):
+                            line = line + "\t" + str(value[i])
+                    else:
+                        line = line + "\t" + str(value)
+                    output.write(line + "\n")
+
+                print(output_file, "created.")
+    
+..
+
+**Explication :**
+
+`export_dict_in_file`: Cette fonction sauvegarde un dictionnaire dans un fichier.
+    - Entrée :
+        - `my_dict` : Le dictionnaire à sauvegarder.
+        - `output_file` : Le chemin du fichier de sortie où le dictionnaire sera enregistré.
+        - `header` : Une chaîne de caractères représentant l'en-tête du fichier de sortie. Chaque colonne de l'en-tête doit être séparée par une tabulation (`"\t"`). Si `header` est une chaîne vide (`""`), aucun en-tête ne sera ajouté au fichier de sortie.
+        - `overwrite` : Un booléen indiquant s'il faut écraser le fichier de sortie s'il existe déjà. Par défaut, il est défini sur `False`, ce qui signifie que le fichier ne sera pas écrasé s'il existe déjà.
+    - Fonctionnement :
+        - Vérifie si le fichier de sortie existe déjà et si l'option `overwrite` est activée. Si le fichier existe et que `overwrite` est `False`, la fonction affiche un message et quitte.
+        - Si le fichier de sortie existe et que `overwrite` est `True`, la fonction appelle la fonction `RemoveFile(output_file)` pour supprimer le fichier existant.
+        - Ouvre le fichier de sortie en mode écriture (`"w"`).
+        - Si l'en-tête n'est pas une chaîne vide, écrit l'en-tête dans le fichier suivi d'un saut de ligne.
+        - Parcourt chaque élément du dictionnaire. Pour chaque élément, écrit la clé suivie de ses valeurs dans une ligne du fichier, séparées par des tabulations. Si la valeur est une liste, chaque élément de la liste est ajouté à la ligne séparé par une tabulation.
+        - Une fois tous les éléments écrits, la fonction affiche un message indiquant que le fichier de sortie a été créé.
+    - Sortie :
+        - Un fichier texte contenant les données du dictionnaire, avec la possibilité d'un en-tête si spécifié.
+
+
+
+Function : ReadChrLen
+-----------------------
+
+**Code :**
+
+
+.. code-block:: python
+
+    def ReadChrLen(input_chr_len:str, prefix_chr:str="Chr"):
+        """
+        Description:	create a dictionnary containing the length of each 
+                        chromosome
+        Input:	
+        - input_chr_len:	Tab-separated file containing the name of each 
+                            chromosome and its length.
+        - prefix_str:	Prefix of the chromosome number (e.g. "Chr", "chr", etc.)
+        Output: 
+        - chr_len[chr_x] = length-of-chromosome-x
+        """
+        CheckInput(input_chr_len)
+        chr_len = OrderedDict()
+
+        if prefix_chr == "":
+            raise ValueError("Invalid prefix chromosome")
+
+        with open(input_chr_len, 'r') as input_file:
+            for line in input_file:
+                lines = line.strip().split("\t")
+                if lines[0].startswith(prefix_chr):
+                    chr_len[lines[0]] = lines[1]
+                else:
+                    chr_len[prefix_chr + lines[0]] = lines[1]
+
+
+        hues.log(str(len(chr_len)) + " Chromosome length loaded!")
+        return chr_len
+    
+..
+
+**Explication :**
+
+`ReadChrLen`: Cette fonction lit un fichier contenant la longueur de chaque chromosome et retourne un dictionnaire.
+    - Entrée :
+        - `input_chr_len` : Le chemin vers le fichier tabulé contenant les longueurs des chromosomes.
+        - `prefix_chr` : Le préfixe du numéro de chromosome. Par exemple, `"Chr"`, `"chr"`, etc. Cela permet de concaténer le préfixe avec le numéro du chromosome dans le dictionnaire de sortie. Par défaut, le préfixe est `"Chr"`. 
+    - Fonctionnement :
+        - La fonction commence par vérifier si le fichier d'entrée existe et s'il n'est pas vide en appelant la fonction `CheckInput(input_chr_len)`.
+        - Ensuite, un dictionnaire `chr_len` est créé pour stocker les longueurs des chromosomes.
+        - La fonction ouvre le fichier d'entrée et parcourt chaque ligne. Pour chaque ligne, elle sépare les éléments par tabulation (`\t`) et vérifie si le nom du chromosome commence par le préfixe spécifié. Si oui, elle ajoute une entrée dans le dictionnaire `chr_len` où la clé est le nom du chromosome (avec ou sans le préfixe, selon le cas) et la valeur est sa longueur.
+        - Une fois toutes les lignes traitées, la fonction affiche un message indiquant le nombre de longueurs de chromosome chargées.
+        - Enfin, elle retourne le dictionnaire `chr_len` contenant les longueurs de chaque chromosome.
+    - Sortie :
+        - Un dictionnaire où les clés sont les noms des chromosomes et les valeurs sont leurs longueurs respectives.
+        
+
+Function : ReadCentroReg
+-------------------------
+
+**Code :**
+
+
+.. code-block:: python
+
+    def ReadCentroReg(input_centro_reg:str, prefix_chr="Chr"):
+        """
+        Description:	create a dictionnary containing the coordonate of the 
+                        pericentromeric region of each chromosome
+        Input:	
+        - input_centro_reg: Tab-separated file containing the name of each chromosome 
+                            (line) and the position of the beginning (left border) 
+                            and the end (right border) of the pericentromeric region.
+        - prefix_str:	Prefix of the chromosome number (e.g. "Chr", "chr", etc.)
+        Output:	
+        - ordered dictionnary: centromere[chr_x] = [left-border, right-border]
+        """
+        CheckInput(input_centro_reg)
+        centromere = OrderedDict()
+
+        if prefix_chr == "":
+            raise ValueError("Invalid prefix chromosome")
+
+        with open(input_centro_reg, 'r') as input_file:
+            for line in input_file:
+                lines = line.strip().split("\t")
+
+                if len(lines) == 3:
+                    if lines[0] == prefix_chr: # ignore header if it exists
+                        continue
+                    region = [int(lines[1]), int(lines[2])]
+                    if lines[0].startswith(prefix_chr):
+                        chr = lines[0]
+                    else:
+                        chr = prefix_chr + lines[0]
+                else:
+                    raise ValueError ("Invalid input file !")
+
+                centromere[chr] = region
+
+        hues.log(str(len(centromere)) + " Chromosome centromere regions loaded!")
+        return centromere
+    
+..
+
+**Explication :**
+
+`ReadCentroReg`: Cette fonction lit un fichier contenant les coordonnées de la région pericentromérique de chaque chromosome et retourne un dictionnaire.
+    - Entrée :
+        - `input_centro_reg` : Le chemin vers le fichier tabulé contenant les coordonnées de la région péricentromérique.
+        - `prefix_chr` : Le préfixe du numéro de chromosome. Par exemple, `"Chr"`, `"chr"`, etc. Cela permet de concaténer le préfixe avec le numéro du chromosome dans le dictionnaire de sortie. Par défaut, le préfixe est `"Chr"`. 
+    - Fonctionnement :
+        - La fonction commence par vérifier si le fichier d'entrée existe et s'il n'est pas vide en appelant la fonction `CheckInput(input_centro_reg)`.
+        - Ensuite, un dictionnaire `centromere` est créé pour stocker les coordonnées de la région péricentromérique de chaque chromosome.
+        - La fonction ouvre le fichier d'entrée et parcourt chaque ligne. Pour chaque ligne, elle sépare les éléments par tabulation (`\t`) et vérifie s'il y a trois éléments dans la ligne (nom du chromosome, début et fin de la région péricentromérique). Si c'est le cas, elle extrait le nom du chromosome, les coordonnées de la région péricentromérique et les ajoute au dictionnaire `centromere`.
+        - Une fois toutes les lignes traitées, la fonction affiche un message indiquant le nombre de régions péricentromériques de chromosome chargées.
+        - Enfin, elle retourne le dictionnaire `centromere` contenant les coordonnées de la région péricentromérique de chaque chromosome.
+    - Sortie :
+        - Un dictionnaire où les clés sont les noms des chromosomes et les valeurs sont des listes contenant les coordonnées de début et de fin de la région péricentromérique de chaque chromosome.
+        
+
+Function : ReadParentalVCF
+---------------------------
+
+**Code :**
+
+.. code-block:: python
+
+    def ReadParentalVCF(input_vcf:str, prefix_chr:str="Chr"):
+        """
+        Description:	create 2 dictionnaries containing all SNPs per chromosome 
+                        and the last SNPs per chromosome
+        Input: 
+        - input_vcf:	SNP markers between parental lines (vcf format).
+        - prefix_str:	Prefix of the chromosome number (e.g. "Chr", "chr", etc.)
+        Output:	
+        - snps[chr_pos] = [chr,pos,GT]
+        - last_snps[chr]  = position-last-snp-per-chr 
+        """
+        hues.info("Reading Parental SNPs file")
+        
+        CheckInput(input_vcf)
+        snps = OrderedDict()
+        last_snps = OrderedDict()
+
+        if prefix_chr == "":
+            raise ValueError("Invalid prefix chromosome")
+
+        with open(input_vcf, 'r') as input_file:
+            for line in input_file:
+                if line.startswith("#"):
+                    continue
+                lines = line.strip("\n").split("\t")
+                
+                chr = lines[0]
+                pos = int(lines[1])
+
+                # correct chr if needed
+                if not chr.startswith(prefix_chr):
+                    chr = prefix_chr + chr
+                key = chr + "_" + str(pos)
+
+                # snps contains all SNPs
+                snps[key] = [chr, pos]
+
+                # last_snps contains the last SNPs per chromosome
+                if chr in last_snps.keys():
+                    if pos > last_snps[chr]:
+                        last_snps[chr] = pos
+                else:
+                    last_snps[chr] = pos
+
+                info = lines[9].split(":")
+                geno = info[0]
+                snps[key].append(geno)
+
+        hues.log(str(len(snps)) + " Parental SNP markers loaded!")
+        return snps, last_snps
+    
+..
+
+
+**Explication :**
+
+`ReadParentalVCF`: Cette fonction lit un fichier VCF (Variant Call Format) contenant des marqueurs SNP entre des lignées parentales et retourne deux dictionnaires contenant tous les SNP par chromosome et les derniers SNP par chromosome.
+    - Entrée :
+        - `input_vcf` : Le chemin vers le fichier VCF contenant les marqueurs SNP entre les lignées parentales.
+        - `prefix_chr` : Le préfixe du numéro de chromosome. Par exemple, `"Chr"`, `"chr"`, etc. Cela permet de concaténer le préfixe avec le numéro de chromosome dans le dictionnaire de sortie. Par défaut, le préfixe est `"Chr"`. 
+    - Fonctionnement :
+        - La fonction commence par afficher un message informant qu'elle lit le fichier VCF.
+        - Ensuite, elle vérifie si le fichier d'entrée existe et s'il n'est pas vide en appelant la fonction `CheckInput(input_vcf)`.
+        - Deux dictionnaires vides, `snps` et `last_snps`, sont initialisés pour stocker les SNP et les derniers SNP par chromosome, respectivement.
+        - La fonction ouvre le fichier VCF et parcourt chaque ligne. Si la ligne commence par `#`, elle la ignore car il s'agit de commentaires dans le fichier VCF.
+        - Pour chaque ligne, elle sépare les éléments par tabulation (`\t`) et extrait le nom du chromosome (`chr`) et la position (`pos`) du SNP.
+        - Si le nom du chromosome ne commence pas par le préfixe spécifié, elle le corrige en ajoutant le préfixe.
+        - Elle crée une clé pour le dictionnaire `snps` en combinant le nom du chromosome et la position du SNP.
+        - Elle met à jour le dictionnaire `last_snps` pour stocker la position du dernier SNP pour chaque chromosome.
+        - Elle extrait également le génotype du SNP à partir de la neuvième colonne de la ligne VCF et l'ajoute à l'entrée correspondante dans le dictionnaire `snps`.
+        - Une fois toutes les lignes traitées, la fonction affiche un message indiquant le nombre de marqueurs SNP parentaux chargés.
+        - Enfin, elle retourne les dictionnaires `snps` et `last_snps` contenant les informations sur les SNP.
+    - Sortie :
+        - Deux dictionnaires :
+        - `snps` : Un dictionnaire où les clés sont des chaînes de la forme `chr_pos` (nom du chromosome + position du SNP) et les valeurs sont des listes contenant le nom du chromosome, la position du SNP et le génotype.
+        - `last_snps` : Un dictionnaire où les clés sont les noms des chromosomes et les valeurs sont la position du dernier SNP pour chaque chromosome.
+    
+
+Function : ReadOffspringVCF
+----------------------------
+
+**Code :**
+
+.. code-block:: python
+
+    def ReadOffspringVCF(input_vcf:str, parental_snps:OrderedDict, \
+        geno_ref:str, geno_alt:str, analyze_id:str, prefix_chr:str="Chr"):
+        """
+        Description: create 2 dictionnaries containing all SNPs per chromosome and 
+        the last SNPs per chromosome
+        Input: 
+        - input_vcf:		SNP markers between offspring lines (vcf format).
+        - parental_snps:	first element in output of ReadParentalVCF()
+        - geno_ref: 			reference genotype 
+        - geno_alt: 			alternative genotype
+        - prefix_chr: 		Prefix of the chromosome number (e.g. "Chr", "chr", etc.)
+        Output:
+        - info_snps[chr_pos] = [chr,pos,GT,ADref,ADalt,genotype]
+        - info_last_snps[chr] = position-last-snp-per-chr 
+        """
+        hues.info("Reading Offspring SNPs file")
+
+        if prefix_chr == "":
+            raise ValueError("Invalid prefix chromosome")
+        
+        # Prepare log directory and remove files if already exist
+        log_path = os.path.dirname(__file__) + "/log/" + analyze_id + "/"
+
+        RemoveFile(log_path + "ReadOffsrpingVCF_new_snps.log")
+        RemoveFile(log_path + "ReadOffsrpingVCF_weird_snps.log")
+        CheckInput(input_vcf)
+
+        info_snps = OrderedDict()
+        info_last_snps = OrderedDict()
+        total_snp_num = 0
+        weird_snp = 0
+        new_snp = 0
+        count_dp0 = 0
+
+        with open(input_vcf, 'r') as input_file:
+            for line in input_file:
+                if line.startswith("#"):
+                    # ignore all comments and header from vcf file
+                    continue
+
+                if "DP=0" in line:
+                    count_dp0 +=1
+                    # ignore all snps with depth coverage = 0
+
+                total_snp_num += 1
+                lines = line.strip("\n").split("\t")
+                
+                chr = lines[0]
+                pos = int(lines[1])
+
+                # correct chr if needed
+                if not chr.startswith(prefix_chr):
+                    chr = prefix_chr + chr
+                
+                #set key
+                key = chr + "_" + str(pos)
+                
+                #get GT value from the info field
+                geno = lines[9].split(":")[0]
+                
+                # get AD ref and AD alt from info field 
+                ref_supp = lines[9].split(":")[1].split(",")[0]
+                alt_supp = lines[9].split(":")[1].split(",")[1]
+
+                if key in parental_snps.keys():
+                    if geno == "0/0":
+                        info_snps[key] = [chr, pos, geno, ref_supp, alt_supp, geno_ref]
+                    elif geno == "0/1":
+                        info_snps[key] = [chr, pos, geno, ref_supp, alt_supp, str(geno_ref + "/" + geno_alt)]
+                    elif geno == "1/1":
+                        info_snps[key] = [chr, pos, geno, ref_supp, alt_supp, geno_alt]
+                    else:
+                        weird_snp += 1
+                        try:
+                            os.makedirs(log_path)
+                        except FileExistsError: ## pass if directory already exists
+                            pass
+                        with open(log_path + "ReadOffsrpingVCF_weird_snps.log","a+") as logfile:
+                            logfile.write(line) 		
+                else:
+                    new_snp +=1
+                    try:
+                        os.makedirs(log_path)
+                    except FileExistsError: ## pass if directory already exists
+                        pass
+                    with open(log_path + "ReadOffsrpingVCF_new_snps.log","a+") as logfile:
+                        logfile.write(line) 
+
+                if chr in info_last_snps.keys():
+                    if pos > info_last_snps[chr]:
+                        info_last_snps[chr] = pos
+                else:
+                    info_last_snps[chr] = pos
+
+        hues.log(str(total_snp_num) + " Offspring genotyped SNP markers loaded!")
+        hues.log(str(len(info_snps)) + " Offspring genotyped informative SNP markers kept!")
+        hues.warn(str(new_snp) + " Offspring specific SNPs (not found in parent)")
+        hues.warn(str(weird_snp) + " Weird genotype (1/2): heterozygous genotype composed of two different ALT alleles")
+        hues.warn(str(count_dp0) + " snps with a depth coverage = 0")
+        
+        return info_snps, info_last_snps
+    
+..
+
+
+**Explication :**
+
+`ReadOffspringVCF`: Cette fonction lit un fichier VCF (Variant Call Format) contenant des marqueurs SNP entre des lignées issues de croisements (entre les lignées de progéniture (offspring)) et retourne deux dictionnaires. Le premier dictionnaire, `info_snps`, contient tous les SNP par chromosome avec des informations telles que le génotype, le nombre de lectures de référence (ADref) et le nombre de lectures alternatives (ADalt). Le deuxième dictionnaire, `info_last_snps`, stocke la position du dernier SNP pour chaque chromosome.
+    - Entrée :
+        - `input_vcf` : Le chemin vers le fichier VCF contenant les marqueurs SNP des lignées de progéniture.
+        - `parental_snps` : Le premier élément de la sortie de la fonction `ReadParentalVCF()`, qui contient les SNP parentaux.
+        - `geno_ref` : Le génotype de référence.
+        - `geno_alt` : Le génotype alternatif.
+        - `analyze_id` : L'ID de l'analyse, utilisé pour créer le chemin du fichier journal.
+        - `prefix_chr` : Le préfixe du numéro de chromosome. Par exemple, `"Chr"`, `"chr"`, etc. Par défaut, le préfixe est `"Chr"`. 
+    - Fonctionnement :
+        - La fonction commence par afficher un message informant qu'elle lit le fichier VCF.
+        - Elle vérifie si le préfixe du numéro de chromosome est valide. Si le préfixe est vide, elle lève une exception.
+        - Elle initialise trois compteurs : `total_snp_num` pour le nombre total de SNP, `weird_snp` pour les SNP avec un génotype étrange, et `new_snp` pour les nouveaux SNP spécifiques à la progéniture.
+        - Elle parcourt chaque ligne du fichier VCF. Si la ligne commence par `#`, elle l'ignore car il s'agit de commentaires dans le fichier VCF.
+        - Elle vérifie si la profondeur de séquençage (`DP`) est égale à zéro. Si c'est le cas, elle ignore le SNP car la couverture est nulle.
+        - Elle extrait le nom du chromosome (`chr`) et la position (`pos`) du SNP à partir de la ligne.
+        - Elle corrige le nom du chromosome si nécessaire en ajoutant le préfixe spécifié.
+        - Elle crée une clé pour le dictionnaire `info_snps` en combinant le nom du chromosome et la position du SNP.
+        - Elle extrait le génotype (`geno`), le nombre de lectures de référence (`ref_supp`) et le nombre de lectures alternatives (`alt_supp`) à partir de la neuvième colonne de la ligne VCF.
+        - Elle vérifie si la clé existe dans le dictionnaire `parental_snps` (les SNP parentaux). Si c'est le cas, elle met à jour le dictionnaire `info_snps` avec les informations appropriées.
+        - Si le génotype n'est pas conforme (`0/0`, `0/1` ou `1/1`), elle incrémente le compteur `weird_snp` et écrit la ligne correspondante dans un fichier journal nommé `ReadOffspringVCF_weird_snps.log`.
+        - Si la clé n'existe pas dans le dictionnaire `parental_snps`, elle incrémente le compteur `new_snp` et écrit la ligne correspondante dans un fichier journal nommé `ReadOffspringVCF_new_snps.log`.
+        - Elle met à jour le dictionnaire `info_last_snps` pour stocker la position du dernier SNP pour chaque chromosome.
+        - Une fois toutes les lignes traitées, la fonction affiche des informations sur le nombre total de SNP chargés, le nombre de SNP conservés, le nombre de nouveaux SNP spécifiques à la progéniture, le nombre de SNP avec un génotype étrange et le nombre de SNP avec une couverture nulle.
+        - Enfin, elle retourne les dictionnaires `info_snps` et `info_last_snps` contenant les informations sur les SNP de la progéniture.
+    - Sortie :
+        - Deux dictionnaires :
+        - `info_snps` : Un dictionnaire où les clés sont des chaînes de la forme `chr_pos` (nom du chromosome + position du SNP) et les valeurs sont des listes contenant le nom du chromosome, la position du SNP, le génotype, le nombre de lectures de référence (ADref) et le nombre de lectures alternatives (ADalt).
+        - `info_last_snps` : Un dictionnaire où les clés sont les noms des chromosomes et les valeurs sont la position du dernier SNP pour chaque chromosome.
+        
+
+
+Function : ReadEMSline
+-----------------------
+
+**Code :**
+
+.. code-block:: python
+
+    def ReadEMSline(input:str, prefix_chr:str):
+        """
+        Description: 
+        Input:
+        Output:
+        """
+        hues.info("Reading Offspring SNPs file")
+        CheckInput(input)
+
+        snps_list = list()
+        snps_list2 = list()
+        if prefix_chr == "":
+            raise ValueError("Invalid prefix chromosome")
+        
+        with open(input, 'r') as input_file:
+            for lines in input_file:
+                if lines.startswith("#"):
+                    # ignore all comments and header from vcf file
+                    continue
+
+                line = lines.strip("\n").split("\t")		
+                chr = line[0]
+                pos = int(line[1])
+                alt = line[3]
+
+                # correct chr if needed
+                if not chr.startswith(prefix_chr):
+                    chr = prefix_chr + chr
+
+                snp_key = chr + "_" + str(pos) + "_" + alt
+                snp_key2 = chr + "_" + str(pos)
+                snps_list.append(snp_key)
+                snps_list2.append(snp_key2)
+        
+
+        return snps_list, snps_list2
+    
+..
+
+
+**Explication :**
+
+ 
+`ReadEMSline`: Cette fonction lit un fichier et extrait les informations nécessaires pour l'analyse EMS (Ethyl Methane Sulfonate). Elle extrait le chromosome, la position et l'allèle alternatif de chaque ligne du fichier. Ensuite, elle combine ces informations pour former une clé unique pour chaque SNP.
+    - Entrée :
+        - `input` : Le chemin vers le fichier à lire.
+        - `prefix_chr` : Le préfixe du numéro de chromosome. Par exemple, `"Chr"`, `"chr"`, etc. 
+    - Fonctionnement :
+        - La fonction commence par afficher un message informant qu'elle lit le fichier.
+        - Elle vérifie si le préfixe du numéro de chromosome est valide. Si le préfixe est vide, elle lève une exception.
+        - Elle initialise deux listes vides pour stocker les clés SNP.
+        - Elle parcourt chaque ligne du fichier.
+        - Si la ligne commence par `#`, elle l'ignore car il s'agit de commentaires.
+        - Elle divise la ligne en éléments en utilisant le tabulateur comme séparateur.
+        - Elle extrait le nom du chromosome (`chr`), la position (`pos`) et l'allèle alternatif (`alt`) à partir de la ligne.
+        - Elle corrige le nom du chromosome si nécessaire en ajoutant le préfixe spécifié.
+        - Elle forme une clé unique pour chaque SNP en combinant le nom du chromosome, la position et l'allèle alternatif.
+        - Elle forme une deuxième clé uniquement avec le nom du chromosome et la position.
+        - Elle ajoute les deux clés à leurs listes respectives.
+        - Une fois toutes les lignes traitées, elle retourne les deux listes contenant les clés SNP.
+    - Sortie :
+        - Deux listes :
+        - `snps_list` : Une liste contenant des clés uniques pour chaque SNP, formées en combinant le nom du chromosome, la position et l'allèle alternatif.
+        - `snps_list2` : Une liste contenant des clés uniques pour chaque SNP, formées en combinant uniquement le nom du chromosome et la position.
+        
+
+Function : IdentifyGeno
+-------------------------
+
+**Code :**
+
+.. code-block:: python
+
+    def IdentifyGeno(chr, pos, alt_list, geno, snps_list_line1, snps_list_line2, 
+                    geno_ref, geno_alt, geno_line1, geno_line2):
+        
+        if geno == "./.":
+            final_geno = "NA"
+        
+        else :
+            genotype=list()
+            gt_list = geno.split("/")
+
+            for gt in gt_list:
+                if gt == "0":
+                    genotype.append(geno_ref)
+                else :
+                    # define snp_key
+                    if gt =="1":
+                        snp_key = chr + "_" + str(pos) + "_" + alt_list[0]
+                    elif gt =="2":
+                        snp_key = chr + "_" + str(pos) + "_" + alt_list[1]
+                    elif gt =="3":
+                        snp_key = chr + "_" + str(pos) + "_" + alt_list[2]
+                    
+                    # define associated genotype
+                    if snp_key in snps_list_line1:
+                            genotype.append(geno_line1)
+                    elif snp_key in snps_list_line2:
+                        genotype.append(geno_line2)
+                    else:
+                        genotype.append(geno_alt)
+            
+            # if Homo, give genotype once only
+            if genotype[0] == genotype[1]:
+                final_geno = genotype[0]
+            else:
+                final_geno = "/".join(genotype)
+        
+        return final_geno
+    
+..
+
+
+**Explication :**
+
+`IdentifyGeno`: Cette fonction identifie le génotype d'un SNP à partir des informations du fichier VCF et des marqueurs SNP EMS. Elle prend en compte le génotype brut (`geno`) et les informations sur les allèles alternatifs, les génotypes de référence et alternatif pour chaque SNP dans deux lignées (`geno_line1` et `geno_line2`), ainsi que les clés SNP pour ces lignées (`snps_list_line1` et `snps_list_line2`).
+
+    - Entrée :
+        - `chr` : Le numéro du chromosome du SNP.
+        - `pos` : La position du SNP sur le chromosome.
+        - `alt_list` : Une liste des allèles alternatifs du SNP.
+        - `geno` : Le génotype brut du SNP pour la lignée considérée.
+        - `snps_list_line1` : La liste des clés SNP pour la première lignée.
+        - `snps_list_line2` : La liste des clés SNP pour la deuxième lignée.
+        - `geno_ref` : Le génotype de référence.
+        - `geno_alt` : Le génotype alternatif.
+        - `geno_line1` : Le génotype de la première lignée.
+        - `geno_line2` : Le génotype de la deuxième lignée.
+        
+    - Fonctionnement :
+        - Si le génotype brut est "./.", ce qui signifie qu'il est manquant, la fonction retourne "NA" pour indiquer que le génotype final ne peut pas être déterminé.
+        - Sinon, la fonction commence par initialiser une liste vide appelée `genotype` pour stocker les génotypes associés aux allèles bruts.
+        - Elle divise le génotype brut en une liste `gt_list` en utilisant le séparateur "/".
+        - Pour chaque élément `gt` dans `gt_list` :
+        - Si `gt` est "0", ce qui signifie que c'est un allèle de référence, la fonction ajoute `geno_ref` à la liste `genotype`.
+        - Sinon, la fonction crée une clé unique `snp_key` en combinant le numéro du chromosome, la position du SNP et l'allèle alternatif correspondant.
+        - Ensuite, elle détermine le génotype associé à cette clé dans les listes SNP des deux lignées (`snps_list_line1` et `snps_list_line2`).
+        - Si la clé est présente dans `snps_list_line1`, elle ajoute `geno_line1` à la liste `genotype`.
+        - Sinon, si la clé est présente dans `snps_list_line2`, elle ajoute `geno_line2` à la liste `genotype`.
+        - Sinon, si la clé n'est présente dans aucune des listes, elle ajoute `geno_alt` à la liste `genotype`.
+        - Ensuite, elle vérifie si les deux génotypes dans la liste `genotype` sont identiques. Si c'est le cas, cela signifie que la lignée est homozygote pour ce SNP, donc le génotype final est simplement le génotype de la première position dans `genotype`. Sinon, elle crée le génotype final en joignant les génotypes dans `genotype` avec le séparateur "/".
+        - Enfin, elle retourne le génotype final.
+    - Sortie :
+        - `final_geno` : Le génotype final du SNP pour la lignée considérée.
+    
+
+Function : ReadRecombinedOffspringVCF
+--------------------------------------
+
+**Code :**
+
+
+.. code-block:: python
+
+    def ReadRecombinedOffspringVCF(input_vcf:str, input_ems_line1: str, input_ems_line2: str, 
+        parental_snps:OrderedDict, geno_ref:str, geno_alt:str, geno_line1:str, geno_line2:str, 
+        analyze_id:str, prefix_chr:str="Chr"):
+        """
+        Description: create 2 dictionnaries containing all SNPs per chromosome and 
+        the last SNPs per chromosome
+        Input: 
+        - input_vcf:		SNP markers between offspring lines (vcf format).
+        - parental_snps:	first element in output of ReadParentalVCF()
+        - geno_ref: 		reference genotype 
+        - geno_alt: 		alternative genotype
+        - geno_line1:		genotype of EMS line 1
+        - geno_line2:		genotype of EMS line 2
+        - prefix_chr: 		Prefix of the chromosome number (e.g. "Chr", "chr", etc.)
+        Output:
+        - info_snps[chr_pos] = [chr,pos,GT,ADref,ADalt,genotype]
+        - info_last_snps[chr] = position-last-snp-per-chr 
+        """
+        hues.info("Reading Offspring SNPs file")
+
+        if prefix_chr == "":
+            raise ValueError("Invalid prefix chromosome")
+        
+        # Prepare log directory and remove files if already exist
+        log_path = os.path.dirname(__file__) + "/log/" + analyze_id + "/"
+
+        RemoveFile(log_path + "ReadOffsrpingVCF_new_snps.log")
+        RemoveFile(log_path + "ReadOffsrpingVCF_weird_snps.log")
+        CheckInput(input_vcf)
+
+        info_snps = OrderedDict()
+        info_last_snps = OrderedDict()
+        total_snp_num = 0
+        new_snp = 0
+        unknown_snps = 0
+
+        snps_list_line1 = ReadEMSline(input_ems_line1, prefix_chr)
+        snps_list_line2 = ReadEMSline(input_ems_line2, prefix_chr)
+
+        with open(input_vcf, 'r') as input_file:
+            for line in input_file:
+                if line.startswith("#"):
+                    # ignore all comments and header from vcf file
+                    continue
+
+                if "./." in line:
+                    unknown_snps += 1
+
+                total_snp_num += 1
+                lines = line.strip("\n").split("\t")
+                
+                chr = lines[0]
+                pos = int(lines[1])
+
+                # correct chr if needed
+                if not chr.startswith(prefix_chr):
+                    chr = prefix_chr + chr
+
+                key = chr + "_" + str(pos)
+                geno = lines[9].split(":")[0]
+
+                ref_supp = lines[9].split(":")[1].split(",")[0]
+                alt_list = lines[9].split(":")[1].split(",")[1:]
+
+                if key in parental_snps.keys():
+                    info_snps[key] = [chr, pos, geno, ref_supp, ",".join(alt_list), 
+                            IdentifyGeno(chr, pos, alt_list, geno, snps_list_line1, snps_list_line2, 
+                            geno_ref, geno_alt, geno_line1, geno_line2)]
+                else:
+                    new_snp +=1
+                    try:
+                        os.makedirs(log_path)
+                    except FileExistsError: ## pass if directory already exists
+                        pass
+                    with open(log_path + "ReadOffsrpingVCF_new_snps.log","a+") as logfile:
+                        logfile.write(line) 
+
+                if chr in info_last_snps.keys():
+                    if pos > info_last_snps[chr]:
+                        info_last_snps[chr] = pos
+                else:
+                    info_last_snps[chr] = pos
+
+        hues.log(str(total_snp_num) + " Offspring genotyped SNP markers loaded!")
+        hues.log(str(len(info_snps)) + " Offspring genotyped informative SNP markers kept!")
+        hues.warn(str(new_snp) + " Offspring specific SNPs (not found in parent)")
+        hues.warn(str(unknown_snps) + " not genotyped snps")
+        
+        return info_snps, info_last_snps
+    
+..
+
+**Explication :**
+
+`ReadRecombinedOffspringVCF`: Cette fonction lit un fichier VCF contenant des marqueurs SNP entre des lignées issues de recombinaisons et retourne deux dictionnaires contenant tous les SNP par chromosome et les derniers SNP par chromosome.
+    - Entrée :
+        - `input_vcf` : Chemin du fichier VCF contenant les marqueurs SNP entre les lignées de descendants.
+        - `input_ems_line1` : Chemin du fichier contenant les SNPs de la première lignée EMS.
+        - `input_ems_line2` : Chemin du fichier contenant les SNPs de la deuxième lignée EMS.
+        - `parental_snps` : Premier élément de la sortie de la fonction `ReadParentalVCF`.
+        - `geno_ref` : Génotype de référence.
+        - `geno_alt` : Génotype alternatif.
+        - `geno_line1` : Génotype de la première lignée EMS.
+        - `geno_line2` : Génotype de la deuxième lignée EMS.
+        - `analyze_id` : Identifiant de l'analyse.
+        - `prefix_chr` : Préfixe du numéro de chromosome (par exemple, "Chr", "chr", etc.). 
+    - Fonctionnement :
+        - La fonction commence par vérifier si le préfixe du chromosome est valide et si le fichier d'entrée VCF existe.
+        - Elle initialise des dictionnaires vides pour stocker les SNP et les derniers SNP.
+        - Elle lit les SNPs des lignées EMS à partir des fichiers spécifiés.
+        - Ensuite, elle parcourt le fichier VCF ligne par ligne.
+        - Pour chaque ligne, elle vérifie si elle commence par "#" (commentaire ou en-tête), et si c'est le cas, elle ignore la ligne.
+        - Elle vérifie également si le génotype est manquant ("./."). Si c'est le cas, elle incrémente le compteur de SNP inconnus.
+        - Pour chaque ligne contenant un SNP :
+        - Elle extrait le numéro du chromosome et la position du SNP.
+        - Elle corrige le numéro du chromosome si nécessaire.
+        - Elle vérifie si le SNP est présent dans les SNP parentaux.
+        - Si le SNP est présent dans les SNP parentaux, elle récupère le génotype brut, le support AD, et les allèles alternatifs.
+        - Elle détermine le génotype final à partir des informations sur les allèles alternatifs et les génotypes des lignées EMS à l'aide de la fonction `IdentifyGeno`.
+        - Si le SNP n'est pas trouvé dans les SNP parentaux, elle l'ajoute au fichier journal et incrémente le compteur de nouveaux SNP.
+        - Enfin, elle renvoie les dictionnaires contenant les SNP et les derniers SNP.
+    - Sortie :
+        - `info_snps` : Dictionnaire contenant les informations sur tous les SNP par chromosome.
+        - `info_last_snps` : Dictionnaire contenant les positions des derniers SNP par chromosome.
+    
+    Cette fonction est utilisée pour traiter les fichiers VCF des lignées de descendants recombinais pour identifier les SNP spécifiques aux descendants et éventuellement imputer les génotypes manquants.
+

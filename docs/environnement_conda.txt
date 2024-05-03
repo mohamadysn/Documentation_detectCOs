@@ -1,0 +1,8 @@
+bash conda_to_do.sh
+
+
+mamba env create -f config_detectCOs_CG.yaml -p ~/miniconda3/envs/detectCOs_env
+
+conda activate /home/IPS2/myassin/miniconda3/envs/detectCOs_env
+
+

@@ -1,0 +1,123 @@
+Test_yaml_detectCOs_BC.yaml
+============================
+
+CONFIG FILE FOR detectCOs TOOLS
+---------------------------------
+
+This configuration file specifies the paths to various files required for the analysis as well as the tool's parameters.
+
+.. note::
+
+   ALL PARAMETERS ARE MANDATORY !!! 
+
+**1. General path informations**
+
+.. code-block:: yaml
+
+    path_to_polyrec_project: /store/EQUIPES/MRP/Partage/Arabidopsis_commun/ALL_SCRIPTS_HERE/Git/polyrec/
+    output_dir_in_polyrec: data/data_test/data_polyrec/111355_AA/
+..
+
+
+**2. Sample information**
+
+Name of your sample, a directory `analyze_id` will be created in `output_dir_in_polyrec`
+
+.. code-block:: yaml
+
+    analyze_id: parental_Col-Ler_offspring_Plate1_A11
+..
+
+Prefix used or to be added in CHROM column in parental_vcf and offspring_vcf (they have to be the same between the two files).
+
+.. code-block:: yaml
+
+    prefix_chr: "Chr"
+..
+
+
+Path to chromosome length file
+
+.. code-block:: yaml
+
+    chr_len: data/data_test/data_qichao/chr_len_athaliana_qichao.txt
+
+..
+
+Path to centromeric region file
+
+.. code-block:: yaml
+
+    centromere_reg: data/data_test/data_qichao/centromere_athaliana_qichao.txt
+
+..
+
+Path to parental vcf
+
+.. code-block:: yaml
+
+    parental_vcf: data/data_test/data_polyrec/111355_AA/parental_golden_snps_139_genotyped_Indiv_28_merged_FORMATTED_IDpoint_noChr_dict_FORMAT.vcf
+
+..
+
+Path to offspring vcf
+
+.. code-block:: yaml
+
+    sample_vcf: data/data_test/data_polyrec/111355_AA/111355_AA_gt_by_golden_AWKED.vcf
+
+..
+
+**3. Tool parameters**
+
+Reference genotype 
+.. code-block:: yaml
+
+    genotype_ref: Col
+
+..
+
+Alternative genotype 
+
+.. code-block:: yaml
+
+    genotype_alt: Ct
+..
+
+Size of the window (kb). The step size is automatically calcultaed as half the size window. (default: 100 kb)
+
+.. code-block:: yaml
+
+    window_size: 100
+    
+..
+
+minimum number of coverage in the window to calculate the ratio and determine the genotype (default: 10)
+
+.. code-block:: yaml
+
+    min_reads_num: 10
+
+..
+
+minimum number of SNPs in the window to calculate the ratio and determine the genotype (default: 16)
+
+.. code-block:: yaml
+
+    min_snp_num: 16
+
+..
+
+minimum frequency of AD/DP to be homozygous (float between 0 and 1 excluded, default: 0.9)
+
+.. code-block:: yaml
+
+    ratio_min_homo: 0.9 
+..
+
+
+This configuration file allows customization of the detectCOs tool's parameters based on the specific data to be analyzed.
+
+
+
+
