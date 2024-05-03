@@ -33,7 +33,7 @@ jobs:
 
     - name: Move built docs to public folder
       run: |
-        mv docs/build/html/ public/
+        mv build/html/ public/
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
