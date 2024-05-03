@@ -29,7 +29,6 @@ jobs:
 
     - name: Build documentation
       run: |
-        cd docs
         make html
 
     - name: Move built docs to public folder
