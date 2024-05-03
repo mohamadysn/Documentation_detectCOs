@@ -328,7 +328,7 @@ This section of the code is used to visualize genotype information based on the 
         'NA': 'gray'  
     }
 
-    visualsize_genotope(file_paths, outdir, genotype_colors)
+    visualsize_genotope(file_paths, outdir, genotype_colors, column = 'genotype')
 
 
 9. **Smooth Offspring Sliding Window**:

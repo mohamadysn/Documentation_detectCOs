@@ -56,6 +56,7 @@ Function : IdentifyCOs
 
             # information about the window num_win
             cur_support = 1 # number of window that support current genotype
+            pre_num = 1  # number of window that support current genotype after a NA transition # modif MY
             cur_geno = str() # genotype of current window(=geno_stop)
             cur_win = int() # current window = num_win + 1 
 
@@ -81,15 +82,17 @@ Function : IdentifyCOs
                 geno_stop = offspring_genotype_window_smoothed[key_stop][7]
 
                 ## Edit the thr_support = min number of window to validate a COs   # modify MY
-                if stop_win <= 10: 
+                if start_win <= 10: 
                     # for 9 first  slides   # modify MY
-                    if stop_win == 10 and geno_stop == geno_start != "NA":   # modify MY
+                    if stop_win == 11 and geno_stop == geno_start != "NA":   # modify MY
                         thr_support = 5 
                     else:
                         thr_support = 2  
-                elif start_win > (nb_win - 10):
+                elif start_win >= (nb_win - 10):
                     # for 9 last slides
-                    if start_win > (nb_win - 10) and start_win < (nb_win - 5) and geno_stop == geno_start!= "NA":  # modify MY
+                    if start_win >= (nb_win - 10) and start_win <= (nb_win - 6) and geno_stop == geno_start == offspring_genotype_window_smoothed[cur_chr + "_" + str(nb_win - 10)][7] != "NA":  # modify MY
+                        thr_support = 5
+                    elif start_win == (nb_win - 10) and geno_stop != geno_start != "NA":
                         thr_support = 5
                     else:
                         thr_support = 2
@@ -135,6 +138,7 @@ Function : IdentifyCOs
                                     db_co[key] = [cur_chr, str(pre_win) + ":" + str(stop_co_win), pre_geno, cur_geno, "supported"]
                                 
                                 pre_geno = ""                             # modify MY
+                                pre_win = int()                           # modify MY
                                 count_NA = 0                              # modify MY
                                 support_preNA = 0                         # modify MY
                                 geno_preNA = ""  # Also reset geno_preNA  # modify MY
@@ -148,6 +152,15 @@ Function : IdentifyCOs
                                 pre_win = win_preNA # last window before NA region
                                 geno_preNA = ""
                                 win_preNA = ""
+                            else: # Added by MY
+                                pre_geno = pre_geno  # test MY
+                                pre_win = pre_win # test MY
+                                cur_support = pre_num # test MY
+                                cur_geno = geno_stop # test MY
+                                cur_win = stop_win # test MY
+                                support_preNA = 0 # test MY
+                                geno_preNA = "" # test MY
+                                continue # test MY
 
                     elif cur_support >= thr_support:
                         # if genotype change between start and stop num_win and
@@ -155,14 +168,42 @@ Function : IdentifyCOs
                         pre_geno = geno_start # genotype of window before CO
                         pre_win = start_win # window before CO
                         support_preNA = 0                                        # modify MY
-                        # pre_num = cur_support # useless
+                        pre_num = cur_support # useless
                     
                     cur_support = 1 # reset cur_support
 
                     if ("/" not in geno_start) and ("/" not in geno_stop) and geno_start != "NA" and geno_stop != "NA":
                         key_db_co = cur_chr + "_" + str((start_win + stop_win) / 2)
                         db_co[key_db_co] = [cur_chr, str(start_win) + ":" + str(stop_win), geno_start, geno_stop, "not_supported"]
-            
+
+                    if pre_geno != "" and cur_support >= thr_support:  # Added by MY
+                        cur_geno = geno_stop
+                        cur_win = stop_win
+                        #log("Crossover candidate detected due to genotype change and validate thr_support in last window.")
+                        if support_preNA < thr_support and support_preNA != 0 : 
+                            # if there is some NA window during the count of cur_support
+                            stop_co_win = cur_win - cur_support - count_NA + 1
+                        else : 
+                            stop_co_win = cur_win - cur_support + 1
+
+                        co_start = int((offspring_genotype_window_smoothed[cur_chr + "_" + str(pre_win)][0] + \
+                            offspring_genotype_window_smoothed[cur_chr + "_" + str(pre_win)][1]) / 2)
+
+                        co_stop = int((offspring_genotype_window_smoothed[cur_chr + "_" + str(stop_co_win)][0] + \
+                            offspring_genotype_window_smoothed[cur_chr + "_" + str(stop_co_win)][1]) / 2)
+
+                        ## Edit candidate
+                        key = cur_chr + "_" + str(round((pre_win + stop_co_win) / 2, 1))
+                        candidates_co[key] = [str(pre_win) + ":" + str(stop_co_win), co_start, co_stop, pre_geno, cur_geno]
+                        #log(f"key {key} supported by {cur_support} in candidateCO at last window.")
+
+                        if ("/" not in pre_geno) and ("/" not in cur_geno) :
+                            db_co[key] = [cur_chr, str(pre_win) + ":" + str(stop_co_win), pre_geno, cur_geno, "supported"]
+
+                        pre_geno = ""
+                        count_NA = 0
+                        support_preNA = 0
+                        pre_win = int()                           # test MY
                 
                 else: # geno_start == geno_stop 
                     cur_geno = geno_stop
@@ -177,7 +218,7 @@ Function : IdentifyCOs
                     if pre_geno == cur_geno:
                         continue
 
-                    elif pre_geno != "" and cur_support == thr_support:
+                    elif pre_geno != "" and cur_support >= thr_support:
                         if support_preNA < thr_support and support_preNA != 0 : 
                             # if there is some NA window during the count of cur_support
                             stop_co_win = cur_win - cur_support - count_NA + 1
@@ -349,6 +390,15 @@ Function : PreciseCOs
                             pre_win = win_preNA # last window before NA region
                             geno_preNA = ""
                             win_preNA = ""
+                        else: # Added by MY
+							pre_geno = pre_geno  # test MY
+							pre_win = pre_win # test MY
+							cur_support = pre_num # test MY
+							cur_geno = geno_stop # test MY
+							cur_win = stop_win # test MY
+							support_preNA = 0 # test MY
+							geno_preNA = "" # test MY
+							continue # test MY
 
                 elif cur_support >= thr_support:
                     # if genotype change between start and stop num_win and
@@ -356,7 +406,7 @@ Function : PreciseCOs
                     pre_geno = geno_start # genotype of window before CO
                     pre_win = start_win # window before CO
                     support_preNA = 0 # modify MY
-                    # pre_num = cur_support # useless
+                    pre_num = cur_support # useless
                 
                 cur_support = 1 # reset cur_support
 

@@ -48,7 +48,7 @@ assign_window_colors
 
 .. code-block:: python
 
-    def assign_window_colors(data, genotype_colors):
+    def assign_window_colors(data, genotype_colors, column = 'genotype'):
         """
         Assigns colors to windows based on genotype, using a dictionary that maps genotypes to colors.
         Handles NaN values by converting them to 'NA'.
@@ -58,9 +58,9 @@ assign_window_colors
         """
         data = data.copy()
         # Convert all 'genotype' values to strings, explicitly handling NaN values
-        data['genotype'] = data['genotype'].apply(lambda x: 'NA' if pd.isnull(x) else str(x).strip())
+        data[column] = data[column].apply(lambda x: 'NA' if pd.isnull(x) else str(x).strip())
         # Assign colors based on the 'genotype_colors' dictionary, with 'gray' as the default color
-        data['color'] = data['genotype'].apply(lambda x: genotype_colors.get(x, 'gray'))
+        data['color'] = data[column].apply(lambda x: genotype_colors.get(x, 'gray'))
         return data
 
 Assigns colors to data windows based on their genotype values. It ensures that NaN values are handled appropriately by assigning them a default color.
@@ -108,7 +108,7 @@ visualsize_genotope
 
 .. code-block:: python
 
-    def visualsize_genotope(file_paths, outdir, genotype_colors):
+    def visualsize_genotope(file_paths, outdir, genotype_colors, column = 'genotype'):
         """
         Generates genomic size visualizations for each chromosome 
         from specified files and saves them in an output directory.
@@ -124,7 +124,7 @@ visualsize_genotope
             chromosomes = data['chr_window'].str.split('_', expand=True)[0].unique()
             for chromosome in chromosomes:
                 chromosome_data = data[data['chr_window'].str.startswith(chromosome)]
-                chromosome_data_with_colors = assign_window_colors(chromosome_data, genotype_colors)
+                chromosome_data_with_colors = assign_window_colors(chromosome_data, genotype_colors, column = column)
                 chromosome_data_with_colors = chromosome_data_with_colors.reset_index(drop=True)
 
                 if chromosome not in chromosome_data_all_files:
