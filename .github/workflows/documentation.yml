@@ -1,0 +1,46 @@
+name: Build and Deploy Documentation
+
+on:
+  push:
+    branches:
+      - main  # Assurez-vous que cela correspond au nom de votre branche principale, parfois 'master'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest  # Exécute ce job sur la dernière version d'Ubuntu
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2  # Utilisez l'action de checkout pour cloner votre repo
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.7'  # Définit la version Python, ici 3.7 comme dans votre configuration GitLab
+
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update -qy
+        sudo apt-get install -y make
+
+    - name: Install Python dependencies
+      run: |
+        pip install sphinx sphinx_rtd_theme furo
+
+    - name: Build documentation
+      run: |
+        cd docs
+        make html
+
+    - name: Move built docs to public folder
+      run: |
+        mv docs/build/html/ public/
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./public
+        keep_files: true  # Ajoutez cette option si vous voulez garder les fichiers déjà présents sur la branche gh-pages
+
+
