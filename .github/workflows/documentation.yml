@@ -1,12 +1,12 @@
 name: Build and Deploy Documentation
 
 on:
-  permissions:
-    contents: write
-    actions: read
   push:
     branches:
       - main  # Assurez-vous que cela correspond au nom de votre branche principale, parfois 'master'
+  permissions:
+    contents: write
+    actions: read
 
 jobs:
   deploy:
