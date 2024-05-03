@@ -1,0 +1,1145 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="detectCOs_sliding_window.py" href="detectCOs_sliding_window.html" /><link rel="prev" title="detectCOs_required_functions.py" href="detectCOs_required_functions.html" />
+
+    <!-- Generated with Sphinx 5.3.0 and Furo 2023.03.27 -->
+        <title>detectCOs_read_files.py - detectCOs 2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">detectCOs 2.0 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  
+  <span class="sidebar-brand-text">detectCOs 2.0 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config_detectCOs_CG.html">config_detectCOs_CG.yaml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detectCOs_required_functions.html">detectCOs_required_functions.py</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">detectCOs_read_files.py</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detectCOs_sliding_window.html">detectCOs_sliding_window.py</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detectCOs_identifyCOs.html">detectCOs_identifyCOs.py</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test_detectCOs_polyrec_functions.html">test_detectCOs_polyrec_functions.py</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Test_laucher_With_diff_SNPs.html">Test_laucher_With_diff_SNPs.py</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Test_yaml_detectCOs_BC.html">Test_yaml_detectCOs_BC.yaml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="VisualiseGenotypesChromosome.html">VisualiseGenotypesChromosome.py</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="detectcos-read-files-py">
+<h1>detectCOs_read_files.py<a class="headerlink" href="#detectcos-read-files-py" title="Permalink to this heading">#</a></h1>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">hues</span><span class="o">,</span><span class="nn">os</span><span class="o">,</span><span class="nn">sys</span><span class="o">,</span><span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span> <span class="nn">detectCOs_required_functions</span> <span class="kn">import</span> <span class="o">*</span>
+</pre></div>
+</div>
+<section id="function-checkinput">
+<h2>Function : CheckInput<a class="headerlink" href="#function-checkinput" title="Permalink to this heading">#</a></h2>
+<p><strong>Code :</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">CheckInput</span><span class="p">(</span><span class="n">input_file</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Description:    Check if the file exist and if it&#39;s not empty</span>
+<span class="sd">    Input:                  path-to-file/input_file</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">input_file</span><span class="p">):</span>
+        <span class="n">hues</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;Found input file:</span><span class="se">\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">input_file</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">input_file</span><span class="p">):</span>
+            <span class="n">hues</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;Input file:</span><span class="se">\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">input_file</span> <span class="o">+</span> <span class="s2">&quot; is not empty&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">hues</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Input file:</span><span class="se">\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">input_file</span> <span class="o">+</span> <span class="s2">&quot; is empty&quot;</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">hues</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Not found input file:</span><span class="se">\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">input_file</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>Explanation:</strong></p>
+<p><cite>CheckInput</cite>: This function checks if an input file exists and is not empty.
+- <strong>Input:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p><cite>input_file</cite>: The path to the input file.</p></li>
+</ul>
+</div></blockquote>
+<ul>
+<li><p><strong>Functionality:</strong>
+- Checks if the specified file exists using <cite>os.path.exists()</cite>.
+- If the file exists:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Checks if its size is greater than zero using <cite>os.path.getsize()</cite>.</p></li>
+<li><p>If the file is not empty, displays a message indicating that the input file has been found and is not empty.</p></li>
+<li><p>Otherwise, displays an error message indicating that the input file is empty and exits the program using <cite>sys.exit()</cite>.</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p>If the file does not exist, displays an error message indicating that the input file has not been found and exits the program using <cite>sys.exit()</cite>.</p></li>
+</ul>
+</li>
+<li><p><strong>Output:</strong>
+- No explicit output, but the function displays messages to the console based on the result of the verification. If the input file does not exist or is empty, the program terminates with an exit code of 1.</p></li>
+</ul>
+</section>
+<section id="function-removefile">
+<h2>Function : RemoveFile<a class="headerlink" href="#function-removefile" title="Permalink to this heading">#</a></h2>
+<p><strong>Code :</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">RemoveFile</span><span class="p">(</span><span class="n">output_file</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span> <span class="c1">#old name CheckOuput</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Description:    Remove output file if it exist</span>
+<span class="sd">    Input:                  path-to-file/output_file</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">output_file</span><span class="p">):</span>
+        <span class="n">hues</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Found output file:</span><span class="se">\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">output_file</span><span class="p">)</span>
+        <span class="n">hues</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Remove</span><span class="se">\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">output_file</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">...&quot;</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">output_file</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Explanation:</strong></p>
+<p><cite>RemoveFile</cite>: This function deletes an output file if it exists.
+- <strong>Input:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p><cite>output_file</cite>: The path of the output file to be deleted.</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p><strong>Functionality:</strong>
+- Checks if the specified file exists using <cite>os.path.exists()</cite>.
+- If the file exists, displays a warning message indicating that the output file has been found.
+- Then deletes the file using <cite>os.remove(output_file)</cite>.</p></li>
+<li><p><strong>Output:</strong>
+- No explicit output, but the function displays messages to the console based on the result of the file deletion.</p></li>
+</ul>
+</section>
+<section id="function-load-file-in-dict">
+<h2>Function : load_file_in_dict<a class="headerlink" href="#function-load-file-in-dict" title="Permalink to this heading">#</a></h2>
+<p><strong>Code :</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">load_file_in_dict</span><span class="p">(</span><span class="n">input_file</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">prefix_chr</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s2">&quot;Chr&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Description:    convert file in dictionnary</span>
+<span class="sd">    Input:                  Tab-separated file</span>
+<span class="sd">    Output:                 my_dict[value_col0] = [value_col1, ..., value_coln]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">my_dict</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+    <span class="n">values_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">input_file</span><span class="p">)</span> <span class="k">as</span> <span class="nb">input</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">input</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="c1"># .strip() remove space at the beginning and at the end of the string</span>
+            <span class="k">if</span> <span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">prefix_chr</span><span class="p">):</span>
+                <span class="n">values_list</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">values_list</span><span class="p">)):</span>
+                    <span class="c1"># convert all element in value_list if it match with</span>
+                    <span class="c1"># regex_integer and regex_float</span>
+                    <span class="n">regex_int</span> <span class="o">=</span> <span class="s2">&quot;\d+&quot;</span> <span class="c1"># equal to &quot;[0-9]+&quot;</span>
+                    <span class="n">regex_float</span> <span class="o">=</span> <span class="s2">&quot;\d+\.\d+&quot;</span> <span class="c1"># equal to &quot;[0-9]+\.[0-9]+&quot;</span>
+
+                    <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">fullmatch</span><span class="p">(</span><span class="n">regex_int</span><span class="p">,</span> <span class="n">values_list</span><span class="p">[</span><span class="n">i</span><span class="p">]):</span>
+                        <span class="n">values_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">values_list</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                    <span class="k">elif</span> <span class="n">re</span><span class="o">.</span><span class="n">fullmatch</span><span class="p">(</span><span class="n">regex_float</span><span class="p">,</span> <span class="n">values_list</span><span class="p">[</span><span class="n">i</span><span class="p">]):</span>
+                        <span class="n">values_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">values_list</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">values_list</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">:</span>
+                    <span class="c1"># if the list has only 1 element, return the element and not the list</span>
+                    <span class="n">my_dict</span><span class="p">[</span><span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">values_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">my_dict</span><span class="p">[</span><span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">values_list</span>
+
+    <span class="k">return</span> <span class="n">my_dict</span>
+</pre></div>
+</div>
+<p><strong>Explanation:</strong></p>
+<p><cite>load_file_in_dict</cite>: This function converts a tab-delimited file into a dictionary.
+- <strong>Input:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p><cite>input_file</cite>: The path of the input file to be loaded.</p></li>
+<li><p><cite>prefix_chr</cite>: The prefix used to filter lines from the input file. It defaults to <cite>“Chr”</cite>.</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p><strong>Functionality:</strong>
+- Opens the specified file using the syntax <cite>with open(input_file) as input</cite>.
+- Iterates through each line in the file.
+- Splits each line into elements using <cite>line.strip().split(”t”)</cite> to separate values by tabs.
+- If the first element of the line starts with the specified prefix (<cite>prefix_chr</cite>), then the following values in the line are added to a list.
+- Each element in the list is converted into an integer or a float if it matches integer or floating-point number patterns, respectively.
+- If the resulting list contains only one element, that element is added to the dictionary with the key being the first element of the line. Otherwise, the entire list is added to the dictionary.
+- Once all lines are processed, the resulting dictionary is returned.</p></li>
+<li><p><strong>Output:</strong>
+- A dictionary where the keys are the values of the first column (after filtering with <cite>prefix_chr</cite>) and the values are either lists of the values from the other columns or directly the value if only one column is present after filtering.</p></li>
+</ul>
+</section>
+<section id="function-export-dict-in-file">
+<h2>Function : export_dict_in_file<a class="headerlink" href="#function-export-dict-in-file" title="Permalink to this heading">#</a></h2>
+<p><strong>Code :</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">export_dict_in_file</span><span class="p">(</span><span class="n">my_dict</span><span class="p">:</span><span class="n">OrderedDict</span><span class="p">,</span> <span class="n">output_file</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">header</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">overwrite</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Description:    save dictionnary into file</span>
+<span class="sd">    Input:</span>
+<span class="sd">    - my_dict:              the dictionnary to convert</span>
+<span class="sd">    - output_file:  path to output file</span>
+<span class="sd">    - header:               Each column must be separated by tabulation &quot;\t&quot;.</span>
+<span class="sd">                    If header = &quot;&quot;, no header will be added.</span>
+<span class="sd">    - overwrite:    Overwrite file if it already exist</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">output_file</span><span class="p">)</span> <span class="ow">and</span> <span class="n">overwrite</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">output_file</span><span class="p">,</span> <span class="s2">&quot; already exists.&quot;</span><span class="p">)</span>
+        <span class="n">exit</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">output_file</span><span class="p">)</span> <span class="ow">and</span> <span class="n">overwrite</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">RemoveFile</span><span class="p">(</span><span class="n">output_file</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_file</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">output</span><span class="p">:</span>
+            <span class="c1"># write header</span>
+            <span class="k">if</span> <span class="n">header</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span> <span class="p">:</span>
+                <span class="n">output</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">header</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="c1"># write one item key, value per line</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">my_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)):</span>
+                        <span class="n">line</span> <span class="o">=</span> <span class="n">line</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">line</span> <span class="o">=</span> <span class="n">line</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+                <span class="n">output</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="n">output_file</span><span class="p">,</span> <span class="s2">&quot;created.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Explanation:</strong></p>
+<p><cite>export_dict_in_file</cite>: This function saves a dictionary into a file.
+- <strong>Input:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p><cite>my_dict</cite>: The dictionary to save.</p></li>
+<li><p><cite>output_file</cite>: The path of the output file where the dictionary will be recorded.</p></li>
+<li><p><cite>header</cite>: A string representing the header of the output file. Each column of the header must be separated by a tabulation (<cite>”t”</cite>). If <cite>header</cite> is an empty string (<cite>“”</cite>), no header will be added to the output file.</p></li>
+<li><p><cite>overwrite</cite>: A boolean indicating whether to overwrite the output file if it already exists. By default, it is set to <cite>False</cite>, which means the file will not be overwritten if it already exists.</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p><strong>Functionality:</strong>
+- Checks if the output file already exists and if the <cite>overwrite</cite> option is enabled. If the file exists and <cite>overwrite</cite> is <cite>False</cite>, the function displays a message and exits.
+- If the output file exists and <cite>overwrite</cite> is <cite>True</cite>, the function calls <cite>RemoveFile(output_file)</cite> to delete the existing file.
+- Opens the output file in write mode (<cite>“w”</cite>).
+- If the header is not an empty string, writes the header into the file followed by a newline.
+- Iterates through each item in the dictionary. For each item, writes the key followed by its values in one line of the file, separated by tabs. If the value is a list, each element of the list is added to the line separated by a tab.
+- Once all items are written, the function displays a message indicating that the output file has been created.</p></li>
+<li><p><strong>Output:</strong>
+- A text file containing the data from the dictionary, with the option of a header if specified.</p></li>
+</ul>
+</section>
+<section id="function-readchrlen">
+<h2>Function : ReadChrLen<a class="headerlink" href="#function-readchrlen" title="Permalink to this heading">#</a></h2>
+<p><strong>Code :</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">ReadChrLen</span><span class="p">(</span><span class="n">input_chr_len</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">prefix_chr</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s2">&quot;Chr&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Description:    create a dictionnary containing the length of each</span>
+<span class="sd">                    chromosome</span>
+<span class="sd">    Input:</span>
+<span class="sd">    - input_chr_len:        Tab-separated file containing the name of each</span>
+<span class="sd">                        chromosome and its length.</span>
+<span class="sd">    - prefix_str:   Prefix of the chromosome number (e.g. &quot;Chr&quot;, &quot;chr&quot;, etc.)</span>
+<span class="sd">    Output:</span>
+<span class="sd">    - chr_len[chr_x] = length-of-chromosome-x</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">CheckInput</span><span class="p">(</span><span class="n">input_chr_len</span><span class="p">)</span>
+    <span class="n">chr_len</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">prefix_chr</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid prefix chromosome&quot;</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">input_chr_len</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">input_file</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">input_file</span><span class="p">:</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">prefix_chr</span><span class="p">):</span>
+                <span class="n">chr_len</span><span class="p">[</span><span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">chr_len</span><span class="p">[</span><span class="n">prefix_chr</span> <span class="o">+</span> <span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+
+    <span class="n">hues</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">chr_len</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot; Chromosome length loaded!&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">chr_len</span>
+</pre></div>
+</div>
+<p><strong>Explanation:</strong></p>
+<p><cite>ReadChrLen</cite>: This function reads a file containing the length of each chromosome and returns a dictionary.
+- <strong>Input:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p><cite>input_chr_len</cite>: The path to the tab-delimited file containing the lengths of the chromosomes.</p></li>
+<li><p><cite>prefix_chr</cite>: The prefix for the chromosome number, such as <cite>“Chr”</cite>, <cite>“chr”</cite>, etc. This allows concatenating the prefix with the chromosome number in the output dictionary. By default, the prefix is <cite>“Chr”</cite>.</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p><strong>Functionality:</strong>
+- The function begins by checking if the input file exists and is not empty by calling <cite>CheckInput(input_chr_len)</cite>.
+- Then, a dictionary <cite>chr_len</cite> is created to store the lengths of the chromosomes.
+- The function opens the input file and iterates through each line. For each line, it separates the elements by tabs (<cite>t</cite>) and checks if the chromosome name starts with the specified prefix. If so, it adds an entry to the <cite>chr_len</cite> dictionary where the key is the chromosome name (with or without the prefix, as applicable) and the value is its length.
+- After processing all the lines, the function displays a message indicating the number of chromosome lengths loaded.
+- Finally, it returns the <cite>chr_len</cite> dictionary containing the lengths of each chromosome.</p></li>
+<li><p><strong>Output:</strong>
+- A dictionary where the keys are the names of the chromosomes and the values are their respective lengths.</p></li>
+</ul>
+</section>
+<section id="function-readcentroreg">
+<h2>Function : ReadCentroReg<a class="headerlink" href="#function-readcentroreg" title="Permalink to this heading">#</a></h2>
+<p><strong>Code :</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">ReadCentroReg</span><span class="p">(</span><span class="n">input_centro_reg</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">prefix_chr</span><span class="o">=</span><span class="s2">&quot;Chr&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Description:    create a dictionnary containing the coordonate of the</span>
+<span class="sd">                    pericentromeric region of each chromosome</span>
+<span class="sd">    Input:</span>
+<span class="sd">    - input_centro_reg: Tab-separated file containing the name of each chromosome</span>
+<span class="sd">                        (line) and the position of the beginning (left border)</span>
+<span class="sd">                        and the end (right border) of the pericentromeric region.</span>
+<span class="sd">    - prefix_str:   Prefix of the chromosome number (e.g. &quot;Chr&quot;, &quot;chr&quot;, etc.)</span>
+<span class="sd">    Output:</span>
+<span class="sd">    - ordered dictionnary: centromere[chr_x] = [left-border, right-border]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">CheckInput</span><span class="p">(</span><span class="n">input_centro_reg</span><span class="p">)</span>
+    <span class="n">centromere</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">prefix_chr</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid prefix chromosome&quot;</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">input_centro_reg</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">input_file</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">input_file</span><span class="p">:</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">prefix_chr</span><span class="p">:</span> <span class="c1"># ignore header if it exists</span>
+                    <span class="k">continue</span>
+                <span class="n">region</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="mi">2</span><span class="p">])]</span>
+                <span class="k">if</span> <span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">prefix_chr</span><span class="p">):</span>
+                    <span class="nb">chr</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="nb">chr</span> <span class="o">=</span> <span class="n">prefix_chr</span> <span class="o">+</span> <span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span> <span class="p">(</span><span class="s2">&quot;Invalid input file !&quot;</span><span class="p">)</span>
+
+            <span class="n">centromere</span><span class="p">[</span><span class="nb">chr</span><span class="p">]</span> <span class="o">=</span> <span class="n">region</span>
+
+    <span class="n">hues</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">centromere</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot; Chromosome centromere regions loaded!&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">centromere</span>
+</pre></div>
+</div>
+<p><strong>Explanation:</strong></p>
+<p><cite>ReadCentroReg</cite>: This function reads a file containing the coordinates of the pericentromeric region for each chromosome and returns a dictionary.
+- <strong>Input:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p><cite>input_centro_reg</cite>: The path to the tab-delimited file containing the coordinates of the pericentromeric region.</p></li>
+<li><p><cite>prefix_chr</cite>: The prefix for the chromosome number, such as <cite>“Chr”</cite>, <cite>“chr”</cite>, etc. This allows concatenating the prefix with the chromosome number in the output dictionary. By default, the prefix is <cite>“Chr”</cite>.</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p><strong>Functionality:</strong>
+- The function begins by checking if the input file exists and is not empty by calling <cite>CheckInput(input_centro_reg)</cite>.
+- Then, a dictionary <cite>centromere</cite> is created to store the coordinates of the pericentromeric region of each chromosome.
+- The function opens the input file and iterates through each line. For each line, it separates the elements by tabs (<cite>t</cite>) and checks if there are three elements in the line (chromosome name, start, and end of the pericentromeric region). If so, it extracts the chromosome name and the coordinates of the pericentromeric region and adds them to the <cite>centromere</cite> dictionary.
+- After processing all the lines, the function displays a message indicating the number of pericentromeric regions of chromosomes loaded.
+- Finally, it returns the <cite>centromere</cite> dictionary containing the coordinates of the pericentromeric region for each chromosome.</p></li>
+<li><p><strong>Output:</strong>
+- A dictionary where the keys are the names of the chromosomes and the values are lists containing the start and end coordinates of the pericentromeric region for each chromosome.</p></li>
+</ul>
+</section>
+<section id="function-readparentalvcf">
+<h2>Function : ReadParentalVCF<a class="headerlink" href="#function-readparentalvcf" title="Permalink to this heading">#</a></h2>
+<p><strong>Code :</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">ReadParentalVCF</span><span class="p">(</span><span class="n">input_vcf</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">prefix_chr</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s2">&quot;Chr&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Description:    create 2 dictionnaries containing all SNPs per chromosome</span>
+<span class="sd">                    and the last SNPs per chromosome</span>
+<span class="sd">    Input:</span>
+<span class="sd">    - input_vcf:    SNP markers between parental lines (vcf format).</span>
+<span class="sd">    - prefix_str:   Prefix of the chromosome number (e.g. &quot;Chr&quot;, &quot;chr&quot;, etc.)</span>
+<span class="sd">    Output:</span>
+<span class="sd">    - snps[chr_pos] = [chr,pos,GT]</span>
+<span class="sd">    - last_snps[chr]  = position-last-snp-per-chr</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">hues</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Reading Parental SNPs file&quot;</span><span class="p">)</span>
+
+    <span class="n">CheckInput</span><span class="p">(</span><span class="n">input_vcf</span><span class="p">)</span>
+    <span class="n">snps</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+    <span class="n">last_snps</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">prefix_chr</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid prefix chromosome&quot;</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">input_vcf</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">input_file</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">input_file</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="nb">chr</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">pos</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+            <span class="c1"># correct chr if needed</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">chr</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">prefix_chr</span><span class="p">):</span>
+                <span class="nb">chr</span> <span class="o">=</span> <span class="n">prefix_chr</span> <span class="o">+</span> <span class="nb">chr</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="nb">chr</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
+
+            <span class="c1"># snps contains all SNPs</span>
+            <span class="n">snps</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">chr</span><span class="p">,</span> <span class="n">pos</span><span class="p">]</span>
+
+            <span class="c1"># last_snps contains the last SNPs per chromosome</span>
+            <span class="k">if</span> <span class="nb">chr</span> <span class="ow">in</span> <span class="n">last_snps</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">pos</span> <span class="o">&gt;</span> <span class="n">last_snps</span><span class="p">[</span><span class="nb">chr</span><span class="p">]:</span>
+                    <span class="n">last_snps</span><span class="p">[</span><span class="nb">chr</span><span class="p">]</span> <span class="o">=</span> <span class="n">pos</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">last_snps</span><span class="p">[</span><span class="nb">chr</span><span class="p">]</span> <span class="o">=</span> <span class="n">pos</span>
+
+            <span class="n">info</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
+            <span class="n">geno</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">snps</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">geno</span><span class="p">)</span>
+
+    <span class="n">hues</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">snps</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot; Parental SNP markers loaded!&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">snps</span><span class="p">,</span> <span class="n">last_snps</span>
+</pre></div>
+</div>
+<p><strong>Explanation:</strong></p>
+<p><cite>ReadParentalVCF</cite>: This function reads a VCF (Variant Call Format) file containing SNP markers between parental lines and returns two dictionaries containing all SNPs by chromosome and the last SNP by chromosome.
+- <strong>Input:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p><cite>input_vcf</cite>: The path to the VCF file containing SNP markers between the parental lines.</p></li>
+<li><p><cite>prefix_chr</cite>: The prefix for the chromosome number, such as <cite>“Chr”</cite>, <cite>“chr”</cite>, etc. This allows concatenating the prefix with the chromosome number in the output dictionary. By default, the prefix is <cite>“Chr”</cite>.</p></li>
+</ul>
+</div></blockquote>
+<ul>
+<li><p><strong>Functionality:</strong>
+- The function starts by displaying a message informing that it is reading the VCF file.
+- It then checks if the input file exists and is not empty by calling <cite>CheckInput(input_vcf)</cite>.
+- Two empty dictionaries, <cite>snps</cite> and <cite>last_snps</cite>, are initialized to store the SNPs and the last SNP by chromosome, respectively.
+- The function opens the VCF file and iterates through each line. If the line starts with <cite>#</cite>, it is ignored as it represents comments in the VCF file.
+- For each line, it splits the elements by tabs (<cite>t</cite>) and extracts the chromosome name (<cite>chr</cite>) and the position (<cite>pos</cite>) of the SNP.
+- If the chromosome name does not start with the specified prefix, it corrects it by adding the prefix.
+- It creates a key for the <cite>snps</cite> dictionary combining the chromosome name and the SNP position.
+- It updates the <cite>last_snps</cite> dictionary to store the position of the last SNP for each chromosome.
+- It also extracts the genotype of the SNP from the ninth column of the VCF line and adds it to the corresponding entry in the <cite>snps</cite> dictionary.
+- Once all lines are processed, the function displays a message indicating the number of parental SNP markers loaded.
+- Finally, it returns the dictionaries <cite>snps</cite> and <cite>last_snps</cite> containing the SNP information.</p></li>
+<li><p><strong>Output:</strong>
+- Two dictionaries:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><cite>snps</cite>: A dictionary where keys are strings of the form <cite>chr_pos</cite> (chromosome name + SNP position) and values are lists containing the chromosome name, SNP position, and genotype.</p></li>
+<li><p><cite>last_snps</cite>: A dictionary where the keys are the names of the chromosomes and the values are the position of the last SNP for each chromosome.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="function-readoffspringvcf">
+<h2>Function : ReadOffspringVCF<a class="headerlink" href="#function-readoffspringvcf" title="Permalink to this heading">#</a></h2>
+<p><strong>Code :</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">ReadOffspringVCF</span><span class="p">(</span><span class="n">input_vcf</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">parental_snps</span><span class="p">:</span><span class="n">OrderedDict</span><span class="p">,</span> \
+    <span class="n">geno_ref</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">geno_alt</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">analyze_id</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">prefix_chr</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s2">&quot;Chr&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Description: create 2 dictionnaries containing all SNPs per chromosome and</span>
+<span class="sd">    the last SNPs per chromosome</span>
+<span class="sd">    Input:</span>
+<span class="sd">    - input_vcf:            SNP markers between offspring lines (vcf format).</span>
+<span class="sd">    - parental_snps:        first element in output of ReadParentalVCF()</span>
+<span class="sd">    - geno_ref:                     reference genotype</span>
+<span class="sd">    - geno_alt:                     alternative genotype</span>
+<span class="sd">    - prefix_chr:           Prefix of the chromosome number (e.g. &quot;Chr&quot;, &quot;chr&quot;, etc.)</span>
+<span class="sd">    Output:</span>
+<span class="sd">    - info_snps[chr_pos] = [chr,pos,GT,ADref,ADalt,genotype]</span>
+<span class="sd">    - info_last_snps[chr] = position-last-snp-per-chr</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">hues</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Reading Offspring SNPs file&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">prefix_chr</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid prefix chromosome&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Prepare log directory and remove files if already exist</span>
+    <span class="n">log_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/log/&quot;</span> <span class="o">+</span> <span class="n">analyze_id</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span>
+
+    <span class="n">RemoveFile</span><span class="p">(</span><span class="n">log_path</span> <span class="o">+</span> <span class="s2">&quot;ReadOffsrpingVCF_new_snps.log&quot;</span><span class="p">)</span>
+    <span class="n">RemoveFile</span><span class="p">(</span><span class="n">log_path</span> <span class="o">+</span> <span class="s2">&quot;ReadOffsrpingVCF_weird_snps.log&quot;</span><span class="p">)</span>
+    <span class="n">CheckInput</span><span class="p">(</span><span class="n">input_vcf</span><span class="p">)</span>
+
+    <span class="n">info_snps</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+    <span class="n">info_last_snps</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+    <span class="n">total_snp_num</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">weird_snp</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">new_snp</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">count_dp0</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">input_vcf</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">input_file</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">input_file</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">):</span>
+                <span class="c1"># ignore all comments and header from vcf file</span>
+                <span class="k">continue</span>
+
+            <span class="k">if</span> <span class="s2">&quot;DP=0&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="n">count_dp0</span> <span class="o">+=</span><span class="mi">1</span>
+                <span class="c1"># ignore all snps with depth coverage = 0</span>
+
+            <span class="n">total_snp_num</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="nb">chr</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">pos</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+            <span class="c1"># correct chr if needed</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">chr</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">prefix_chr</span><span class="p">):</span>
+                <span class="nb">chr</span> <span class="o">=</span> <span class="n">prefix_chr</span> <span class="o">+</span> <span class="nb">chr</span>
+
+            <span class="c1">#set key</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="nb">chr</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
+
+            <span class="c1">#get GT value from the info field</span>
+            <span class="n">geno</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="c1"># get AD ref and AD alt from info field</span>
+            <span class="n">ref_supp</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">alt_supp</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">parental_snps</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">geno</span> <span class="o">==</span> <span class="s2">&quot;0/0&quot;</span><span class="p">:</span>
+                    <span class="n">info_snps</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">chr</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">geno</span><span class="p">,</span> <span class="n">ref_supp</span><span class="p">,</span> <span class="n">alt_supp</span><span class="p">,</span> <span class="n">geno_ref</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="n">geno</span> <span class="o">==</span> <span class="s2">&quot;0/1&quot;</span><span class="p">:</span>
+                    <span class="n">info_snps</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">chr</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">geno</span><span class="p">,</span> <span class="n">ref_supp</span><span class="p">,</span> <span class="n">alt_supp</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">geno_ref</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">geno_alt</span><span class="p">)]</span>
+                <span class="k">elif</span> <span class="n">geno</span> <span class="o">==</span> <span class="s2">&quot;1/1&quot;</span><span class="p">:</span>
+                    <span class="n">info_snps</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">chr</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">geno</span><span class="p">,</span> <span class="n">ref_supp</span><span class="p">,</span> <span class="n">alt_supp</span><span class="p">,</span> <span class="n">geno_alt</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">weird_snp</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">log_path</span><span class="p">)</span>
+                    <span class="k">except</span> <span class="ne">FileExistsError</span><span class="p">:</span> <span class="c1">## pass if directory already exists</span>
+                        <span class="k">pass</span>
+                    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">log_path</span> <span class="o">+</span> <span class="s2">&quot;ReadOffsrpingVCF_weird_snps.log&quot;</span><span class="p">,</span><span class="s2">&quot;a+&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">logfile</span><span class="p">:</span>
+                        <span class="n">logfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">new_snp</span> <span class="o">+=</span><span class="mi">1</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">log_path</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">FileExistsError</span><span class="p">:</span> <span class="c1">## pass if directory already exists</span>
+                    <span class="k">pass</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">log_path</span> <span class="o">+</span> <span class="s2">&quot;ReadOffsrpingVCF_new_snps.log&quot;</span><span class="p">,</span><span class="s2">&quot;a+&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">logfile</span><span class="p">:</span>
+                    <span class="n">logfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">chr</span> <span class="ow">in</span> <span class="n">info_last_snps</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">pos</span> <span class="o">&gt;</span> <span class="n">info_last_snps</span><span class="p">[</span><span class="nb">chr</span><span class="p">]:</span>
+                    <span class="n">info_last_snps</span><span class="p">[</span><span class="nb">chr</span><span class="p">]</span> <span class="o">=</span> <span class="n">pos</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">info_last_snps</span><span class="p">[</span><span class="nb">chr</span><span class="p">]</span> <span class="o">=</span> <span class="n">pos</span>
+
+    <span class="n">hues</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">total_snp_num</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; Offspring genotyped SNP markers loaded!&quot;</span><span class="p">)</span>
+    <span class="n">hues</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">info_snps</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot; Offspring genotyped informative SNP markers kept!&quot;</span><span class="p">)</span>
+    <span class="n">hues</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">new_snp</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; Offspring specific SNPs (not found in parent)&quot;</span><span class="p">)</span>
+    <span class="n">hues</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">weird_snp</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; Weird genotype (1/2): heterozygous genotype composed of two different ALT alleles&quot;</span><span class="p">)</span>
+    <span class="n">hues</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">count_dp0</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; snps with a depth coverage = 0&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">info_snps</span><span class="p">,</span> <span class="n">info_last_snps</span>
+</pre></div>
+</div>
+<p><strong>Explanation:</strong></p>
+<p><cite>ReadOffspringVCF</cite>: This function reads a VCF (Variant Call Format) file containing SNP markers among offspring lines and returns two dictionaries. The first dictionary, <cite>info_snps</cite>, contains all SNPs by chromosome with details such as genotype, number of reference reads (ADref), and number of alternative reads (ADalt). The second dictionary, <cite>info_last_snps</cite>, stores the position of the last SNP for each chromosome.
+- <strong>Input:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p><cite>input_vcf</cite>: The path to the VCF file containing the SNP markers of the offspring lines.</p></li>
+<li><p><cite>parental_snps</cite>: The first output of the <cite>ReadParentalVCF()</cite> function, containing parental SNPs.</p></li>
+<li><p><cite>geno_ref</cite>: The reference genotype.</p></li>
+<li><p><cite>geno_alt</cite>: The alternative genotype.</p></li>
+<li><p><cite>analyze_id</cite>: The analysis ID, used to create the path for the log file.</p></li>
+<li><p><cite>prefix_chr</cite>: The prefix for the chromosome number, such as <cite>“Chr”</cite>, <cite>“chr”</cite>, etc. The default is <cite>“Chr”</cite>.</p></li>
+</ul>
+</div></blockquote>
+<ul>
+<li><p><strong>Functionality:</strong>
+- The function starts by displaying a message informing that it is reading the VCF file.
+- It checks if the chromosome number prefix is valid. If the prefix is empty, it raises an exception.
+- It initializes three counters: <cite>total_snp_num</cite> for the total number of SNPs, <cite>weird_snp</cite> for SNPs with strange genotypes, and <cite>new_snp</cite> for new offspring-specific SNPs.
+- It iterates through each line of the VCF file. If the line starts with <cite>#</cite>, it is ignored as it represents comments in the VCF file.
+- It checks if the sequencing depth (<cite>DP</cite>) is zero. If so, it skips the SNP due to zero coverage.
+- It extracts the chromosome name (<cite>chr</cite>) and the position (<cite>pos</cite>) of the SNP from the line.
+- It corrects the chromosome name if necessary by adding the specified prefix.
+- It creates a key for the <cite>info_snps</cite> dictionary by combining the chromosome name and SNP position.
+- It extracts the genotype (<cite>geno</cite>), the number of reference reads (<cite>ref_supp</cite>), and the number of alternative reads (<cite>alt_supp</cite>) from the ninth column of the VCF line.
+- It checks if the key exists in the <cite>parental_snps</cite> dictionary (parental SNPs). If it does, it updates the <cite>info_snps</cite> dictionary with the appropriate information.
+- If the genotype does not conform (<cite>0/0</cite>, <cite>0/1</cite>, or <cite>1/1</cite>), it increments the <cite>weird_snp</cite> counter and logs the corresponding line in a file named <cite>ReadOffspringVCF_weird_snps.log</cite>.
+- If the key does not exist in the <cite>parental_snps</cite> dictionary, it increments the <cite>new_snp</cite> counter and logs the corresponding line in a file named <cite>ReadOffspringVCF_new_snps.log</cite>.
+- It updates the <cite>info_last_snps</cite> dictionary to store the position of the last SNP for each chromosome.
+- Once all lines are processed, the function displays information about the total number of SNPs loaded, the number of SNPs retained, the number of new offspring-specific SNPs, the number of SNPs with strange genotypes, and the number of SNPs with zero coverage.
+- Finally, it returns the <cite>info_snps</cite> and <cite>info_last_snps</cite> dictionaries containing information about the offspring SNPs.</p></li>
+<li><p><strong>Output:</strong>
+- Two dictionaries:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><cite>info_snps</cite>: A dictionary where the keys are strings of the form <cite>chr_pos</cite> (chromosome name + SNP position) and the values are lists containing the chromosome name, SNP position, genotype, number of reference reads (ADref), and number of alternative reads (ADalt).</p></li>
+<li><p><cite>info_last_snps</cite>: A dictionary where the keys are the names of the chromosomes and the values are the position of the last SNP for each chromosome.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="function-reademsline">
+<h2>Function : ReadEMSline<a class="headerlink" href="#function-reademsline" title="Permalink to this heading">#</a></h2>
+<p><strong>Code :</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">ReadEMSline</span><span class="p">(</span><span class="nb">input</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">prefix_chr</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Description:</span>
+<span class="sd">    Input:</span>
+<span class="sd">    Output:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">hues</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Reading Offspring SNPs file&quot;</span><span class="p">)</span>
+    <span class="n">CheckInput</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+
+    <span class="n">snps_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="n">snps_list2</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">prefix_chr</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid prefix chromosome&quot;</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">input_file</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">lines</span> <span class="ow">in</span> <span class="n">input_file</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">lines</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">):</span>
+                <span class="c1"># ignore all comments and header from vcf file</span>
+                <span class="k">continue</span>
+
+            <span class="n">line</span> <span class="o">=</span> <span class="n">lines</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">chr</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">pos</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">alt</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+
+            <span class="c1"># correct chr if needed</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">chr</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">prefix_chr</span><span class="p">):</span>
+                <span class="nb">chr</span> <span class="o">=</span> <span class="n">prefix_chr</span> <span class="o">+</span> <span class="nb">chr</span>
+
+            <span class="n">snp_key</span> <span class="o">=</span> <span class="nb">chr</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">alt</span>
+            <span class="n">snp_key2</span> <span class="o">=</span> <span class="nb">chr</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
+            <span class="n">snps_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">snp_key</span><span class="p">)</span>
+            <span class="n">snps_list2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">snp_key2</span><span class="p">)</span>
+
+
+    <span class="k">return</span> <span class="n">snps_list</span><span class="p">,</span> <span class="n">snps_list2</span>
+</pre></div>
+</div>
+<p><strong>Explanation:</strong></p>
+<p><cite>ReadEMSline</cite>: This function reads a file and extracts the necessary information for EMS (Ethyl Methane Sulfonate) analysis. It extracts the chromosome, position, and alternative allele from each line of the file. Then, it combines these pieces of information to form a unique key for each SNP.
+- <strong>Input:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p><cite>input</cite>: The path to the file to be read.</p></li>
+<li><p><cite>prefix_chr</cite>: The prefix for the chromosome number, such as <cite>“Chr”</cite>, <cite>“chr”</cite>, etc.</p></li>
+</ul>
+</div></blockquote>
+<ul>
+<li><p><strong>Functionality:</strong>
+- The function starts by displaying a message indicating that it is reading the file.
+- It checks if the chromosome number prefix is valid. If the prefix is empty, it raises an exception.
+- It initializes two empty lists to store the SNP keys.
+- It iterates through each line of the file.
+- If the line starts with <cite>#</cite>, it is ignored as it represents comments.
+- It splits the line into elements using the tabulator as a separator.
+- It extracts the chromosome name (<cite>chr</cite>), position (<cite>pos</cite>), and alternative allele (<cite>alt</cite>) from the line.
+- It corrects the chromosome name if necessary by adding the specified prefix.
+- It forms a unique key for each SNP by combining the chromosome name, position, and alternative allele.
+- It forms a second key with only the chromosome name and position.
+- It adds both keys to their respective lists.
+- Once all lines are processed, it returns the two lists containing the SNP keys.</p></li>
+<li><p><strong>Output:</strong>
+- Two lists:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><cite>snps_list</cite>: A list containing unique keys for each SNP, formed by combining the chromosome name, position, and alternative allele.</p></li>
+<li><p><cite>snps_list2</cite>: A list containing unique keys for each SNP, formed by combining only the chromosome name and position.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="function-identifygeno">
+<h2>Function : IdentifyGeno<a class="headerlink" href="#function-identifygeno" title="Permalink to this heading">#</a></h2>
+<p><strong>Code :</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">IdentifyGeno</span><span class="p">(</span><span class="nb">chr</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">alt_list</span><span class="p">,</span> <span class="n">geno</span><span class="p">,</span> <span class="n">snps_list_line1</span><span class="p">,</span> <span class="n">snps_list_line2</span><span class="p">,</span>
+                <span class="n">geno_ref</span><span class="p">,</span> <span class="n">geno_alt</span><span class="p">,</span> <span class="n">geno_line1</span><span class="p">,</span> <span class="n">geno_line2</span><span class="p">):</span>
+
+    <span class="k">if</span> <span class="n">geno</span> <span class="o">==</span> <span class="s2">&quot;./.&quot;</span><span class="p">:</span>
+        <span class="n">final_geno</span> <span class="o">=</span> <span class="s2">&quot;NA&quot;</span>
+
+    <span class="k">else</span> <span class="p">:</span>
+        <span class="n">genotype</span><span class="o">=</span><span class="nb">list</span><span class="p">()</span>
+        <span class="n">gt_list</span> <span class="o">=</span> <span class="n">geno</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">gt</span> <span class="ow">in</span> <span class="n">gt_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">gt</span> <span class="o">==</span> <span class="s2">&quot;0&quot;</span><span class="p">:</span>
+                <span class="n">genotype</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">geno_ref</span><span class="p">)</span>
+            <span class="k">else</span> <span class="p">:</span>
+                <span class="c1"># define snp_key</span>
+                <span class="k">if</span> <span class="n">gt</span> <span class="o">==</span><span class="s2">&quot;1&quot;</span><span class="p">:</span>
+                    <span class="n">snp_key</span> <span class="o">=</span> <span class="nb">chr</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">alt_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="n">gt</span> <span class="o">==</span><span class="s2">&quot;2&quot;</span><span class="p">:</span>
+                    <span class="n">snp_key</span> <span class="o">=</span> <span class="nb">chr</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">alt_list</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="n">gt</span> <span class="o">==</span><span class="s2">&quot;3&quot;</span><span class="p">:</span>
+                    <span class="n">snp_key</span> <span class="o">=</span> <span class="nb">chr</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">alt_list</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+                <span class="c1"># define associated genotype</span>
+                <span class="k">if</span> <span class="n">snp_key</span> <span class="ow">in</span> <span class="n">snps_list_line1</span><span class="p">:</span>
+                        <span class="n">genotype</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">geno_line1</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">snp_key</span> <span class="ow">in</span> <span class="n">snps_list_line2</span><span class="p">:</span>
+                    <span class="n">genotype</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">geno_line2</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">genotype</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">geno_alt</span><span class="p">)</span>
+
+        <span class="c1"># if Homo, give genotype once only</span>
+        <span class="k">if</span> <span class="n">genotype</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">genotype</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">final_geno</span> <span class="o">=</span> <span class="n">genotype</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">final_geno</span> <span class="o">=</span> <span class="s2">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">genotype</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">final_geno</span>
+</pre></div>
+</div>
+<p><strong>Explanation:</strong></p>
+<p><cite>IdentifyGeno</cite>: This function determines the genotype of a SNP using information from the VCF file and EMS SNP markers. It considers the raw genotype (<cite>geno</cite>) and information about alternative alleles, reference and alternative genotypes for each SNP in two lines (<cite>geno_line1</cite> and <cite>geno_line2</cite>), as well as SNP keys for these lines (<cite>snps_list_line1</cite> and <cite>snps_list_line2</cite>).</p>
+<ul>
+<li><p><strong>Input:</strong>
+- <cite>chr</cite>: The chromosome number of the SNP.
+- <cite>pos</cite>: The position of the SNP on the chromosome.
+- <cite>alt_list</cite>: A list of alternative alleles for the SNP.
+- <cite>geno</cite>: The raw genotype of the SNP for the considered line.
+- <cite>snps_list_line1</cite>: The list of SNP keys for the first line.
+- <cite>snps_list_line2</cite>: The list of SNP keys for the second line.
+- <cite>geno_ref</cite>: The reference genotype.
+- <cite>geno_alt</cite>: The alternative genotype.
+- <cite>geno_line1</cite>: The genotype of the first line.
+- <cite>geno_line2</cite>: The genotype of the second line.</p></li>
+<li><p><strong>Functionality:</strong>
+- If the raw genotype is “./.”, indicating it is missing, the function returns “NA” to signify that the final genotype cannot be determined.
+- Otherwise, the function starts by initializing an empty list called <cite>genotype</cite> to store genotypes associated with raw alleles.
+- It splits the raw genotype into a list <cite>gt_list</cite> using the separator “/”.
+- For each element <cite>gt</cite> in <cite>gt_list</cite>:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>If <cite>gt</cite> is “0”, indicating it is a reference allele, the function adds <cite>geno_ref</cite> to the <cite>genotype</cite> list.</p></li>
+<li><p>Otherwise, the function creates a unique key <cite>snp_key</cite> by combining the chromosome number, SNP position, and corresponding alternative allele.</p></li>
+<li><p>Then, it determines the genotype associated with this key in the SNP lists of both lines (<cite>snps_list_line1</cite> and <cite>snps_list_line2</cite>).</p></li>
+<li><p>If the key is present in <cite>snps_list_line1</cite>, it adds <cite>geno_line1</cite> to the <cite>genotype</cite> list.</p></li>
+<li><p>Alternatively, if the key is present in <cite>snps_list_line2</cite>, it adds <cite>geno_line2</cite> to the <cite>genotype</cite> list.</p></li>
+<li><p>If the key is not present in any of the lists, it adds <cite>geno_alt</cite> to the <cite>genotype</cite> list.</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p>Then, it checks if both genotypes in the <cite>genotype</cite> list are identical. If so, this indicates the line is homozygous for this SNP, and the final genotype is simply the genotype of the first position in <cite>genotype</cite>. Otherwise, it creates the final genotype by joining the genotypes in <cite>genotype</cite> with the separator “/”.</p></li>
+<li><p>Finally, it returns the final genotype.</p></li>
+</ul>
+</li>
+<li><p><strong>Output:</strong>
+- <cite>final_geno</cite>: The final genotype of the SNP for the considered line.</p></li>
+</ul>
+</section>
+<section id="function-readrecombinedoffspringvcf">
+<h2>Function : ReadRecombinedOffspringVCF<a class="headerlink" href="#function-readrecombinedoffspringvcf" title="Permalink to this heading">#</a></h2>
+<p><strong>Code :</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">ReadRecombinedOffspringVCF</span><span class="p">(</span><span class="n">input_vcf</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">input_ems_line1</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">input_ems_line2</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">parental_snps</span><span class="p">:</span><span class="n">OrderedDict</span><span class="p">,</span> <span class="n">geno_ref</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">geno_alt</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">geno_line1</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">geno_line2</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
+    <span class="n">analyze_id</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">prefix_chr</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s2">&quot;Chr&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Description: create 2 dictionnaries containing all SNPs per chromosome and</span>
+<span class="sd">    the last SNPs per chromosome</span>
+<span class="sd">    Input:</span>
+<span class="sd">    - input_vcf:            SNP markers between offspring lines (vcf format).</span>
+<span class="sd">    - parental_snps:        first element in output of ReadParentalVCF()</span>
+<span class="sd">    - geno_ref:             reference genotype</span>
+<span class="sd">    - geno_alt:             alternative genotype</span>
+<span class="sd">    - geno_line1:           genotype of EMS line 1</span>
+<span class="sd">    - geno_line2:           genotype of EMS line 2</span>
+<span class="sd">    - prefix_chr:           Prefix of the chromosome number (e.g. &quot;Chr&quot;, &quot;chr&quot;, etc.)</span>
+<span class="sd">    Output:</span>
+<span class="sd">    - info_snps[chr_pos] = [chr,pos,GT,ADref,ADalt,genotype]</span>
+<span class="sd">    - info_last_snps[chr] = position-last-snp-per-chr</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">hues</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Reading Offspring SNPs file&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">prefix_chr</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid prefix chromosome&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Prepare log directory and remove files if already exist</span>
+    <span class="n">log_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/log/&quot;</span> <span class="o">+</span> <span class="n">analyze_id</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span>
+
+    <span class="n">RemoveFile</span><span class="p">(</span><span class="n">log_path</span> <span class="o">+</span> <span class="s2">&quot;ReadOffsrpingVCF_new_snps.log&quot;</span><span class="p">)</span>
+    <span class="n">RemoveFile</span><span class="p">(</span><span class="n">log_path</span> <span class="o">+</span> <span class="s2">&quot;ReadOffsrpingVCF_weird_snps.log&quot;</span><span class="p">)</span>
+    <span class="n">CheckInput</span><span class="p">(</span><span class="n">input_vcf</span><span class="p">)</span>
+
+    <span class="n">info_snps</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+    <span class="n">info_last_snps</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+    <span class="n">total_snp_num</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">new_snp</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">unknown_snps</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="n">snps_list_line1</span> <span class="o">=</span> <span class="n">ReadEMSline</span><span class="p">(</span><span class="n">input_ems_line1</span><span class="p">,</span> <span class="n">prefix_chr</span><span class="p">)</span>
+    <span class="n">snps_list_line2</span> <span class="o">=</span> <span class="n">ReadEMSline</span><span class="p">(</span><span class="n">input_ems_line2</span><span class="p">,</span> <span class="n">prefix_chr</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">input_vcf</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">input_file</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">input_file</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">):</span>
+                <span class="c1"># ignore all comments and header from vcf file</span>
+                <span class="k">continue</span>
+
+            <span class="k">if</span> <span class="s2">&quot;./.&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="n">unknown_snps</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="n">total_snp_num</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="nb">chr</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">pos</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+            <span class="c1"># correct chr if needed</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">chr</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">prefix_chr</span><span class="p">):</span>
+                <span class="nb">chr</span> <span class="o">=</span> <span class="n">prefix_chr</span> <span class="o">+</span> <span class="nb">chr</span>
+
+            <span class="n">key</span> <span class="o">=</span> <span class="nb">chr</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
+            <span class="n">geno</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="n">ref_supp</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">alt_list</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">:]</span>
+
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">parental_snps</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">info_snps</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">chr</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">geno</span><span class="p">,</span> <span class="n">ref_supp</span><span class="p">,</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">alt_list</span><span class="p">),</span>
+                        <span class="n">IdentifyGeno</span><span class="p">(</span><span class="nb">chr</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">alt_list</span><span class="p">,</span> <span class="n">geno</span><span class="p">,</span> <span class="n">snps_list_line1</span><span class="p">,</span> <span class="n">snps_list_line2</span><span class="p">,</span>
+                        <span class="n">geno_ref</span><span class="p">,</span> <span class="n">geno_alt</span><span class="p">,</span> <span class="n">geno_line1</span><span class="p">,</span> <span class="n">geno_line2</span><span class="p">)]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">new_snp</span> <span class="o">+=</span><span class="mi">1</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">log_path</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">FileExistsError</span><span class="p">:</span> <span class="c1">## pass if directory already exists</span>
+                    <span class="k">pass</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">log_path</span> <span class="o">+</span> <span class="s2">&quot;ReadOffsrpingVCF_new_snps.log&quot;</span><span class="p">,</span><span class="s2">&quot;a+&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">logfile</span><span class="p">:</span>
+                    <span class="n">logfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">chr</span> <span class="ow">in</span> <span class="n">info_last_snps</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">pos</span> <span class="o">&gt;</span> <span class="n">info_last_snps</span><span class="p">[</span><span class="nb">chr</span><span class="p">]:</span>
+                    <span class="n">info_last_snps</span><span class="p">[</span><span class="nb">chr</span><span class="p">]</span> <span class="o">=</span> <span class="n">pos</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">info_last_snps</span><span class="p">[</span><span class="nb">chr</span><span class="p">]</span> <span class="o">=</span> <span class="n">pos</span>
+
+    <span class="n">hues</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">total_snp_num</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; Offspring genotyped SNP markers loaded!&quot;</span><span class="p">)</span>
+    <span class="n">hues</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">info_snps</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot; Offspring genotyped informative SNP markers kept!&quot;</span><span class="p">)</span>
+    <span class="n">hues</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">new_snp</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; Offspring specific SNPs (not found in parent)&quot;</span><span class="p">)</span>
+    <span class="n">hues</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">unknown_snps</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; not genotyped snps&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">info_snps</span><span class="p">,</span> <span class="n">info_last_snps</span>
+</pre></div>
+</div>
+<p><strong>Explanation:</strong></p>
+<p><cite>ReadRecombinedOffspringVCF</cite>: This function reads a VCF file containing SNP markers between recombined offspring lines and returns two dictionaries containing all SNPs by chromosome and the last SNPs by chromosome.
+- <strong>Input:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p><cite>input_vcf</cite>: Path to the VCF file containing SNP markers between offspring lines.</p></li>
+<li><p><cite>input_ems_line1</cite>: Path to the file containing SNPs from the first EMS line.</p></li>
+<li><p><cite>input_ems_line2</cite>: Path to the file containing SNPs from the second EMS line.</p></li>
+<li><p><cite>parental_snps</cite>: The first output of the <cite>ReadParentalVCF</cite> function.</p></li>
+<li><p><cite>geno_ref</cite>: Reference genotype.</p></li>
+<li><p><cite>geno_alt</cite>: Alternative genotype.</p></li>
+<li><p><cite>geno_line1</cite>: Genotype of the first EMS line.</p></li>
+<li><p><cite>geno_line2</cite>: Genotype of the second EMS line.</p></li>
+<li><p><cite>analyze_id</cite>: Analysis identifier.</p></li>
+<li><p><cite>prefix_chr</cite>: Prefix for the chromosome number (e.g., “Chr”, “chr”, etc.).</p></li>
+</ul>
+</div></blockquote>
+<ul>
+<li><p><strong>Functionality:</strong>
+- The function begins by validating the chromosome prefix and checking if the VCF input file exists.
+- It initializes empty dictionaries to store SNPs and the last SNPs.
+- It reads the SNPs from the EMS lines from the specified files.
+- Then, it processes the VCF file line by line.
+- For each line, it checks if it starts with “#” (comment or header); if so, the line is skipped.
+- It also checks if the genotype is missing (“./.”). If so, it increments the counter for unknown SNPs.
+- For each line containing a SNP:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>It extracts the chromosome number and the SNP position.</p></li>
+<li><p>It corrects the chromosome number if necessary.</p></li>
+<li><p>It checks if the SNP is present in the parental SNPs.</p></li>
+<li><p>If the SNP is found in the parental SNPs, it retrieves the raw genotype, AD support, and alternative alleles.</p></li>
+<li><p>It determines the final genotype from the information about alternative alleles and genotypes of the EMS lines using the function <cite>IdentifyGeno</cite>.</p></li>
+<li><p>If the SNP is not found in the parental SNPs, it is logged to a journal file and the counter for new SNPs is incremented.</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p>Finally, it returns the dictionaries containing SNPs and the last SNPs.</p></li>
+</ul>
+</li>
+<li><p><strong>Output:</strong>
+- <cite>info_snps</cite>: Dictionary containing information about all SNPs by chromosome.
+- <cite>info_last_snps</cite>: Dictionary containing the positions of the last SNPs by chromosome.</p></li>
+</ul>
+<p>This function is used to process VCF files from recombined offspring lines to identify descendant-specific SNPs and potentially impute missing genotypes.</p>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="detectCOs_sliding_window.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">detectCOs_sliding_window.py</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="detectCOs_required_functions.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">detectCOs_required_functions.py</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2024, Mohamad Yassine
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">detectCOs_read_files.py</a><ul>
+<li><a class="reference internal" href="#function-checkinput">Function : CheckInput</a></li>
+<li><a class="reference internal" href="#function-removefile">Function : RemoveFile</a></li>
+<li><a class="reference internal" href="#function-load-file-in-dict">Function : load_file_in_dict</a></li>
+<li><a class="reference internal" href="#function-export-dict-in-file">Function : export_dict_in_file</a></li>
+<li><a class="reference internal" href="#function-readchrlen">Function : ReadChrLen</a></li>
+<li><a class="reference internal" href="#function-readcentroreg">Function : ReadCentroReg</a></li>
+<li><a class="reference internal" href="#function-readparentalvcf">Function : ReadParentalVCF</a></li>
+<li><a class="reference internal" href="#function-readoffspringvcf">Function : ReadOffspringVCF</a></li>
+<li><a class="reference internal" href="#function-reademsline">Function : ReadEMSline</a></li>
+<li><a class="reference internal" href="#function-identifygeno">Function : IdentifyGeno</a></li>
+<li><a class="reference internal" href="#function-readrecombinedoffspringvcf">Function : ReadRecombinedOffspringVCF</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/scripts/furo.js"></script>
+    </body>
+</html>
