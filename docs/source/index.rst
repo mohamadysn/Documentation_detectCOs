@@ -58,3 +58,8 @@ Contents
    Test_laucher_With_diff_SNPs
    Test_yaml_detectCOs_BC
    VisualiseGenotypesChromosome
+   detectCOs_identifyCOs_EMS
+   detectCOs_required_functions_EMS
+   detectCOs_sliding_window_EMS
+   Test_yaml_detectCOs_BC_EMS
+
