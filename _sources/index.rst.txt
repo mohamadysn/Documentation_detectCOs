@@ -62,4 +62,7 @@ Contents
    detectCOs_required_functions_EMS
    detectCOs_sliding_window_EMS
    Test_yaml_detectCOs_BC_EMS
+   detectCOs_identifyCOs_RIL
+   config_rules_RIL
+   Launcher_Rules_RIL
 

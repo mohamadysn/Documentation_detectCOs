@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="config_detectCOs_CG.yaml" href="config_detectCOs_CG.html" /><link rel="prev" title="Welcome to detectCOs’s documentation!" href="index.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Launcher_Rules_RIL.py" href="Launcher_Rules_RIL.html" /><link rel="prev" title="detectCOs_identifyCOs_RIL.py" href="detectCOs_identifyCOs_RIL.html" />
 
     <!-- Generated with Sphinx 5.3.0 and Furo 2023.03.27 -->
-        <title>Usage - detectCOs 2.0 documentation</title>
+        <title>config_rules_RIL.yaml - detectCOs 2.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -155,7 +155,7 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul class="current">
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config_detectCOs_CG.html">config_detectCOs_CG.yaml</a></li>
 <li class="toctree-l1"><a class="reference internal" href="detectCOs_required_functions.html">detectCOs_required_functions.py</a></li>
 <li class="toctree-l1"><a class="reference internal" href="detectCOs_read_files.html">detectCOs_read_files.py</a></li>
@@ -170,7 +170,7 @@
 <li class="toctree-l1"><a class="reference internal" href="detectCOs_sliding_window_EMS.html">detectCOs_sliding_window_EMS.py</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Test_yaml_detectCOs_BC_EMS.html">Test_yaml_detectCOs_BC_EMS.yaml</a></li>
 <li class="toctree-l1"><a class="reference internal" href="detectCOs_identifyCOs_RIL.html">detectCOs_identifyCOs_RIL.py</a></li>
-<li class="toctree-l1"><a class="reference internal" href="config_rules_RIL.html">config_rules_RIL.yaml</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">config_rules_RIL.yaml</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Launcher_Rules_RIL.html">Launcher_Rules_RIL.py</a></li>
 </ul>
 
@@ -206,48 +206,20 @@
           </label>
         </div>
         <article role="main">
-          <section id="usage">
-<h1>Usage<a class="headerlink" href="#usage" title="Permalink to this heading">#</a></h1>
-<section id="installation">
-<span id="id1"></span><h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">#</a></h2>
-<p>To use detectCOs, first create a virtual environment using mamba:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>mamba<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>config_detectCOs_CG.yaml<span class="w"> </span>-p<span class="w"> </span>~/miniconda3/envs/detectCOs_env
-</pre></div>
+          <section id="config-rules-ril-yaml">
+<h1>config_rules_RIL.yaml<a class="headerlink" href="#config-rules-ril-yaml" title="Permalink to this heading">#</a></h1>
+<section id="config-file-for-detectcos-tools">
+<h2>CONFIG FILE FOR detectCOs TOOLS<a class="headerlink" href="#config-file-for-detectcos-tools" title="Permalink to this heading">#</a></h2>
+<p>This configuration file specifies the paths to various files required for the analysis as well as the tool’s parameters.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>ALL PARAMETERS ARE MANDATORY !!!</p>
 </div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>conda<span class="w"> </span>activate<span class="w"> </span>~/miniconda3/envs/detectCOs_env
-</pre></div>
-</div>
-</section>
-<section id="launch">
-<span id="id2"></span><h2>launch<a class="headerlink" href="#launch" title="Permalink to this heading">#</a></h2>
-<p>For detectCOs classic mode :</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python3<span class="w"> </span>path/to/folder/Test_laucher_With_diff_SNPs.py<span class="w"> </span>Test_yaml_detectCOs_BC.yaml
-</pre></div>
-</div>
-<p>For detectCOs EMS mode :</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python3<span class="w"> </span>path/to/folder/Test_laucher_With_diff_SNPs_EMS.py<span class="w"> </span>Test_yaml_detectCOs_BC_EMS.yaml
-</pre></div>
-</div>
-</section>
-<section id="preprocessing-step-variant-calling-with-gatk-haplotypecaller">
-<h2>Preprocessing Step: Variant Calling with GATK HaplotypeCaller<a class="headerlink" href="#preprocessing-step-variant-calling-with-gatk-haplotypecaller" title="Permalink to this heading">#</a></h2>
-<p>Before moving on to the Crossing Over (COs) detection step, it’s crucial to generate a Variant Call Format (VCF) file containing genetic variants for each individual in the population. This step is performed using the GATK (Genome Analysis Toolkit) tool with the HaplotypeCaller command.</p>
-<p>Here’s why this step is important:</p>
-<ol class="arabic simple">
-<li><p><strong>Genetic Variant Identification</strong>: The generated VCF file contains information about genetic variants, such as Single Nucleotide Polymorphisms (SNPs) and indels (insertions and deletions of DNA), present in the analyzed DNA sample. These variants are identified by comparing the DNA data to a genomic reference.</p></li>
-<li><p><strong>Reference SNP Detection</strong>: The <cite>–alleles</cite> option allows specifying a VCF file containing reference SNPs. This helps improve the sensitivity and specificity of variant calling by informing the model about known and confirmed variants in the parental population.</p></li>
-<li><p><strong>Region of Interest Selection</strong>: The <cite>-L</cite> option specifies regions of interest for analysis. In this case, it appears to be used to limit the analysis to regions where reference SNPs are present, reducing computational burden by considering only relevant regions for CO analysis.</p></li>
-<li><p><strong>Output Mode</strong>: The <cite>–output-mode EMIT_ALL_ACTIVE_SITES</cite> option ensures that all active sites are emitted, including those that do not vary from the reference. This enables comprehensive analysis of sites, which is necessary for accurate CO detection.</p></li>
-</ol>
-<p>In summary, this preprocessing step with GATK enables generating a comprehensive and accurate VCF file containing genetic variants, which will serve as the basis for subsequent CO detection.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>java<span class="w"> </span>-jar<span class="w"> </span>path/to/folder/gatk-4.4.0.0/gatk-package-4.4.0.0-local.jar<span class="w"> </span>HaplotypeCaller<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--native-pair-hmm-threads<span class="w"> </span><span class="m">8</span><span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>-R<span class="w"> </span>path/to/folder/TAIR10_chr_all.fasta<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>-I<span class="w"> </span>path/to/folder/7RV498_recalibrated_sorted.bam<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>-O<span class="w"> </span>path/to/folder/7RV498_golden_SNPs.vcf<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--alleles<span class="w"> </span>path/to/folder/parental_goldensnps_Indiv_28.vcf<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>-L<span class="w"> </span>path/to/folder/parental_goldensnps_Indiv_28.vcf<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--output-mode<span class="w"> </span>EMIT_ALL_ACTIVE_SITES
+<p><strong>1. General path informations</strong></p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">output</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">path/to/folder/output/Sample/</span>
+<span class="nt">Path_info_RIL</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">path/to/folder/</span>
+<span class="nt">Path_offspring_basic</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">path/to/folder/Sample/</span>
+<span class="nt">Path_offspring_EMS</span><span class="p">:</span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">path/to/folder/Sample/</span>
 </pre></div>
 </div>
 </section>
@@ -258,23 +230,23 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="config_detectCOs_CG.html">
+          <a class="next-page" href="Launcher_Rules_RIL.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">config_detectCOs_CG.yaml</div>
+                <div class="title">Launcher_Rules_RIL.py</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="index.html">
+          <a class="prev-page" href="detectCOs_identifyCOs_RIL.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Home</div>
+                <div class="title">detectCOs_identifyCOs_RIL.py</div>
                 
               </div>
             </a>
@@ -308,10 +280,8 @@
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Usage</a><ul>
-<li><a class="reference internal" href="#installation">Installation</a></li>
-<li><a class="reference internal" href="#launch">launch</a></li>
-<li><a class="reference internal" href="#preprocessing-step-variant-calling-with-gatk-haplotypecaller">Preprocessing Step: Variant Calling with GATK HaplotypeCaller</a></li>
+<li><a class="reference internal" href="#">config_rules_RIL.yaml</a><ul>
+<li><a class="reference internal" href="#config-file-for-detectcos-tools">CONFIG FILE FOR detectCOs TOOLS</a></li>
 </ul>
 </li>
 </ul>
