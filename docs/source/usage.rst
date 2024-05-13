@@ -38,6 +38,12 @@ For detectCOs EMS mode :
    $ python3 path/to/folder/Test_laucher_With_diff_SNPs_EMS.py Test_yaml_detectCOs_BC_EMS.yaml
 ..
 
+For Rules :
+
+.. code-block:: console
+
+   $ python3 path/to/folder/Launcher_Rules_RIL.py config_rules_RIL.yaml
+..
 
 
 Preprocessing Step: Variant Calling with GATK HaplotypeCaller
