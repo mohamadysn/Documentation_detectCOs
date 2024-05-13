@@ -25,7 +25,7 @@ Program Information
 
 **Authors**:
    - **Qichao Lian** 
-     - Email: qlian@mpipz.mpg.de
+      - Email: qlian@mpipz.mpg.de
    - **Correctors**:
       - **Maëla Sémery**
          - Email: maela.semery@inrae.fr
