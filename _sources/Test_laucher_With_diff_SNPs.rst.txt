@@ -14,6 +14,8 @@ It imports necessary modules and functions from the detectCOs package, including
     from detectCOs_read_files import *
     from detectCOs_sliding_window import *
     from detectCOs_identifyCOs import *
+    from VisualiseGenotypesChromosomeEMS import *
+    from collections import OrderedDict
 ..
 
 It provides usage instructions for running the script from the command line, specifying the path to the configuration file as an argument.
@@ -306,30 +308,6 @@ It provides usage instructions for running the script from the command line, spe
 
 ..
 
-8.bis. **Visualize Genotype Example**:
-
-This section of the code is used to visualize genotype information based on the configuration settings. It maps file paths to genotype data and assigns colors to different genotypes for visual representation.
-
-.. code-block:: python
-
-    # STEP 8.bis. Visualize Genotype
-    print("-------------------------------------")
-
-    file_paths = {
-        # 'directory_name': 'offspring_genotype_window_normalized_smoothed.txt'
-    }
-
-    file_paths[config['analyze_id']] = outdir + 'offspring_genotype_window_normalized_smoothed.txt'
-
-    genotype_colors = {
-        config['genotype_ref']: 'blue',
-        config['genotype_alt']: 'red',
-        'Col/Ct': 'green',
-        'NA': 'gray'  
-    }
-
-    visualsize_genotope(file_paths, outdir, genotype_colors, column = 'genotype')
-
 
 9. **Smooth Offspring Sliding Window**:
     - If the smoothed data has been previously processed and saved, it is loaded from files. Otherwise, the `SmoothNormalizedOffspringSlidingWindow` function is called to smooth the offspring sliding window data.
@@ -394,6 +372,33 @@ This section of the code is used to visualize genotype information based on the 
                     overwrite=False)
 
 ..
+
+9.bis. **Visualize Genotype Example**:
+
+This section of the code is used to visualize genotype information based on the configuration settings. It maps file paths to genotype data and assigns colors to different genotypes for visual representation.
+
+.. code-block:: python
+
+    # STEP 8.bis. Visualize Genotype
+    print("-------------------------------------")
+
+    file_paths = {
+        # 'directory_name': 'offspring_genotype_window_normalized_smoothed.txt'
+    }
+
+    file_paths[config['analyze_id']] = outdir + 'offspring_genotype_window_normalized_smoothed.txt'
+
+    genotype_colors = {
+        config['genotype_ref']: 'blue',
+        config['genotype_alt']: 'red',
+        'Col/Ct': 'green',
+        'NA': 'gray'  
+    }
+
+    visualsize_genotope(file_paths, outdir, genotype_colors, column = 'genotype')
+
+
+
 
 10. **Identify COs**:
     - The `IdentifyCOs` function is called to identify COs based on the smoothed offspring genotype window data.

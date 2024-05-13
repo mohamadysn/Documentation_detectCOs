@@ -1,0 +1,763 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Test_yaml_detectCOs_BC_EMS.yaml" href="Test_yaml_detectCOs_BC_EMS.html" /><link rel="prev" title="detectCOs_required_functions_EMS.py" href="detectCOs_required_functions_EMS.html" />
+
+    <!-- Generated with Sphinx 5.3.0 and Furo 2023.03.27 -->
+        <title>detectCOs_sliding_window_EMS.py - detectCOs 2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">detectCOs 2.0 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  
+  <span class="sidebar-brand-text">detectCOs 2.0 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config_detectCOs_CG.html">config_detectCOs_CG.yaml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detectCOs_required_functions.html">detectCOs_required_functions.py</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detectCOs_read_files.html">detectCOs_read_files.py</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detectCOs_sliding_window.html">detectCOs_sliding_window.py</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detectCOs_identifyCOs.html">detectCOs_identifyCOs.py</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test_detectCOs_polyrec_functions.html">test_detectCOs_polyrec_functions.py</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Test_laucher_With_diff_SNPs.html">Test_laucher_With_diff_SNPs.py</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Test_yaml_detectCOs_BC.html">Test_yaml_detectCOs_BC.yaml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="VisualiseGenotypesChromosome.html">VisualiseGenotypesChromosome.py</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detectCOs_identifyCOs_EMS.html">detectCOs_identifyCOs_EMS.py</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detectCOs_required_functions_EMS.html">detectCOs_required_functions_EMS.py</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">detectCOs_sliding_window_EMS.py</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Test_yaml_detectCOs_BC_EMS.html">Test_yaml_detectCOs_BC_EMS.yaml</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="detectcos-sliding-window-ems-py">
+<h1>detectCOs_sliding_window_EMS.py<a class="headerlink" href="#detectcos-sliding-window-ems-py" title="Permalink to this heading">#</a></h1>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">hues</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span> <span class="nn">detectCOs_required_functions_EMS</span> <span class="kn">import</span> <span class="o">*</span>
+</pre></div>
+</div>
+<section id="function-parentalslidingwindowsnps">
+<h2>Function : ParentalSlidingWindowSNPs<a class="headerlink" href="#function-parentalslidingwindowsnps" title="Permalink to this heading">#</a></h2>
+<p><strong>Code :</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">ParentalSlidingWindowSNPs</span><span class="p">(</span><span class="n">parental_snps</span><span class="p">:</span> <span class="n">OrderedDict</span><span class="p">,</span> <span class="n">snps_per_window</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Description: determine the number of SNPs per window (key= chr_window).</span>
+<span class="sd">    Input:</span>
+<span class="sd">        - parental_snps:    first element of the output of ReadParentalVCF()</span>
+<span class="sd">        - snps_per_window: fixed number of SNPs</span>
+
+<span class="sd">    Output:</span>
+<span class="sd">        - snps_window[chr_num-window] = [start, stop, nb-snps]</span>
+
+<span class="sd">    Determine the SNP distribution over sliding windows, each containing a fixed number of SNPs,</span>
+<span class="sd">    with each new window starting at the midpoint of the previous window in terms of SNP count.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">snps_window</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+    <span class="n">current_snps</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># To keep track of SNPs in the current window</span>
+    <span class="n">cur_chr</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>  <span class="c1"># Current chromosome</span>
+    <span class="n">window_index</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># Window index for naming</span>
+    <span class="n">half_window_size</span> <span class="o">=</span> <span class="n">snps_per_window</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="n">initial_window</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># To control the first two special windows</span>
+    <span class="n">special_window_count</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># To keep track of the first two windows</span>
+
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">snp_info</span> <span class="ow">in</span> <span class="n">parental_snps</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="nb">chr</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">snp_info</span>
+
+        <span class="k">if</span> <span class="nb">chr</span> <span class="o">!=</span> <span class="n">cur_chr</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">current_snps</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">current_snps</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">half_window_size</span><span class="p">:</span>
+                        <span class="n">snps_window</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cur_chr</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">window_index</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">current_snps</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">current_snps</span><span class="p">[</span><span class="n">half_window_size</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">half_window_size</span><span class="p">]</span>
+                        <span class="n">window_index</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">snps_window</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cur_chr</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">window_index</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">current_snps</span><span class="p">[</span><span class="n">half_window_size</span><span class="p">],</span> <span class="n">current_snps</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">current_snps</span><span class="p">)</span> <span class="o">-</span> <span class="n">half_window_size</span><span class="p">]</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">snps_window</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cur_chr</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">window_index</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">current_snps</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">current_snps</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">current_snps</span><span class="p">)]</span>
+                <span class="k">except</span> <span class="ne">IndexError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error handling remaining SNPs on chromosome change: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">cur_chr</span> <span class="o">=</span> <span class="nb">chr</span>
+            <span class="n">current_snps</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">window_index</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">initial_window</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">special_window_count</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">current_snps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
+
+        <span class="n">current_window_size</span> <span class="o">=</span> <span class="n">half_window_size</span> <span class="k">if</span> <span class="n">initial_window</span> <span class="ow">or</span> <span class="n">special_window_count</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="k">else</span> <span class="n">snps_per_window</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">current_snps</span><span class="p">)</span> <span class="o">==</span> <span class="n">current_window_size</span><span class="p">:</span>
+            <span class="n">start_pos</span> <span class="o">=</span> <span class="n">current_snps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">stop_pos</span> <span class="o">=</span> <span class="n">current_snps</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">snps_window</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">chr</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">window_index</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">start_pos</span><span class="p">,</span> <span class="n">stop_pos</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">current_snps</span><span class="p">)]</span>
+            <span class="n">window_index</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">initial_window</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">special_window_count</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">current_snps</span> <span class="o">=</span> <span class="n">current_snps</span><span class="p">[</span><span class="n">half_window_size</span><span class="p">:]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">initial_window</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="n">current_snps</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">special_window_count</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">current_snps</span> <span class="o">=</span> <span class="n">current_snps</span><span class="p">[</span><span class="n">half_window_size</span><span class="p">:]</span>
+
+    <span class="k">if</span> <span class="n">current_snps</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">current_snps</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">half_window_size</span><span class="p">:</span>
+                <span class="n">snps_window</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cur_chr</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">window_index</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">current_snps</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">current_snps</span><span class="p">[</span><span class="n">half_window_size</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">half_window_size</span><span class="p">]</span>
+                <span class="n">window_index</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">snps_window</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cur_chr</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">window_index</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">current_snps</span><span class="p">[</span><span class="n">half_window_size</span><span class="p">],</span> <span class="n">current_snps</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">current_snps</span><span class="p">)</span> <span class="o">-</span> <span class="n">half_window_size</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">snps_window</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cur_chr</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">window_index</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">current_snps</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">current_snps</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">current_snps</span><span class="p">)]</span>
+        <span class="k">except</span> <span class="ne">IndexError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error handling final SNPs: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">snps_window</span>
+</pre></div>
+</div>
+<p><strong>Explanation:</strong></p>
+<p><cite>ParentalSlidingWindowSNPs</cite>:
+- <strong>Input:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p><cite>parental_snps</cite>: A dictionary containing the SNPs of the parent.</p></li>
+<li><p><cite>snps_per_window</cite>: This is an integer that sets the fixed number of SNPs to include in each window. It defaults to 20 if not specified otherwise.</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p><strong>Functionality:</strong>
+- Initialization: The function initializes several variables, including dictionaries and lists to track SNPs in the current window, the current chromosome, and the index for window naming.
+- SNP Distribution Logic: The function iterates through the given SNP data, grouping SNPs into sliding windows. Each window contains a fixed number of SNPs. If the chromosome changes, it processes remaining SNPs in the current window before resetting for the next chromosome.
+- Window Management: The function adjusts window sizes and starts based on the number of SNPs and window size settings. It handles special cases for the initial windows and uses a strategy where each new window starts at the midpoint of the previous window in terms of SNP count.</p></li>
+<li><p><strong>Output:</strong>
+- <cite>snps_window</cite>: A dictionary containing the number of SNPs per sliding window for each chromosome. Each entry in the dictionary has a key consisting of the chromosome number and window number, and the value is a list containing the start position, end position, and total number of SNPs in that window.</p></li>
+</ul>
+</section>
+<section id="function-offspringslidingwindowbysnps">
+<h2>Function : OffspringSlidingWindowBySNPs<a class="headerlink" href="#function-offspringslidingwindowbysnps" title="Permalink to this heading">#</a></h2>
+<p><strong>Code :</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">OffspringSlidingWindowBySNPs</span><span class="p">(</span><span class="n">offspring_snps</span><span class="p">:</span> <span class="n">OrderedDict</span><span class="p">,</span> <span class="n">snps_per_window</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Description: determine the number of SNPs per window (key= chr_window).</span>
+<span class="sd">    Input:</span>
+<span class="sd">        - offspring_snps:   first element of the output of ReadOffspringVCF()</span>
+<span class="sd">        - snps_per_window: fixed number of SNPs</span>
+
+<span class="sd">    Output:</span>
+<span class="sd">        - snps_window[chr_num-window] = [start, stop, nb-snps]</span>
+
+<span class="sd">    Determine the SNP distribution over sliding windows, each containing a fixed number of SNPs,</span>
+<span class="sd">    with each new window starting at the midpoint of the previous window in terms of SNP count.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">snps_window</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+    <span class="n">current_snps</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">cur_chr</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">window_index</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">initial_window</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">special_window_count</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">snp_info</span> <span class="ow">in</span> <span class="n">offspring_snps</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="nb">chr</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">GT</span><span class="p">,</span> <span class="n">ADref</span><span class="p">,</span> <span class="n">ADalt</span><span class="p">,</span> <span class="n">genotype</span> <span class="o">=</span> <span class="n">snp_info</span>
+        <span class="n">ADref</span><span class="p">,</span> <span class="n">ADalt</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ADref</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">ADalt</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">chr</span> <span class="o">!=</span> <span class="n">cur_chr</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">current_snps</span><span class="p">:</span>  <span class="c1"># Handle the last two windows of the previous chromosome</span>
+                <span class="n">process_final_windows</span><span class="p">(</span><span class="n">current_snps</span><span class="p">,</span> <span class="n">snps_window</span><span class="p">,</span> <span class="n">cur_chr</span><span class="p">,</span> <span class="n">window_index</span><span class="p">,</span> <span class="n">snps_per_window</span><span class="p">)</span>
+                <span class="n">current_snps</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Ensure no carry-over of SNPs</span>
+            <span class="c1"># Reset for new chromosome</span>
+            <span class="n">cur_chr</span> <span class="o">=</span> <span class="nb">chr</span>
+            <span class="n">window_index</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">initial_window</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">special_window_count</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">current_snps</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">pos</span><span class="p">,</span> <span class="n">ADref</span><span class="p">,</span> <span class="n">ADalt</span><span class="p">,</span> <span class="n">GT</span><span class="p">))</span>
+
+        <span class="c1"># Determine if current window should be processed</span>
+        <span class="k">if</span> <span class="n">initial_window</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">current_snps</span><span class="p">)</span> <span class="o">==</span> <span class="n">snps_per_window</span> <span class="o">//</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">snps_window</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">chr</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">window_index</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">create_window_output</span><span class="p">(</span><span class="n">current_snps</span><span class="p">,</span> <span class="nb">chr</span><span class="p">,</span> <span class="n">window_index</span><span class="p">)</span>
+                <span class="n">window_index</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">current_snps</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">special_window_count</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">special_window_count</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="n">initial_window</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">current_snps</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">snps_per_window</span><span class="p">:</span>
+            <span class="n">snps_window</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">chr</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">window_index</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">create_window_output</span><span class="p">(</span><span class="n">current_snps</span><span class="p">,</span> <span class="nb">chr</span><span class="p">,</span> <span class="n">window_index</span><span class="p">)</span>
+            <span class="n">window_index</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">current_snps</span> <span class="o">=</span> <span class="n">current_snps</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">current_snps</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">:]</span>  <span class="c1"># Start next window at midpoint of current</span>
+
+    <span class="c1"># Handle any remaining SNPs for the last window of the last chromosome</span>
+    <span class="k">if</span> <span class="n">current_snps</span><span class="p">:</span>
+        <span class="n">process_final_windows</span><span class="p">(</span><span class="n">current_snps</span><span class="p">,</span> <span class="n">snps_window</span><span class="p">,</span> <span class="n">cur_chr</span><span class="p">,</span> <span class="n">window_index</span><span class="p">,</span> <span class="n">snps_per_window</span><span class="p">)</span>
+        <span class="n">current_snps</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Ensure no carry-over of SNPs</span>
+
+    <span class="k">return</span> <span class="n">snps_window</span>
+
+<span class="k">def</span> <span class="nf">create_window_output</span><span class="p">(</span><span class="n">snps</span><span class="p">,</span> <span class="nb">chr</span><span class="p">,</span> <span class="n">window_index</span><span class="p">):</span>
+    <span class="n">ADref_sum</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">snp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">snp</span> <span class="ow">in</span> <span class="n">snps</span><span class="p">)</span>
+    <span class="n">ADalt_sum</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">snp</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">snp</span> <span class="ow">in</span> <span class="n">snps</span><span class="p">)</span>
+    <span class="n">DP_sum</span> <span class="o">=</span> <span class="n">ADref_sum</span> <span class="o">+</span> <span class="n">ADalt_sum</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="n">snps</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>  <span class="c1"># start_pos</span>
+        <span class="n">snps</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>  <span class="c1"># stop_pos</span>
+        <span class="n">ADref_sum</span><span class="p">,</span>
+        <span class="n">ADalt_sum</span><span class="p">,</span>
+        <span class="n">DP_sum</span><span class="p">,</span>
+        <span class="nb">sum</span><span class="p">(</span><span class="s2">&quot;0&quot;</span> <span class="ow">in</span> <span class="n">snp</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="k">for</span> <span class="n">snp</span> <span class="ow">in</span> <span class="n">snps</span><span class="p">),</span>  <span class="c1"># nbSNP_Aref</span>
+        <span class="nb">sum</span><span class="p">(</span><span class="s2">&quot;1&quot;</span> <span class="ow">in</span> <span class="n">snp</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="k">for</span> <span class="n">snp</span> <span class="ow">in</span> <span class="n">snps</span><span class="p">),</span>  <span class="c1"># nbSNP_Aalt</span>
+        <span class="nb">len</span><span class="p">(</span><span class="n">snps</span><span class="p">)</span>  <span class="c1"># count of SNPs</span>
+    <span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">process_final_windows</span><span class="p">(</span><span class="n">current_snps</span><span class="p">,</span> <span class="n">snps_window</span><span class="p">,</span> <span class="nb">chr</span><span class="p">,</span> <span class="n">window_index</span><span class="p">,</span> <span class="n">snps_per_window</span><span class="p">):</span>
+    <span class="n">half_window_size</span> <span class="o">=</span> <span class="n">snps_per_window</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">current_snps</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">half_window_size</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Creating two half-sized windows&quot;</span><span class="p">)</span>
+            <span class="n">snps_window</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">chr</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">window_index</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">create_window_output</span><span class="p">(</span><span class="n">current_snps</span><span class="p">[:</span><span class="n">half_window_size</span><span class="p">],</span> <span class="nb">chr</span><span class="p">,</span> <span class="n">window_index</span><span class="p">)</span>
+            <span class="n">window_index</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">snps_window</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">chr</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">window_index</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">create_window_output</span><span class="p">(</span><span class="n">current_snps</span><span class="p">[</span><span class="n">half_window_size</span><span class="p">:</span><span class="mi">2</span><span class="o">*</span><span class="n">half_window_size</span><span class="p">],</span> <span class="nb">chr</span><span class="p">,</span> <span class="n">window_index</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">current_snps</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">half_window_size</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Creating one half-sized window&quot;</span><span class="p">)</span>
+            <span class="n">snps_window</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">chr</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">window_index</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">create_window_output</span><span class="p">(</span><span class="n">current_snps</span><span class="p">[:</span><span class="n">half_window_size</span><span class="p">],</span> <span class="nb">chr</span><span class="p">,</span> <span class="n">window_index</span><span class="p">)</span>
+            <span class="n">window_index</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">current_snps</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">half_window_size</span><span class="p">:</span>
+                <span class="n">snps_window</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">chr</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">window_index</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">create_window_output</span><span class="p">(</span><span class="n">current_snps</span><span class="p">[</span><span class="n">half_window_size</span><span class="p">:],</span> <span class="nb">chr</span><span class="p">,</span> <span class="n">window_index</span><span class="p">)</span>
+                <span class="n">window_index</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Creating last window with remaining SNPs&quot;</span><span class="p">)</span>
+            <span class="n">snps_window</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">chr</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">window_index</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">create_window_output</span><span class="p">(</span><span class="n">current_snps</span><span class="p">,</span> <span class="nb">chr</span><span class="p">,</span> <span class="n">window_index</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">IndexError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error processing final windows: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Explanation:</strong></p>
+<p><cite>OffspringSlidingWindowBySNPs</cite>:
+- <strong>Input:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p><cite>offspring_snps</cite>: A dictionary containing the SNPs of the offspring.</p></li>
+<li><p><cite>snps_per_window</cite>: This is an integer that sets the fixed number of SNPs to include in each window. It defaults to 20 if not specified otherwise.</p></li>
+</ul>
+</div></blockquote>
+<ul>
+<li><p><strong>Functionality:</strong>
+- Initialization: Sets up dictionaries for output and lists for current SNPs, as well as variables to track the current chromosome, window index, and initial window handling.
+- Window Creation:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Iterates through SNP entries, changing chromosome handling and resetting windows if necessary.</p></li>
+<li><p>Gathers SNPs until it reaches the pre-defined window size. If it is in an initial window setup, it uses half the window size.</p></li>
+<li><p>Once enough SNPs are gathered for a window, it delegates to create_window_output to generate the window details.</p></li>
+<li><p>Handles half-sized windows at the beginning and at chromosome transitions using the process_final_windows function for appropriate window wrapping up.</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><dl class="simple">
+<dt>Special Window Handling:</dt><dd><ul>
+<li><p>Manages the transition between regular and initial window settings, including a midpoint transition to start new windows.</p></li>
+<li><p>Calls helper functions to aggregate and format SNP data for output based on depth and genotype counts.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>Finally, it records these parameters for each window in a dictionary <cite>snps_window</cite> with a unique key for each window.</p></li>
+</ul>
+</li>
+<li><p><strong>Output:</strong>
+- <cite>snps_window</cite>: A dictionary containing the sum of each parameter for all SNPs in each sliding window for each chromosome of the offspring. Each entry in the dictionary has a key consisting of the chromosome number and window number, and the value is a list containing the start position, end position, <cite>ADref</cite>, <cite>ADalt</cite>, <cite>DP</cite>, <cite>nbSNP_Aref</cite>, <cite>nbSNP_Aalt</cite>, and <cite>TOTsnps-window</cite>.</p></li>
+</ul>
+</section>
+<section id="function-normalizeoffspringslidingwindowsnps">
+<h2>Function : NormalizeOffspringSlidingWindowsnps<a class="headerlink" href="#function-normalizeoffspringslidingwindowsnps" title="Permalink to this heading">#</a></h2>
+<p><strong>Code :</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">NormalizeOffspringSlidingWindowsnps</span><span class="p">(</span><span class="n">parental_snps_window</span><span class="p">:</span><span class="n">OrderedDict</span><span class="p">,</span> \
+        <span class="n">offspring_snps_window</span><span class="p">:</span><span class="n">OrderedDict</span><span class="p">,</span> <span class="n">geno_ref</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">geno_alt</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> \
+        <span class="n">min_snp_num</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">min_reads_num</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">ratio_min_homo</span><span class="p">:</span><span class="nb">float</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">depth_division_th</span><span class="p">:</span><span class="nb">float</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>   <span class="c1"># modify MY</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Description:    dertermine the main genotype of each window according to the</span>
+<span class="sd">                    ratio of ADref/DP and ADalt/DP and by calculating the</span>
+<span class="sd">                    probability to be homozygous and heterozygous.</span>
+<span class="sd">    Input:</span>
+<span class="sd">    - parental_snps_window:         output of ParentalSlidingWindow()</span>
+<span class="sd">    - offspring_snps_window:        output of OffspringSlidingWindow()</span>
+<span class="sd">    - geno_ref:                     genotype of reference parent</span>
+<span class="sd">    - geno_alt:                     genotype of alternative parent</span>
+<span class="sd">    - min_snp_num:          minimum number of SNPs in the window to calculate the</span>
+<span class="sd">                        ratio and determine the genotype (default: 16)</span>
+<span class="sd">    - min_reads_num:        minimum number of coverage in the window to calculate</span>
+<span class="sd">                        the ratio and determine the genotype (default: 10)</span>
+<span class="sd">    - ratio_min_homo:       minimum frequency of AD/DP to be homozygous (float</span>
+<span class="sd">                        between 0 and 1     excluded, default = 0.9)</span>
+<span class="sd">    - depth_division_th:   depth division based on window size, default = 1 when window_size = 100 kb    # modify MY</span>
+<span class="sd">    Output:</span>
+<span class="sd">    - snps_window[chr_num-window] = [start, stop, ADref, ADalt, DP]</span>
+<span class="sd">    - geno_window[chr_num-window] = [start, stop, ratio_ADref/DP,</span>
+<span class="sd">                                    ratio_ADalt_DP, prob_homo_ref, prob_hetero,</span>
+<span class="sd">                                    prob_homo_alt, genotype]</span>
+<span class="sd">    - nb_window_chr[chr_num-window] = number of window by chromosome</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nb">print</span><span class="p">()</span>
+    <span class="n">hues</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Normalize offspring sliding window&quot;</span><span class="p">)</span>
+
+    <span class="n">snps_window</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+    <span class="c1"># snps_window[chr_window] = [start, stop, ADref, ADalt, DP]</span>
+    <span class="n">geno_window</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+    <span class="c1"># geno_window[chr_window] = [start, stop, ADref/DP, ADalt/DP, probHomoA,probHeteroAB, probHomoB, genotype]</span>
+    <span class="n">nb_window_chr</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+    <span class="c1"># nb_window_chr[chr] = nb_window</span>
+
+    <span class="k">if</span> <span class="n">ratio_min_homo</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">ratio_min_homo</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid homozygous frequency. This value must be between 0 and 1 excluded !&quot;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">key_window</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">offspring_snps_window</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="c1">## offspring_snps_window[chr_num-window] = [start,stop,ADref,ADalt,DP,nbSNPref,nbSNPalt,TOTsnps-window]</span>
+        <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">ad_ref</span><span class="p">,</span> <span class="n">ad_alt</span><span class="p">,</span> <span class="n">dp</span> <span class="o">=</span> <span class="n">value</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">key_window</span> <span class="ow">in</span> <span class="n">parental_snps_window</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">hues</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;NOT include in parental sliding window!&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;All Chr_window of the offspring must be in parental&quot;</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1">## parental_snps_window[chr_num-window] = [start,stop,TOTsnps-window]</span>
+            <span class="n">nb_snps_window</span> <span class="o">=</span> <span class="n">parental_snps_window</span><span class="p">[</span><span class="n">key_window</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="c1"># = nb_snps_window</span>
+            <span class="n">cur_window</span> <span class="o">=</span> <span class="p">[</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span> <span class="c1"># = [start, stop, ADref, ADalt, DP]</span>
+
+            <span class="k">if</span> <span class="n">dp</span> <span class="o">&gt;=</span> <span class="n">min_reads_num</span> <span class="ow">and</span> <span class="n">nb_snps_window</span> <span class="o">&gt;=</span> <span class="n">min_snp_num</span> <span class="p">:</span>
+                <span class="n">cur_window</span> <span class="o">=</span> <span class="p">[</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">ad_ref</span><span class="p">,</span> <span class="n">ad_alt</span><span class="p">,</span> <span class="n">dp</span><span class="p">]</span>
+
+            <span class="n">snps_window</span><span class="p">[</span><span class="n">key_window</span><span class="p">]</span> <span class="o">=</span> <span class="n">cur_window</span>
+            <span class="n">geno_window</span><span class="p">[</span><span class="n">key_window</span><span class="p">]</span> <span class="o">=</span> <span class="n">GetGenoWindowsnps</span><span class="p">(</span><span class="n">cur_window</span><span class="p">,</span> <span class="n">geno_ref</span><span class="p">,</span> <span class="n">geno_alt</span><span class="p">,</span> <span class="n">ratio_min_homo</span><span class="p">,</span> <span class="n">depth_division_th</span><span class="p">)</span>
+
+            <span class="c1"># save the last window of each chromosome in a dictionnary nb_window_chr[chr]=num_last_window</span>
+            <span class="nb">chr</span> <span class="o">=</span> <span class="n">key_window</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">win_id</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">key_window</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">if</span> <span class="nb">chr</span> <span class="ow">in</span> <span class="n">nb_window_chr</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">win_id</span> <span class="o">&gt;</span> <span class="n">nb_window_chr</span><span class="p">[</span><span class="nb">chr</span><span class="p">]:</span>
+                    <span class="n">nb_window_chr</span><span class="p">[</span><span class="nb">chr</span><span class="p">]</span> <span class="o">=</span> <span class="n">win_id</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">nb_window_chr</span><span class="p">[</span><span class="nb">chr</span><span class="p">]</span> <span class="o">=</span> <span class="n">win_id</span>
+
+    <span class="k">return</span> <span class="n">snps_window</span><span class="p">,</span> <span class="n">geno_window</span><span class="p">,</span> <span class="n">nb_window_chr</span>
+</pre></div>
+</div>
+<p><strong>Explanation:</strong></p>
+<p><cite>NormalizeOffspringSlidingWindowsnps</cite>: This function normalizes the SNP data of the offspring based on the parent’s data. It also determines the predominant genotype of each window based on the <cite>ADref/DP</cite> and <cite>ADalt/DP</cite> ratios, using a minimum frequency to consider a SNP as homozygous.
+- <strong>Input:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p><cite>parental_snps_window</cite>: The output from the <cite>ParentalSlidingWindow()</cite> function.</p></li>
+<li><p><cite>offspring_snps_window</cite>: The output from the <cite>OffspringSlidingWindow()</cite> function.</p></li>
+<li><p><cite>geno_ref</cite>: The reference genotype of the parent.</p></li>
+<li><p><cite>geno_alt</cite>: The alternative genotype of the parent.</p></li>
+<li><p><cite>min_snp_num</cite>: The minimum number of SNPs in the window required to calculate the ratio and determine the genotype (default: 16).</p></li>
+<li><p><cite>min_reads_num</cite>: The minimum number of reads in the window required to calculate the ratio and determine the genotype (default: 10).</p></li>
+<li><p><cite>ratio_min_homo</cite>: The minimum frequency of <cite>AD/DP</cite> to be considered homozygous (floating between 0 and 1, default: 0.75).</p></li>
+<li><p>depth_division_th: A floating-point value adjusting depth calculations based on window size, defaults to 1.0 when window size is 100 kb.</p></li>
+</ul>
+</div></blockquote>
+<ul>
+<li><p><strong>Functionality:</strong>
+- The function starts by initializing three ordered dictionaries to store the data:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><cite>snps_window</cite>: Contains information on each SNP window of the offspring.</p></li>
+<li><p><cite>geno_window</cite>: Contains information on the genotype of each SNP window of the offspring.</p></li>
+<li><p><cite>nb_window_chr</cite>: Contains the number of windows for each chromosome.</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p>It then verifies if <cite>ratio_min_homo</cite> is valid. It must be between 0 and 1, exclusive.</p></li>
+<li><p>For each SNP window of the offspring, it extracts information such as start, end, <cite>ADref</cite>, <cite>ADalt</cite>, and <cite>DP</cite>.</p></li>
+<li><p>If the offspring SNP window is not present in the parental windows, it raises an error because all offspring SNP windows must be present in the parental windows.</p></li>
+<li><p>Otherwise, it retrieves the total number of SNPs in the corresponding parental window.</p></li>
+<li><p>If the number of reads (<cite>DP</cite>) is greater than or equal to <cite>min_reads_num</cite> and the total number of SNPs in the parental window is greater than or equal to <cite>min_snp_num</cite>, it updates the information for the offspring SNP window in <cite>snps_window</cite>.</p></li>
+<li><p>It then determines the genotype of each SNP window of the offspring by calling the <cite>GetGenoWindow</cite> function.</p></li>
+<li><p>Finally, it records the number of the last window of each chromosome in <cite>nb_window_chr</cite>.</p></li>
+</ul>
+</li>
+<li><p><strong>Output:</strong>
+Three elements are returned:
+- <cite>snps_window</cite>: A dictionary containing information on each SNP window of the offspring.
+- <cite>geno_window</cite>: A dictionary containing information on the genotype of each SNP window of the offspring.
+- <cite>nb_window_chr</cite>: A dictionary containing the number of windows for each chromosome.</p></li>
+</ul>
+</section>
+<section id="function-smoothnormalizedosffspringslidingwindowsnps">
+<h2>Function : SmoothNormalizedOsffspringSlidingWindowsnps<a class="headerlink" href="#function-smoothnormalizedosffspringslidingwindowsnps" title="Permalink to this heading">#</a></h2>
+<p><strong>Code :</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">SmoothNormalizedOsffspringSlidingWindowsnps</span><span class="p">(</span><span class="n">offspring_snps_window</span><span class="p">:</span><span class="n">OrderedDict</span><span class="p">,</span>\
+        <span class="n">nb_windows_chr</span><span class="p">:</span><span class="n">OrderedDict</span><span class="p">,</span> <span class="n">geno_ref</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>\
+        <span class="n">geno_alt</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">ratio_min_homo</span><span class="p">:</span><span class="nb">float</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">depth_division_th</span><span class="p">:</span><span class="nb">float</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>           <span class="c1"># modify MY</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Description:    determine the sum of each parameters of all SNPs in the</span>
+<span class="sd">                    window. Paramaters studied: ADref, ADalt, DP, SNP with at</span>
+<span class="sd">                    least one reference allele, SNP with at least one reference</span>
+<span class="sd">                    allele, number of SNPs to the window size and the sliding</span>
+<span class="sd">                    size.</span>
+<span class="sd">    Input:</span>
+<span class="sd">    - offspring_snps_window:        first output of NormalizeOffspringSlidingWindow()</span>
+<span class="sd">    - nb_windows_chr:       number of window per chromosome, determine with function</span>
+<span class="sd">                        NormalizeOffspringSlidingWindow()</span>
+<span class="sd">    - geno_ref:     genotype of reference</span>
+<span class="sd">    - geno_alt:     genotype of alternative</span>
+<span class="sd">    - ratio_min_homo:       minimum ratio of AD/DP to consider SNPs as homozygous</span>
+<span class="sd">    - depth_division_th:   depth division based on window size, default = 1 when window_size = 100 kb              # modify MY</span>
+<span class="sd">    Output:</span>
+<span class="sd">    - snps_window[chr_num-window] = [start, stop, ADref, ADalt, DP]</span>
+<span class="sd">    - geno_window[chr_num-window]  = [start, stop, ratio_ADref/DP, ratio_ADalt_DP,</span>
+<span class="sd">    prob_homo_ref, prob_hetero, prob_homo_alt, genotype]</span>
+<span class="sd">    - nb_window_chr[chr_num-window] = number of window by chromosome</span>
+<span class="sd">    - check_smoothed : allow to check whether smoothing takes into account the right windows</span>
+<span class="sd">    check_smoothed[chr_window] = [start_window, stop_window, start_smooth, stop_smooth]</span>
+<span class="sd">    Notes:</span>
+<span class="sd">    - All windows overlapping or inside centromeric region are associated</span>
+<span class="sd">    with NA genotype. But to smooth window next to centromeric region, we use</span>
+<span class="sd">    window overlapping or inside centromeric region.</span>
+<span class="sd">    - ratio_min_hetero is automatically consider as 1-ratio_min_homo</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nb">print</span><span class="p">()</span>
+    <span class="n">hues</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Smooth normalized offspring sliding window&quot;</span><span class="p">)</span>
+
+    <span class="n">snps_window</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+    <span class="n">geno_window</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+    <span class="n">nb_window_chr</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+    <span class="n">check_smoothed</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">cur_chr</span><span class="p">,</span> <span class="n">nb_win_chr</span> <span class="ow">in</span> <span class="n">nb_windows_chr</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">nb_window_chr</span><span class="p">[</span><span class="n">cur_chr</span><span class="p">]</span> <span class="o">=</span> <span class="n">nb_win_chr</span> <span class="c1"># nb window for each chromosome</span>
+
+        <span class="k">for</span> <span class="n">num_win</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">nb_win_chr</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">key_window</span> <span class="o">=</span> <span class="n">cur_chr</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">num_win</span><span class="p">)</span>
+            <span class="n">start_win_smooth</span> <span class="o">=</span> <span class="n">num_win</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="n">stop_win_smooth</span> <span class="o">=</span> <span class="n">num_win</span> <span class="o">+</span> <span class="mi">1</span>
+
+            <span class="k">if</span> <span class="n">start_win_smooth</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">start_win_smooth</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">stop_win_smooth</span> <span class="o">&gt;</span> <span class="n">nb_win_chr</span><span class="p">:</span>
+                <span class="n">stop_win_smooth</span> <span class="o">=</span> <span class="n">nb_win_chr</span>
+
+            <span class="n">pos_start_cur_win</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">offspring_snps_window</span><span class="p">[</span><span class="n">key_window</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">pos_stop_cur_win</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">offspring_snps_window</span><span class="p">[</span><span class="n">key_window</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+            <span class="c1"># Note: Offspring_slidingGenoWindow[chr_num-window] = [start,stop,ADref,ADalt,DP]</span>
+
+            <span class="n">cur_window</span> <span class="o">=</span> <span class="p">[</span><span class="n">pos_start_cur_win</span><span class="p">,</span> <span class="n">pos_stop_cur_win</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+            <span class="c1"># cur_window = [pos_start_cur_win, pos_stop_cur_wind, ADref, ADalt, depth]]</span>
+
+            <span class="n">win</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="k">for</span> <span class="n">window</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start_win_smooth</span><span class="p">,</span> <span class="n">stop_win_smooth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">key</span> <span class="o">=</span> <span class="n">cur_chr</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">window</span><span class="p">)</span>
+                <span class="n">cur_window</span> <span class="o">=</span> <span class="p">[</span><span class="n">pos_start_cur_win</span><span class="p">,</span> <span class="n">pos_stop_cur_win</span><span class="p">,</span>\
+                <span class="nb">int</span><span class="p">(</span><span class="n">cur_window</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">offspring_snps_window</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="mi">2</span><span class="p">]),</span>\
+                <span class="nb">int</span><span class="p">(</span><span class="n">cur_window</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="n">offspring_snps_window</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="mi">3</span><span class="p">]),</span>\
+                <span class="nb">int</span><span class="p">(</span><span class="n">cur_window</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">+</span> <span class="n">offspring_snps_window</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="mi">4</span><span class="p">])]</span>
+                <span class="k">if</span> <span class="n">win</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="p">:</span>
+                    <span class="n">win</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">window</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">win</span> <span class="o">=</span> <span class="n">win</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">window</span><span class="p">)</span>
+
+
+            <span class="n">snps_window</span><span class="p">[</span><span class="n">key_window</span><span class="p">]</span> <span class="o">=</span> <span class="n">cur_window</span>
+
+            <span class="n">geno_window</span><span class="p">[</span><span class="n">key_window</span><span class="p">]</span> <span class="o">=</span> <span class="n">GetGenoWindowsnps</span><span class="p">(</span><span class="n">cur_window</span><span class="p">,</span> <span class="n">geno_ref</span><span class="p">,</span> <span class="n">geno_alt</span><span class="p">,</span> <span class="n">ratio_min_homo</span><span class="p">,</span> <span class="n">depth_division_th</span><span class="p">)</span>
+
+            <span class="n">check_smoothed</span><span class="p">[</span><span class="n">key_window</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">pos_start_cur_win</span><span class="p">,</span> <span class="n">pos_stop_cur_win</span><span class="p">,</span> \
+                <span class="n">start_win_smooth</span><span class="p">,</span> <span class="n">stop_win_smooth</span><span class="p">,</span> <span class="n">win</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">snps_window</span><span class="p">,</span> <span class="n">geno_window</span><span class="p">,</span> <span class="n">check_smoothed</span>
+</pre></div>
+</div>
+<p><strong>Explanation:</strong></p>
+<p><cite>SmoothNormalizedOsffspringSlidingWindowsnps</cite>: This function smooths the normalized SNP data of the offspring by considering neighboring windows. It accounts for centromeric regions and assigns a “NA” genotype to windows that overlap or are within these regions.
+- <strong>Input:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p><cite>offspring_snps_window</cite>: The first element from the output of the <cite>NormalizeOffspringSlidingWindow()</cite> function.</p></li>
+<li><p><cite>nb_windows_chr</cite>: The number of windows per chromosome, determined with the <cite>NormalizeOffspringSlidingWindow()</cite> function.</p></li>
+<li><p><cite>centromere</cite>: An ordered dictionary with the boundaries of the centromeric region for each chromosome.</p></li>
+<li><p><cite>geno_ref</cite>: The genotype of the reference parent.</p></li>
+<li><p><cite>geno_alt</cite>: The genotype of the alternative parent.</p></li>
+<li><p><cite>ratio_min_homo</cite>: The minimum <cite>AD/DP</cite> ratio to consider SNPs as homozygous.</p></li>
+<li><p>depth_division_th: A float specifying how depth values are adjusted based on window size, with a default of 1 when the window size is 100 kb.</p></li>
+</ul>
+</div></blockquote>
+<ul>
+<li><p><strong>Functionality:</strong>
+- The function begins by initializing three ordered dictionaries to store the data:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><cite>snps_window</cite>: Contains information on each SNP window of the offspring.</p></li>
+<li><p><cite>geno_window</cite>: Contains information on the genotype of each SNP window of the offspring.</p></li>
+<li><p><cite>check_smoothed</cite>: Used to verify if the smoothing takes into account the correct windows.</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p>For each chromosome and each SNP window of the offspring:
+- It retrieves the boundaries of the centromeric region for the current chromosome.
+- It defines the smoothing windows as the current window minus one and the current window plus one, ensuring they do not exceed the bounds.
+- It calculates the sum of <cite>ADref</cite>, <cite>ADalt</cite>, and <cite>DP</cite> for all smoothing windows that do not intersect or are inside the centromeric region.
+- Updates the information in the corresponding dictionaries.
+- Also stores information about the smoothing windows for verification.</p></li>
+</ul>
+</li>
+<li><p><strong>Output:</strong>
+Three elements are returned:
+- <cite>snps_window</cite>: A dictionary containing information on each SNP window of the offspring.
+- <cite>geno_window</cite>: A dictionary containing information on the genotype of each SNP window of the offspring.
+- <cite>check_smoothed</cite>: A dictionary to verify if the smoothing considers the correct windows.</p></li>
+</ul>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="Test_yaml_detectCOs_BC_EMS.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Test_yaml_detectCOs_BC_EMS.yaml</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="detectCOs_required_functions_EMS.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">detectCOs_required_functions_EMS.py</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2024, Mohamad Yassine
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">detectCOs_sliding_window_EMS.py</a><ul>
+<li><a class="reference internal" href="#function-parentalslidingwindowsnps">Function : ParentalSlidingWindowSNPs</a></li>
+<li><a class="reference internal" href="#function-offspringslidingwindowbysnps">Function : OffspringSlidingWindowBySNPs</a></li>
+<li><a class="reference internal" href="#function-normalizeoffspringslidingwindowsnps">Function : NormalizeOffspringSlidingWindowsnps</a></li>
+<li><a class="reference internal" href="#function-smoothnormalizedosffspringslidingwindowsnps">Function : SmoothNormalizedOsffspringSlidingWindowsnps</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/scripts/furo.js"></script>
+    </body>
+</html>

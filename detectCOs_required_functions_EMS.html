@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="detectCOs_required_functions.py" href="detectCOs_required_functions.html" /><link rel="prev" title="Usage" href="usage.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="detectCOs_sliding_window_EMS.py" href="detectCOs_sliding_window_EMS.html" /><link rel="prev" title="detectCOs_identifyCOs_EMS.py" href="detectCOs_identifyCOs_EMS.html" />
 
     <!-- Generated with Sphinx 5.3.0 and Furo 2023.03.27 -->
-        <title>config_detectCOs_CG.yaml - detectCOs 2.0 documentation</title>
+        <title>detectCOs_required_functions_EMS.py - detectCOs 2.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -134,7 +134,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -156,7 +156,7 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">config_detectCOs_CG.yaml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config_detectCOs_CG.html">config_detectCOs_CG.yaml</a></li>
 <li class="toctree-l1"><a class="reference internal" href="detectCOs_required_functions.html">detectCOs_required_functions.py</a></li>
 <li class="toctree-l1"><a class="reference internal" href="detectCOs_read_files.html">detectCOs_read_files.py</a></li>
 <li class="toctree-l1"><a class="reference internal" href="detectCOs_sliding_window.html">detectCOs_sliding_window.py</a></li>
@@ -166,7 +166,7 @@
 <li class="toctree-l1"><a class="reference internal" href="Test_yaml_detectCOs_BC.html">Test_yaml_detectCOs_BC.yaml</a></li>
 <li class="toctree-l1"><a class="reference internal" href="VisualiseGenotypesChromosome.html">VisualiseGenotypesChromosome.py</a></li>
 <li class="toctree-l1"><a class="reference internal" href="detectCOs_identifyCOs_EMS.html">detectCOs_identifyCOs_EMS.py</a></li>
-<li class="toctree-l1"><a class="reference internal" href="detectCOs_required_functions_EMS.html">detectCOs_required_functions_EMS.py</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">detectCOs_required_functions_EMS.py</a></li>
 <li class="toctree-l1"><a class="reference internal" href="detectCOs_sliding_window_EMS.html">detectCOs_sliding_window_EMS.py</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Test_yaml_detectCOs_BC_EMS.html">Test_yaml_detectCOs_BC_EMS.yaml</a></li>
 </ul>
@@ -197,39 +197,82 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main">
-          <section id="config-detectcos-cg-yaml">
-<h1>config_detectCOs_CG.yaml<a class="headerlink" href="#config-detectcos-cg-yaml" title="Permalink to this heading">#</a></h1>
-<p>This is a <cite>config_detectCOs_CG.yaml</cite> file used for creating a Conda environment named <cite>detectCOs</cite>. It specifies the channels where Conda will search for packages (<cite>conda-forge</cite>, <cite>bioconda</cite>, <cite>defaults</cite>, <cite>atgc-montpellier</cite>, and <cite>r</cite>) and lists the dependencies required for the environment.</p>
-<p><strong>Code :</strong></p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">detectCOs</span>
-<span class="nt">channels</span><span class="p">:</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">conda-forge</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bioconda</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">defaults</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">atgc-montpellier</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">r</span>
-<span class="nt">dependencies</span><span class="p">:</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python=3.9</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pip=23.2</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">pip</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hues==0.2.2</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">scipy==1.11.1</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pyyaml==6.0.1</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">r-base=4.2</span><span class="w"> </span><span class="c1">#changed from 4.3.1 to resolve conflict</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">r-dplyr=1.1.3</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">r-stringr=1.5.0</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">r-yaml=2.3.7</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">r-data.table=1.14.8</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">r-unix=1.5.4</span>
+          <section id="detectcos-required-functions-ems-py">
+<h1>detectCOs_required_functions_EMS.py<a class="headerlink" href="#detectcos-required-functions-ems-py" title="Permalink to this heading">#</a></h1>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">decimal</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">scipy</span>
 </pre></div>
 </div>
-<p>This file defines the environment requirements for running the <cite>detectCOs</cite> tool, ensuring that all necessary dependencies are installed in a consistent and reproducible manner.</p>
+<section id="function-getgenowindowsnps">
+<h2>Function : GetGenoWindowsnps<a class="headerlink" href="#function-getgenowindowsnps" title="Permalink to this heading">#</a></h2>
+<p><strong>Code :</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">GetGenoWindowsnps</span><span class="p">(</span><span class="n">cur_window</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">genoRef</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">genoAlt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">No_EMS_freq</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">depth_division_th</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Determine the genotype based on the allele frequency ratios (ADref/DP and ADalt/DP).</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    - cur_window: List containing the start, stop positions, ADref, ADalt, and DP.</span>
+<span class="sd">    - genoRef: Reference genotype.</span>
+<span class="sd">    - genoAlt: Alternative genotype.</span>
+<span class="sd">    - No_EMS_freq: Frequency threshold below which a genotype is considered not EMS (mutated).</span>
+<span class="sd">    - depth_division_th: Depth threshold to consider for genotyping.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    - cur_geno: List with start, stop positions, ADref/DP, ADalt/DP, and inferred genotype.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Unpack the current window details</span>
+    <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">ADref</span><span class="p">,</span> <span class="n">ADalt</span><span class="p">,</span> <span class="n">depth</span> <span class="o">=</span> <span class="n">cur_window</span>
+
+    <span class="c1"># Calculate the allele frequency ratios</span>
+    <span class="k">if</span> <span class="n">depth</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">ratio_ADref_DP</span> <span class="o">=</span> <span class="n">ratio_ADalt_DP</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ratio_ADref_DP</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">ADref</span> <span class="o">/</span> <span class="n">depth</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">ratio_ADalt_DP</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">ADalt</span> <span class="o">/</span> <span class="n">depth</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+    <span class="c1"># Initialize the genotype determination as &#39;NA&#39;</span>
+    <span class="n">genotype</span> <span class="o">=</span> <span class="s1">&#39;NA&#39;</span>
+
+    <span class="c1"># Determine the genotype based on the ratios and depth threshold</span>
+    <span class="k">if</span> <span class="n">depth</span> <span class="o">&gt;=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">depth_division_th</span><span class="p">:</span>  <span class="c1"># Adjust the multiplier as needed</span>
+        <span class="k">if</span>  <span class="n">ratio_ADalt_DP</span> <span class="o">&gt;=</span> <span class="n">No_EMS_freq</span><span class="p">:</span>
+            <span class="n">genotype</span> <span class="o">=</span> <span class="n">genoRef</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">genotype</span> <span class="o">=</span> <span class="n">genoAlt</span>
+
+    <span class="c1"># Compile the current genotype information</span>
+    <span class="n">cur_geno</span> <span class="o">=</span> <span class="p">[</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">ratio_ADref_DP</span><span class="p">,</span> <span class="n">ratio_ADalt_DP</span><span class="p">,</span> <span class="n">genotype</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">cur_geno</span>
+</pre></div>
+</div>
+<p><strong>Explanation:</strong></p>
+<p><cite>GetGenoWindow</cite>: This function determines the genotype of a genetic window based on the ratios of reads aligned to the reference and alternative alleles, as well as sequencing depth. It returns a list containing information about the genetic window, including the predicted genotype, etc.
+- <strong>Input:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p><cite>cur_window</cite>: List containing elements of the window [start, stop, ADref, ADalt, DP].</p></li>
+<li><p><cite>genoRef</cite>: Reference genotype.</p></li>
+<li><p><cite>genoAlt</cite>: Alternative genotype.</p></li>
+<li><p><cite>No_EMS_freq</cite>: Minimum frequency (defaulted to 0.1).</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p><strong>Functionality:</strong>
+- The function first calculates the ADref/DP and ADalt/DP ratios.
+- Finally, it determines the genotype of the window based on the probabilities and returns it in <cite>cur_geno</cite>.</p></li>
+<li><p><strong>Output:</strong>
+- <cite>cur_geno</cite>: List containing the elements of the window along with the determined probabilities and genotype.</p></li>
+</ul>
+</section>
 </section>
 
         </article>
@@ -237,23 +280,23 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="detectCOs_required_functions.html">
+          <a class="next-page" href="detectCOs_sliding_window_EMS.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">detectCOs_required_functions.py</div>
+                <div class="title">detectCOs_sliding_window_EMS.py</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="usage.html">
+          <a class="prev-page" href="detectCOs_identifyCOs_EMS.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Usage</div>
+                <div class="title">detectCOs_identifyCOs_EMS.py</div>
                 
               </div>
             </a>
@@ -275,8 +318,27 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">detectCOs_required_functions_EMS.py</a><ul>
+<li><a class="reference internal" href="#function-getgenowindowsnps">Function : GetGenoWindowsnps</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>

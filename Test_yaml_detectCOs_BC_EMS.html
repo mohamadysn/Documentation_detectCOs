@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="detectCOs_required_functions.py" href="detectCOs_required_functions.html" /><link rel="prev" title="Usage" href="usage.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="prev" title="detectCOs_sliding_window_EMS.py" href="detectCOs_sliding_window_EMS.html" />
 
     <!-- Generated with Sphinx 5.3.0 and Furo 2023.03.27 -->
-        <title>config_detectCOs_CG.yaml - detectCOs 2.0 documentation</title>
+        <title>Test_yaml_detectCOs_BC_EMS.yaml - detectCOs 2.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -134,7 +134,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -156,7 +156,7 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">config_detectCOs_CG.yaml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config_detectCOs_CG.html">config_detectCOs_CG.yaml</a></li>
 <li class="toctree-l1"><a class="reference internal" href="detectCOs_required_functions.html">detectCOs_required_functions.py</a></li>
 <li class="toctree-l1"><a class="reference internal" href="detectCOs_read_files.html">detectCOs_read_files.py</a></li>
 <li class="toctree-l1"><a class="reference internal" href="detectCOs_sliding_window.html">detectCOs_sliding_window.py</a></li>
@@ -168,7 +168,7 @@
 <li class="toctree-l1"><a class="reference internal" href="detectCOs_identifyCOs_EMS.html">detectCOs_identifyCOs_EMS.py</a></li>
 <li class="toctree-l1"><a class="reference internal" href="detectCOs_required_functions_EMS.html">detectCOs_required_functions_EMS.py</a></li>
 <li class="toctree-l1"><a class="reference internal" href="detectCOs_sliding_window_EMS.html">detectCOs_sliding_window_EMS.py</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Test_yaml_detectCOs_BC_EMS.html">Test_yaml_detectCOs_BC_EMS.yaml</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Test_yaml_detectCOs_BC_EMS.yaml</a></li>
 </ul>
 
 </div>
@@ -197,39 +197,116 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main">
-          <section id="config-detectcos-cg-yaml">
-<h1>config_detectCOs_CG.yaml<a class="headerlink" href="#config-detectcos-cg-yaml" title="Permalink to this heading">#</a></h1>
-<p>This is a <cite>config_detectCOs_CG.yaml</cite> file used for creating a Conda environment named <cite>detectCOs</cite>. It specifies the channels where Conda will search for packages (<cite>conda-forge</cite>, <cite>bioconda</cite>, <cite>defaults</cite>, <cite>atgc-montpellier</cite>, and <cite>r</cite>) and lists the dependencies required for the environment.</p>
-<p><strong>Code :</strong></p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">detectCOs</span>
-<span class="nt">channels</span><span class="p">:</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">conda-forge</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bioconda</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">defaults</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">atgc-montpellier</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">r</span>
-<span class="nt">dependencies</span><span class="p">:</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python=3.9</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pip=23.2</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">pip</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hues==0.2.2</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">scipy==1.11.1</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pyyaml==6.0.1</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">r-base=4.2</span><span class="w"> </span><span class="c1">#changed from 4.3.1 to resolve conflict</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">r-dplyr=1.1.3</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">r-stringr=1.5.0</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">r-yaml=2.3.7</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">r-data.table=1.14.8</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">r-unix=1.5.4</span>
+          <section id="test-yaml-detectcos-bc-ems-yaml">
+<h1>Test_yaml_detectCOs_BC_EMS.yaml<a class="headerlink" href="#test-yaml-detectcos-bc-ems-yaml" title="Permalink to this heading">#</a></h1>
+<section id="config-file-for-detectcos-tools">
+<h2>CONFIG FILE FOR detectCOs TOOLS<a class="headerlink" href="#config-file-for-detectcos-tools" title="Permalink to this heading">#</a></h2>
+<p>This configuration file specifies the paths to various files required for the analysis as well as the tool’s parameters.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>ALL PARAMETERS ARE MANDATORY !!!</p>
+</div>
+<p><strong>1. General path informations</strong></p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">path_to_polyrec_project</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">path/to/folder/polyrec/</span>
+<span class="nt">output_dir_in_polyrec</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">path/to/folder/</span>
 </pre></div>
 </div>
-<p>This file defines the environment requirements for running the <cite>detectCOs</cite> tool, ensuring that all necessary dependencies are installed in a consistent and reproducible manner.</p>
+<p><strong>2. Sample information</strong></p>
+<p>Name of your sample, a directory <cite>analyze_id</cite> will be created in <cite>output_dir_in_polyrec</cite></p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">analyze_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">parental_Col-Ler_offspring_Plate1_A11</span>
+</pre></div>
+</div>
+<p>Prefix used or to be added in CHROM column in parental_vcf and offspring_vcf (they have to be the same between the two files).</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">prefix_chr</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Chr&quot;</span>
+</pre></div>
+</div>
+<p>Path to chromosome length file</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">chr_len</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">path/to/folder/chr_len_athaliana_qichao.txt</span>
+</pre></div>
+</div>
+<p>Path to centromeric region file</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">centromere_reg</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">path/to/folder/centromere_athaliana_qichao.txt</span>
+</pre></div>
+</div>
+<p>Path to parental vcf</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">parental_vcf</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">path/to/folder/parental_golden_snps_139_genotyped_Indiv_28_merged_FORMATTED_IDpoint_noChr_dict_FORMAT.vcf</span>
+</pre></div>
+</div>
+<p>Path to offspring vcf</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">sample_vcf</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">path/to/folder/111355_AA_gt_by_golden_AWKED.vcf</span>
+</pre></div>
+</div>
+<p><strong>3. Tool parameters</strong></p>
+<p>Reference genotype
+.. code-block:: yaml</p>
+<blockquote>
+<div><p>genotype_ref: Col</p>
+</div></blockquote>
+<p>Alternative genotype</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">genotype_alt</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Ct</span>
+</pre></div>
+</div>
+<p>Size of the window (kb). The step size is automatically calcultaed as half the size window. (default: 100 kb)</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">window_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100</span>
+</pre></div>
+</div>
+<p>minimum number of coverage in the window to calculate the ratio and determine the genotype (default: 10)</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">min_reads_num</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+</pre></div>
+</div>
+<p>minimum number of SNPs in the window to calculate the ratio and determine the genotype (default: 16)</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">min_snp_num</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">16</span>
+</pre></div>
+</div>
+<p>minimum frequency of AD/DP to be homozygous (float between 0 and 1 excluded, default: 0.75)</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">ratio_min_homo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.75</span>
+</pre></div>
+</div>
+<p>depth division based on window size, default = 1 when window_size = 100 kb                   # modify MY</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">depth_division_th</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.5</span>
+</pre></div>
+</div>
+<p>Size of the window (kb). To refined the position of CO                     # modify MY</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">new_window_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4</span>
+</pre></div>
+</div>
+<p>new depth division based on window size                                  # modify MY</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">new_depth_division_th</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.5</span>
+</pre></div>
+</div>
+<p>Number of snps needed to define a window
+.. code-block:: yaml</p>
+<blockquote>
+<div><p>snps_per_window: 6</p>
+</div></blockquote>
+<p>Reference genotype EMS
+.. code-block:: yaml</p>
+<blockquote>
+<div><p>EMS_ref: A</p>
+</div></blockquote>
+<p>Alternative genotype EMS
+.. code-block:: yaml</p>
+<blockquote>
+<div><p>EMS_alt: “-”</p>
+</div></blockquote>
+<p>minimum frequency of AD/DP to be EMS (float between 0 and 1 excluded, default: 0.1) # modify MY
+.. code-block:: yaml</p>
+<blockquote>
+<div><p>ratio_min_EMS: 0.2</p>
+</div></blockquote>
+<p>Number of snps needed to define a window
+.. code-block:: yaml</p>
+<blockquote>
+<div><p>new_snp_per_window: 4</p>
+</div></blockquote>
+<p>This configuration file allows customization of the detectCOs tool’s parameters based on the specific data to be analyzed.</p>
+</section>
 </section>
 
         </article>
@@ -237,23 +314,15 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="detectCOs_required_functions.html">
-              <div class="page-info">
-                <div class="context">
-                  <span>Next</span>
-                </div>
-                <div class="title">detectCOs_required_functions.py</div>
-              </div>
-              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
-            </a>
-          <a class="prev-page" href="usage.html">
+          
+          <a class="prev-page" href="detectCOs_sliding_window_EMS.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Usage</div>
+                <div class="title">detectCOs_sliding_window_EMS.py</div>
                 
               </div>
             </a>
@@ -275,8 +344,27 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Test_yaml_detectCOs_BC_EMS.yaml</a><ul>
+<li><a class="reference internal" href="#config-file-for-detectcos-tools">CONFIG FILE FOR detectCOs TOOLS</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>

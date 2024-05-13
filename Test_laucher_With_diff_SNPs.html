@@ -165,6 +165,10 @@
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Test_laucher_With_diff_SNPs.py</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Test_yaml_detectCOs_BC.html">Test_yaml_detectCOs_BC.yaml</a></li>
 <li class="toctree-l1"><a class="reference internal" href="VisualiseGenotypesChromosome.html">VisualiseGenotypesChromosome.py</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detectCOs_identifyCOs_EMS.html">detectCOs_identifyCOs_EMS.py</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detectCOs_required_functions_EMS.html">detectCOs_required_functions_EMS.py</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detectCOs_sliding_window_EMS.html">detectCOs_sliding_window_EMS.py</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Test_yaml_detectCOs_BC_EMS.html">Test_yaml_detectCOs_BC_EMS.yaml</a></li>
 </ul>
 
 </div>
@@ -210,6 +214,8 @@
 <span class="kn">from</span> <span class="nn">detectCOs_read_files</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">detectCOs_sliding_window</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">detectCOs_identifyCOs</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">VisualiseGenotypesChromosomeEMS</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
 </pre></div>
 </div>
 <p>It provides usage instructions for running the script from the command line, specifying the path to the configuration file as an argument.</p>
@@ -539,27 +545,6 @@
                 <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>8.bis. <strong>Visualize Genotype Example</strong>:</p>
-<p>This section of the code is used to visualize genotype information based on the configuration settings. It maps file paths to genotype data and assigns colors to different genotypes for visual representation.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># STEP 8.bis. Visualize Genotype</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-------------------------------------&quot;</span><span class="p">)</span>
-
-<span class="n">file_paths</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="c1"># &#39;directory_name&#39;: &#39;offspring_genotype_window_normalized_smoothed.txt&#39;</span>
-<span class="p">}</span>
-
-<span class="n">file_paths</span><span class="p">[</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;analyze_id&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">outdir</span> <span class="o">+</span> <span class="s1">&#39;offspring_genotype_window_normalized_smoothed.txt&#39;</span>
-
-<span class="n">genotype_colors</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">config</span><span class="p">[</span><span class="s1">&#39;genotype_ref&#39;</span><span class="p">]:</span> <span class="s1">&#39;blue&#39;</span><span class="p">,</span>
-    <span class="n">config</span><span class="p">[</span><span class="s1">&#39;genotype_alt&#39;</span><span class="p">]:</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Col/Ct&#39;</span><span class="p">:</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;NA&#39;</span><span class="p">:</span> <span class="s1">&#39;gray&#39;</span>
-<span class="p">}</span>
-
-<span class="n">visualsize_genotope</span><span class="p">(</span><span class="n">file_paths</span><span class="p">,</span> <span class="n">outdir</span><span class="p">,</span> <span class="n">genotype_colors</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="s1">&#39;genotype&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
 <ol class="arabic simple" start="9">
 <li><dl class="simple">
 <dt><strong>Smooth Offspring Sliding Window</strong>:</dt><dd><ul class="simple">
@@ -628,6 +613,27 @@
                 <span class="n">output_file</span><span class="o">=</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;check_smoothing.txt&quot;</span><span class="p">,</span>
                 <span class="n">header</span><span class="o">=</span><span class="s2">&quot;chr_window</span><span class="se">\t</span><span class="s2">start_window</span><span class="se">\t</span><span class="s2">stop_window</span><span class="se">\t</span><span class="s2">start_smooth</span><span class="se">\t</span><span class="s2">stop_smooth</span><span class="se">\t</span><span class="s2">window_smoothed&quot;</span><span class="p">,</span>
                 <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>9.bis. <strong>Visualize Genotype Example</strong>:</p>
+<p>This section of the code is used to visualize genotype information based on the configuration settings. It maps file paths to genotype data and assigns colors to different genotypes for visual representation.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># STEP 8.bis. Visualize Genotype</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-------------------------------------&quot;</span><span class="p">)</span>
+
+<span class="n">file_paths</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1"># &#39;directory_name&#39;: &#39;offspring_genotype_window_normalized_smoothed.txt&#39;</span>
+<span class="p">}</span>
+
+<span class="n">file_paths</span><span class="p">[</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;analyze_id&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">outdir</span> <span class="o">+</span> <span class="s1">&#39;offspring_genotype_window_normalized_smoothed.txt&#39;</span>
+
+<span class="n">genotype_colors</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">config</span><span class="p">[</span><span class="s1">&#39;genotype_ref&#39;</span><span class="p">]:</span> <span class="s1">&#39;blue&#39;</span><span class="p">,</span>
+    <span class="n">config</span><span class="p">[</span><span class="s1">&#39;genotype_alt&#39;</span><span class="p">]:</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Col/Ct&#39;</span><span class="p">:</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;NA&#39;</span><span class="p">:</span> <span class="s1">&#39;gray&#39;</span>
+<span class="p">}</span>
+
+<span class="n">visualsize_genotope</span><span class="p">(</span><span class="n">file_paths</span><span class="p">,</span> <span class="n">outdir</span><span class="p">,</span> <span class="n">genotype_colors</span><span class="p">,</span> <span class="n">column</span> <span class="o">=</span> <span class="s1">&#39;genotype&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <ol class="arabic simple" start="10">

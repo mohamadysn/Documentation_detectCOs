@@ -24,10 +24,20 @@ To use detectCOs, first create a virtual environment using mamba:
 launch
 ----------
 
+For detectCOs classic mode :
+
 .. code-block:: console
 
-   $ python3 path/to/folder/Test_laucher_With_diff_SNPs.py config_detectCOs_CG.yaml
+   $ python3 path/to/folder/Test_laucher_With_diff_SNPs.py Test_yaml_detectCOs_BC.yaml
 ..
+
+For detectCOs EMS mode :
+
+.. code-block:: console
+
+   $ python3 path/to/folder/Test_laucher_With_diff_SNPs_EMS.py Test_yaml_detectCOs_BC_EMS.yaml
+..
+
 
 
 Preprocessing Step: Variant Calling with GATK HaplotypeCaller

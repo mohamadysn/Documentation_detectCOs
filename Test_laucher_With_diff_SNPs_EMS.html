@@ -1,0 +1,982 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" />
+
+    <!-- Generated with Sphinx 5.3.0 and Furo 2023.03.27 -->
+        <title>Test_laucher_With_diff_SNPs_EMS.py - detectCOs 2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">detectCOs 2.0 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  
+  <span class="sidebar-brand-text">detectCOs 2.0 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config_detectCOs_CG.html">config_detectCOs_CG.yaml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detectCOs_required_functions.html">detectCOs_required_functions.py</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detectCOs_read_files.html">detectCOs_read_files.py</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detectCOs_sliding_window.html">detectCOs_sliding_window.py</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detectCOs_identifyCOs.html">detectCOs_identifyCOs.py</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test_detectCOs_polyrec_functions.html">test_detectCOs_polyrec_functions.py</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Test_laucher_With_diff_SNPs.html">Test_laucher_With_diff_SNPs.py</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Test_yaml_detectCOs_BC.html">Test_yaml_detectCOs_BC.yaml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="VisualiseGenotypesChromosome.html">VisualiseGenotypesChromosome.py</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detectCOs_identifyCOs_EMS.html">detectCOs_identifyCOs_EMS.py</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detectCOs_required_functions_EMS.html">detectCOs_required_functions_EMS.py</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detectCOs_sliding_window_EMS.html">detectCOs_sliding_window_EMS.py</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Test_yaml_detectCOs_BC_EMS.html">Test_yaml_detectCOs_BC_EMS.yaml</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="test-laucher-with-diff-snps-ems-py">
+<h1>Test_laucher_With_diff_SNPs_EMS.py<a class="headerlink" href="#test-laucher-with-diff-snps-ems-py" title="Permalink to this heading">#</a></h1>
+<p>This Python script is a launcher for the detectCOs tool. It’s designed to be run from the command line with a YAML configuration file as input.</p>
+<p>It imports necessary modules and functions from the detectCOs package, including functions for reading files, performing sliding window analysis, and identifying crossover events.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">pprint</span>
+<span class="kn">import</span> <span class="nn">yaml</span>
+
+<span class="kn">from</span> <span class="nn">detectCOs_read_files_EMS</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">detectCOs_sliding_window_EMS</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">detectCOs_identifyCOs_EMS</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">VisualiseGenotypesChromosomeEMS</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+</pre></div>
+</div>
+<p>It provides usage instructions for running the script from the command line, specifying the path to the configuration file as an argument.</p>
+<ol class="arabic simple">
+<li><dl class="simple">
+<dt><strong>Loading Configuration File and Creating Output Directory :</strong></dt><dd><ul class="simple">
+<li><p>The script begins by loading a configuration file in YAML format specified as a command-line argument. If no argument is provided, it raises an <cite>ImportError</cite>.</p></li>
+<li><p>The current working directory is set to the root of the <cite>polyrec</cite> project based on the configuration.</p></li>
+<li><p>A variable <cite>outdir</cite> is set to save all results, and an output directory is created if it doesn’t exist.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;# Load config file and create output directory&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-------------------------------------&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;Please give the config file (.yaml) for detectCOs&quot;</span><span class="p">)</span>
+
+<span class="n">config_file</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">config_file</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">cf</span><span class="p">:</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">cf</span><span class="p">,</span> <span class="n">Loader</span><span class="o">=</span><span class="n">yaml</span><span class="o">.</span><span class="n">FullLoader</span><span class="p">)</span>
+
+<span class="c1"># Set current working directory at the root of polyrec project</span>
+<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;path_to_polyrec_project&#39;</span><span class="p">])</span>
+
+<span class="c1"># Set variable to save all results</span>
+<span class="n">outdir</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;path_to_polyrec_project&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;output_dir_in_polyrec&#39;</span><span class="p">]</span> <span class="o">+</span> \
+    <span class="n">config</span><span class="p">[</span><span class="s1">&#39;analyze_id&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span>
+<span class="c1"># And create output directory if not exist</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">outdir</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">outdir</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Create output directory&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><dl class="simple">
+<dt><strong>Loading Chromosome Length</strong>:</dt><dd><ul class="simple">
+<li><p>Chromosome lengths are loaded from a file specified in the configuration.</p></li>
+<li><p>The loaded chromosome lengths are printed.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"># STEP 1. Load chromosome length&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-------------------------------------&quot;</span><span class="p">)</span>
+
+<span class="n">chr_length</span> <span class="o">=</span> <span class="n">ReadChrLen</span><span class="p">(</span><span class="n">input_chr_len</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;chr_len&#39;</span><span class="p">],</span>
+                        <span class="n">prefix_chr</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;prefix_chr&#39;</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">chr_length[chr] = lenght of chromosome&quot;</span><span class="p">)</span>
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">chr_length</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><dl class="simple">
+<dt><strong>Loading Positions of the Centromeric Region</strong>:</dt><dd><ul class="simple">
+<li><p>Positions of the centromeric region for each chromosome are loaded from a file specified in the configuration.</p></li>
+<li><p>The loaded centromeric regions are printed.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"># STEP 2. Load position of the centromeric region&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-------------------------------------&quot;</span><span class="p">)</span>
+
+<span class="n">centromere</span> <span class="o">=</span> <span class="n">ReadCentroReg</span><span class="p">(</span><span class="n">input_centro_reg</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;centromere_reg&#39;</span><span class="p">],</span>
+                        <span class="n">prefix_chr</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;prefix_chr&#39;</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">centromere[chr] = [left_border, right_border]&quot;</span><span class="p">)</span>
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">centromere</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><dl class="simple">
+<dt><strong>Loading Parental SNPs from VCF</strong>:</dt><dd><ul class="simple">
+<li><p>Parental SNP data is loaded from a VCF (Variant Call Format) file specified in the configuration.</p></li>
+<li><p>If the data has been previously processed and saved, it is loaded from files. Otherwise, the <cite>ReadParentalVCF</cite> function is called to read the VCF file.</p></li>
+<li><p>The loaded parental SNPs and last SNP per chromosome are printed.</p></li>
+<li><p>Outputs of <cite>ReadParentalVCF</cite> are saved to files.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"># STEP 3. Load parental snps from vcf&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-------------------------------------&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;parental_snps.txt&quot;</span><span class="p">)</span> <span class="ow">and</span> \
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;parental_snps_last_pos_chr.txt&quot;</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Load data...&quot;</span><span class="p">)</span>
+    <span class="n">parental_snps</span> <span class="o">=</span> <span class="n">load_file_in_dict</span><span class="p">(</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;parental_snps.txt&quot;</span><span class="p">)</span>
+    <span class="n">parental_last_snp_chr</span> <span class="o">=</span> <span class="n">load_file_in_dict</span><span class="p">(</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;parental_snps_last_pos_chr.txt&quot;</span><span class="p">)</span>
+
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Run ReadParentalVCF()...&quot;</span><span class="p">)</span>
+    <span class="n">parental_snps</span><span class="p">,</span> <span class="n">parental_last_snp_chr</span> <span class="o">=</span> <span class="n">ReadParentalVCF</span><span class="p">(</span>
+        <span class="n">input_vcf</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;parental_vcf&#39;</span><span class="p">],</span>
+        <span class="n">prefix_chr</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;prefix_chr&#39;</span><span class="p">]</span>
+        <span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">parental_snps[chr_pos] = [chr, pos, GT]&quot;</span><span class="p">)</span>
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">parental_snps</span><span class="o">.</span><span class="n">items</span><span class="p">())[:</span><span class="mi">5</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">parental_last_snp_chr:&quot;</span><span class="p">)</span>
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">parental_last_snp_chr</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Save outputs of ReadParentalVCF()&quot;</span><span class="p">)</span>
+<span class="n">export_dict_in_file</span><span class="p">(</span><span class="n">my_dict</span> <span class="o">=</span> <span class="n">parental_snps</span><span class="p">,</span>
+                <span class="n">output_file</span><span class="o">=</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;parental_snps.txt&quot;</span><span class="p">,</span>
+                <span class="n">header</span><span class="o">=</span><span class="s2">&quot;chr_pos</span><span class="se">\t</span><span class="s2">chr</span><span class="se">\t</span><span class="s2">pos</span><span class="se">\t</span><span class="s2">GT&quot;</span><span class="p">,</span>
+                <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="5">
+<li><dl class="simple">
+<dt><strong>Loading Offspring SNPs from VCF</strong>:</dt><dd><ul class="simple">
+<li><p>If the data has been previously processed and saved, it is loaded from files. Otherwise, the <cite>ReadOffspringVCF</cite> function is called to read the VCF file and process the data.</p></li>
+<li><p>The loaded offspring SNPs and last SNP per chromosome are printed.</p></li>
+<li><p>Outputs of <cite>ReadOffspringVCF</cite> are saved to files.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ol>
+<dl class="simple">
+<dt><strong>Saving Last SNPs per Chromosome</strong>:</dt><dd><ul class="simple">
+<li><p>The last SNPs per chromosome, obtained from the parental data, are saved to a file.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"># STEP 4. Load offspring snps from vcf&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-------------------------------------&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;offspring_snps.txt&quot;</span><span class="p">)</span> <span class="ow">and</span> \
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;offspring_snps_last_pos_chr.txt&quot;</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Load data...&quot;</span><span class="p">)</span>
+    <span class="n">offspring_snps</span> <span class="o">=</span> <span class="n">load_file_in_dict</span><span class="p">(</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;offspring_snps.txt&quot;</span><span class="p">)</span>
+    <span class="n">offspring_last_snp_chr</span> <span class="o">=</span> <span class="n">load_file_in_dict</span><span class="p">(</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;offspring_snps_last_pos_chr.txt&quot;</span><span class="p">)</span>
+
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Run ReadOffspringVCF()...&quot;</span><span class="p">)</span>
+    <span class="n">offspring_snps</span><span class="p">,</span> <span class="n">offspring_last_snp_chr</span> <span class="o">=</span> <span class="n">ReadOffspringVCF</span><span class="p">(</span>
+        <span class="n">input_vcf</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;sample_vcf&#39;</span><span class="p">],</span>
+        <span class="n">parental_snps</span><span class="o">=</span><span class="n">parental_snps</span><span class="p">,</span>
+        <span class="n">prefix_chr</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;prefix_chr&#39;</span><span class="p">],</span>
+        <span class="n">geno_ref</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;genotype_ref&#39;</span><span class="p">],</span>
+        <span class="n">geno_alt</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;genotype_alt&#39;</span><span class="p">],</span>
+        <span class="n">analyze_id</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;analyze_id&#39;</span><span class="p">]</span>
+        <span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">offspring_snps[chr_pos] = [chr, pos,GT, ADref,ADalt, genotype]&quot;</span><span class="p">)</span>
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">offspring_snps</span><span class="o">.</span><span class="n">items</span><span class="p">())[:</span><span class="mi">5</span><span class="p">])</span>
+
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Save outputs of ReadOffspringVCF()&quot;</span><span class="p">)</span>
+<span class="n">export_dict_in_file</span><span class="p">(</span><span class="n">my_dict</span> <span class="o">=</span> <span class="n">offspring_snps</span><span class="p">,</span>
+                <span class="n">output_file</span><span class="o">=</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;offspring_snps.txt&quot;</span><span class="p">,</span>
+                <span class="n">header</span><span class="o">=</span><span class="s2">&quot;chr</span><span class="se">\t</span><span class="s2">pos</span><span class="se">\t</span><span class="s2">GT</span><span class="se">\t</span><span class="s2">ADref</span><span class="se">\t</span><span class="s2">ADalt</span><span class="se">\t</span><span class="s2">genotype&quot;</span><span class="p">,</span>
+                <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">last_snps_chr</span> <span class="o">=</span> <span class="n">parental_last_snp_chr</span>
+
+
+<span class="n">export_dict_in_file</span><span class="p">(</span><span class="n">my_dict</span> <span class="o">=</span> <span class="n">last_snps_chr</span><span class="p">,</span>
+                <span class="n">output_file</span><span class="o">=</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;last_snps_chr.txt&quot;</span><span class="p">,</span>
+                <span class="n">header</span><span class="o">=</span><span class="s2">&quot;chr</span><span class="se">\t</span><span class="s2">pos_last_SNP&quot;</span><span class="p">,</span>
+                <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="6">
+<li><dl class="simple">
+<dt><strong>Summary Info About Parental SNPs by Sliding Window</strong>:</dt><dd><ul class="simple">
+<li><p>If the data has been previously processed and saved, it is loaded from a file. Otherwise, the <cite>ParentalSlidingWindow</cite> function is called to summarize parental SNPs by sliding window.</p></li>
+<li><p>The summarized parental SNPs by sliding window are printed.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ol>
+<dl class="simple">
+<dt><strong>Saving Output of Parental Sliding Window</strong>:</dt><dd><ul class="simple">
+<li><p>The output of the parental sliding window analysis is saved to a file.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"># STEP 5. Summary info about parental SNPs by sliding window&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-------------------------------------&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Run ParentalSlidingWindow()...&quot;</span><span class="p">)</span>
+<span class="n">parental_snps_windowsnps</span> <span class="o">=</span> <span class="n">ParentalSlidingWindowSNPs</span><span class="p">(</span>
+    <span class="n">parental_snps</span><span class="o">=</span><span class="n">parental_snps</span><span class="p">,</span>
+    <span class="n">snps_per_window</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;snps_per_window&#39;</span><span class="p">]</span>
+    <span class="p">)</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">parental_snps_windowsnps[chr_window] = [start, stop, nb_snps]&quot;</span><span class="p">)</span>
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">parental_snps_windowsnps</span><span class="o">.</span><span class="n">items</span><span class="p">())[</span><span class="mi">5</span><span class="p">:</span><span class="mi">9</span><span class="p">])</span>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Save output of ParentalSlidingWindow()&quot;</span><span class="p">)</span>
+<span class="n">export_dict_in_file</span><span class="p">(</span><span class="n">my_dict</span> <span class="o">=</span> <span class="n">parental_snps_windowsnps</span><span class="p">,</span>
+                    <span class="n">output_file</span><span class="o">=</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;parental_snps_windowsnps_&quot;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;snps_per_window&#39;</span><span class="p">])</span> <span class="o">+</span><span class="s2">&quot;_snps.txt&quot;</span><span class="p">,</span>
+                    <span class="n">header</span><span class="o">=</span><span class="s2">&quot;chr_window</span><span class="se">\t</span><span class="s2">start</span><span class="se">\t</span><span class="s2">stop</span><span class="se">\t</span><span class="s2">nb_snps&quot;</span><span class="p">,</span>
+                    <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="7">
+<li><dl class="simple">
+<dt><strong>Summary Info About Offspring SNPs by Sliding Window</strong>:</dt><dd><ul class="simple">
+<li><p>If the data has been previously processed and saved, it is loaded from a file. Otherwise, the <cite>OffspringSlidingWindow</cite> function is called to summarize offspring SNPs by sliding window.</p></li>
+<li><p>The summarized offspring SNPs by sliding window are printed.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ol>
+<dl class="simple">
+<dt><strong>Saving Output of Offspring Sliding Window</strong>:</dt><dd><ul class="simple">
+<li><p>The output of the offspring sliding window analysis is saved to a file.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"># STEP 6. Summary info about offspring SNPs by sliding window&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-------------------------------------&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Run ParentalSlidingWindow()...&quot;</span><span class="p">)</span>
+<span class="n">offspring_snps_windowsnps</span> <span class="o">=</span> <span class="n">OffspringSlidingWindowBySNPs</span><span class="p">(</span>
+    <span class="n">offspring_snps</span> <span class="o">=</span> <span class="n">offspring_snps</span> <span class="p">,</span>
+    <span class="n">snps_per_window</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;snps_per_window&#39;</span><span class="p">])</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;\offspring_snps_windowsnps[chr_window] = [start, stop, nb_snps]&quot;</span><span class="p">)</span>
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">offspring_snps_windowsnps</span><span class="o">.</span><span class="n">items</span><span class="p">())[</span><span class="mi">5</span><span class="p">:</span><span class="mi">9</span><span class="p">])</span>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Save output of ParentalSlidingWindow()&quot;</span><span class="p">)</span>
+<span class="n">export_dict_in_file</span><span class="p">(</span><span class="n">my_dict</span> <span class="o">=</span> <span class="n">offspring_snps_windowsnps</span><span class="p">,</span>
+                    <span class="n">output_file</span><span class="o">=</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;offspring_snps_windowsnps_&quot;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;snps_per_window&#39;</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot;_snps.txt&quot;</span><span class="p">,</span>
+                    <span class="n">header</span><span class="o">=</span><span class="s2">&quot;chr_window</span><span class="se">\t</span><span class="s2">start</span><span class="se">\t</span><span class="s2">stop</span><span class="se">\t</span><span class="s2">ADref</span><span class="se">\t</span><span class="s2">ADalt</span><span class="se">\t</span><span class="s2">DP</span><span class="se">\t</span><span class="s2">nbSNP_Aref</span><span class="se">\t</span><span class="s2">nbSNP_Aalt</span><span class="se">\t</span><span class="s2">tot_snps&quot;</span><span class="p">,</span> <span class="c1">#\tADref/DP\tADalt/DP&quot;,</span>
+                    <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="8">
+<li><dl class="simple">
+<dt><strong>Identify Offspring Genotype in Normalized Sliding Window</strong>:</dt><dd><ul class="simple">
+<li><p>If the data has been previously processed and saved, it is loaded from files. Otherwise, the <cite>NormalizeOffspringSlidingWindow</cite> function is called to identify the genotype of the offspring in the normalized sliding window.</p></li>
+<li><p>The identified offspring genotype and related information are printed.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ol>
+<dl class="simple">
+<dt><strong>Saving Outputs of Normalize Offspring Sliding Window</strong>:</dt><dd><ul class="simple">
+<li><p>The outputs of the normalization process are saved to files.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"># STEP 7. Identify the genotype of the offspring normalized sliding window&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-------------------------------------&quot;</span><span class="p">)</span>
+
+<span class="n">offspring_snps_window_normalized</span><span class="p">,</span> <span class="n">offspring_genotype_window_normalized</span><span class="p">,</span> \
+    <span class="n">nb_windows_chr</span> <span class="o">=</span> <span class="n">NormalizeOffspringSlidingWindowsnps</span><span class="p">(</span>
+        <span class="n">parental_snps_window</span><span class="o">=</span><span class="n">parental_snps_windowsnps</span><span class="p">,</span>
+        <span class="n">offspring_snps_window</span><span class="o">=</span><span class="n">offspring_snps_windowsnps</span><span class="p">,</span>
+        <span class="n">geno_ref</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;EMS_ref&#39;</span><span class="p">],</span>
+        <span class="n">geno_alt</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;EMS_alt&#39;</span><span class="p">],</span>
+        <span class="n">min_snp_num</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;min_snp_num&#39;</span><span class="p">],</span>
+        <span class="n">min_reads_num</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;min_reads_num&#39;</span><span class="p">],</span>
+        <span class="n">ratio_min_homo</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;ratio_min_EMS&#39;</span><span class="p">],</span>
+        <span class="n">depth_division_th</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;depth_division_th&#39;</span><span class="p">]</span>  <span class="c1"># modify MY</span>
+        <span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">offspring_snps_window_normalized: &quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[chr_window] = [start, stop, ADref, ADalt, DP]&quot;</span><span class="p">)</span>
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">offspring_snps_window_normalized</span><span class="o">.</span><span class="n">items</span><span class="p">())[</span><span class="mi">5</span><span class="p">:</span><span class="mi">9</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">offspring_genotype_window_normalized: &quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[chr_window] = [start, stop, ADref/DP, ADalt/DP, genotype]&quot;</span><span class="p">)</span>
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">offspring_genotype_window_normalized</span><span class="o">.</span><span class="n">items</span><span class="p">())[</span><span class="mi">5</span><span class="p">:</span><span class="mi">9</span><span class="p">],</span> <span class="n">width</span> <span class="o">=</span> <span class="mi">120</span><span class="p">,</span> <span class="n">compact</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">nb_windows_chr: &quot;</span><span class="p">)</span>
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">nb_windows_chr</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Save outputs of NormalizeOffspringSlidingWindow()&quot;</span><span class="p">)</span>
+<span class="n">export_dict_in_file</span><span class="p">(</span><span class="n">my_dict</span> <span class="o">=</span> <span class="n">offspring_snps_window_normalized</span><span class="p">,</span>
+                <span class="n">output_file</span><span class="o">=</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;offspring_snps_window_normalized_&quot;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;snps_per_window&#39;</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot;_snps_ratio_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;ratio_min_EMS&#39;</span><span class="p">])</span> <span class="o">+</span><span class="s2">&quot;.txt&quot;</span><span class="p">,</span>
+                <span class="n">header</span><span class="o">=</span><span class="s2">&quot;chr_window</span><span class="se">\t</span><span class="s2">start</span><span class="se">\t</span><span class="s2">stop</span><span class="se">\t</span><span class="s2">ADref</span><span class="se">\t</span><span class="s2">ADalt</span><span class="se">\t</span><span class="s2">DP&quot;</span><span class="p">,</span>
+                <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">export_dict_in_file</span><span class="p">(</span><span class="n">my_dict</span> <span class="o">=</span> <span class="n">offspring_genotype_window_normalized</span><span class="p">,</span>
+                <span class="n">output_file</span><span class="o">=</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;offspring_genotype_window_normalized_&quot;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;snps_per_window&#39;</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot;_snps_ratio_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;ratio_min_EMS&#39;</span><span class="p">])</span> <span class="o">+</span><span class="s2">&quot;.txt&quot;</span><span class="p">,</span>
+                <span class="n">header</span><span class="o">=</span><span class="s2">&quot;chr_window</span><span class="se">\t</span><span class="s2">start</span><span class="se">\t</span><span class="s2">stop</span><span class="se">\t</span><span class="s2">ADref/DP</span><span class="se">\t</span><span class="s2">ADalt/DP</span><span class="se">\t</span><span class="s2">genotype&quot;</span><span class="p">,</span>
+                <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">export_dict_in_file</span><span class="p">(</span><span class="n">my_dict</span> <span class="o">=</span> <span class="n">nb_windows_chr</span><span class="p">,</span>
+                <span class="n">output_file</span><span class="o">=</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;nb_window_chr_&quot;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;snps_per_window&#39;</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot;_snps_ratio_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;ratio_min_EMS&#39;</span><span class="p">])</span> <span class="o">+</span><span class="s2">&quot;.txt&quot;</span><span class="p">,</span>
+                <span class="n">header</span><span class="o">=</span><span class="s2">&quot;chr</span><span class="se">\t</span><span class="s2">nb_window&quot;</span><span class="p">,</span>
+                <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="9">
+<li><dl class="simple">
+<dt><strong>Smooth Offspring Sliding Window</strong>:</dt><dd><ul class="simple">
+<li><p>If the smoothed data has been previously processed and saved, it is loaded from files. Otherwise, the <cite>SmoothNormalizedOffspringSlidingWindow</cite> function is called to smooth the offspring sliding window data.</p></li>
+<li><p>The smoothed offspring sliding window data, offspring genotype in the smoothed window, and information about the smoothing process are printed.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ol>
+<dl class="simple">
+<dt><strong>Saving Outputs of Smoothed Offspring Sliding Window</strong>:</dt><dd><ul class="simple">
+<li><p>The smoothed offspring sliding window data, offspring genotype in the smoothed window, and information about the smoothing process are saved to separate files.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"># STEP 8. Smooth offspring sliding window&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-------------------------------------&quot;</span><span class="p">)</span>
+
+<span class="n">offspring_snps_window_smoothed</span><span class="p">,</span> <span class="n">offspring_genotype_window_smoothed</span><span class="p">,</span> \
+    <span class="n">check_smoothing</span> <span class="o">=</span> <span class="n">SmoothNormalizedOsffspringSlidingWindowsnps</span><span class="p">(</span>\
+        <span class="n">offspring_snps_window</span><span class="o">=</span><span class="n">offspring_snps_window_normalized</span><span class="p">,</span>
+        <span class="n">nb_windows_chr</span><span class="o">=</span><span class="n">nb_windows_chr</span><span class="p">,</span>
+        <span class="n">geno_ref</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;EMS_ref&#39;</span><span class="p">],</span>
+        <span class="n">geno_alt</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;EMS_alt&#39;</span><span class="p">],</span>
+        <span class="n">ratio_min_homo</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;ratio_min_EMS&#39;</span><span class="p">],</span>
+        <span class="n">depth_division_th</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;depth_division_th&#39;</span><span class="p">]</span>  <span class="c1"># modify MY</span>
+        <span class="p">)</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">offspring_snps_window_smoothed: &quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[chr_window] = [start, stop, ADref, ADalt, DP]&quot;</span><span class="p">)</span>
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">offspring_snps_window_smoothed</span><span class="o">.</span><span class="n">items</span><span class="p">())[</span><span class="mi">5</span><span class="p">:</span><span class="mi">9</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">offspring_genotype_window_normalized_smoothed&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[chr_window] = [start, stop, ADref/DP, ADalt/DP, probHomoRef, probHetero, probHomoAlt, genotype]&quot;</span><span class="p">)</span>
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">offspring_genotype_window_smoothed</span><span class="o">.</span><span class="n">items</span><span class="p">())[</span><span class="mi">5</span><span class="p">:</span><span class="mi">9</span><span class="p">],</span> <span class="n">width</span> <span class="o">=</span> <span class="mi">120</span><span class="p">,</span> <span class="n">compact</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">check_smoothing[chr_window] = [start_window,stop_window,start_smooth,stop_smooth,window_smoothed&quot;</span><span class="p">)</span>
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">check_smoothing</span><span class="o">.</span><span class="n">items</span><span class="p">())[</span><span class="mi">5</span><span class="p">:</span><span class="mi">9</span><span class="p">])</span>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Save outputs of SmoothNormalizedOsffspringSlidingWindow()&quot;</span><span class="p">)</span>
+
+<span class="n">export_dict_in_file</span><span class="p">(</span><span class="n">my_dict</span> <span class="o">=</span> <span class="n">offspring_snps_window_smoothed</span><span class="p">,</span>
+                <span class="n">output_file</span><span class="o">=</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;offspring_snps_window_normalized_smoothed_&quot;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;snps_per_window&#39;</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot;_snps_ratio_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;ratio_min_EMS&#39;</span><span class="p">])</span> <span class="o">+</span><span class="s2">&quot;.txt&quot;</span><span class="p">,</span>
+                <span class="n">header</span><span class="o">=</span><span class="s2">&quot;chr_window</span><span class="se">\t</span><span class="s2">start</span><span class="se">\t</span><span class="s2">stop</span><span class="se">\t</span><span class="s2">ADref</span><span class="se">\t</span><span class="s2">ADalt</span><span class="se">\t</span><span class="s2">DP&quot;</span><span class="p">,</span>
+                <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">export_dict_in_file</span><span class="p">(</span><span class="n">my_dict</span> <span class="o">=</span> <span class="n">offspring_genotype_window_smoothed</span><span class="p">,</span>
+                <span class="n">output_file</span><span class="o">=</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;offspring_genotype_window_normalized_smoothed_&quot;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;snps_per_window&#39;</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot;_snps_ratio_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;ratio_min_EMS&#39;</span><span class="p">])</span> <span class="o">+</span><span class="s2">&quot;.txt&quot;</span><span class="p">,</span>
+                <span class="n">header</span><span class="o">=</span><span class="s2">&quot;chr_window</span><span class="se">\t</span><span class="s2">start</span><span class="se">\t</span><span class="s2">stop</span><span class="se">\t</span><span class="s2">ADref/DP</span><span class="se">\t</span><span class="s2">ADalt/DP</span><span class="se">\t</span><span class="s2">genotype&quot;</span><span class="p">,</span>
+                <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">export_dict_in_file</span><span class="p">(</span><span class="n">my_dict</span> <span class="o">=</span> <span class="n">check_smoothing</span><span class="p">,</span>
+                <span class="n">output_file</span><span class="o">=</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;check_smoothing_&quot;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;snps_per_window&#39;</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot;_snps_ratio_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;ratio_min_EMS&#39;</span><span class="p">])</span> <span class="o">+</span><span class="s2">&quot;.txt&quot;</span><span class="p">,</span>
+                <span class="n">header</span><span class="o">=</span><span class="s2">&quot;chr_window</span><span class="se">\t</span><span class="s2">start_window</span><span class="se">\t</span><span class="s2">stop_window</span><span class="se">\t</span><span class="s2">start_smooth</span><span class="se">\t</span><span class="s2">stop_smooth</span><span class="se">\t</span><span class="s2">window_smoothed&quot;</span><span class="p">,</span>
+                <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>9.bis. <strong>Visualize Genotype Example</strong>:</p>
+<p>This section of the code is used to visualize genotype information based on the configuration settings. It maps file paths to genotype data and assigns colors to different genotypes for visual representation.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"># STEP 8.bis. visualise Genotype &quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-------------------------------------&quot;</span><span class="p">)</span>
+
+<span class="c1"># &#39;file_paths&#39; est maintenant un dictionnaire avec les noms des répertoires comme clés et les chemins complets comme valeurs.</span>
+
+
+<span class="c1"># Exemple d&#39;utilisation</span>
+<span class="n">file_paths</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1"># &#39;directory_name&#39;: &#39;offspring_genotype_window_normalized_smoothed.txt&#39;</span>
+<span class="p">}</span>
+
+<span class="n">file_paths</span><span class="p">[</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;analyze_id&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;offspring_genotype_window_normalized_smoothed_&quot;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;snps_per_window&#39;</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot;_snps_ratio_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;ratio_min_EMS&#39;</span><span class="p">])</span> <span class="o">+</span><span class="s2">&quot;.txt&quot;</span>
+<span class="c1">#file_paths[config[&#39;analyze_id&#39;] + &quot;_&quot; + str(config[&#39;new_window_size&#39;]) + &quot;_kb&quot;] = outdir + &quot;offspring_genotype_window_normalized_smoothed_&quot; + str(config[&#39;new_window_size&#39;]) + &quot;_kb&quot; + &quot;.txt&quot;</span>
+
+<span class="n">genotype_colors</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">config</span><span class="p">[</span><span class="s1">&#39;EMS_ref&#39;</span><span class="p">]:</span> <span class="s1">&#39;blue&#39;</span><span class="p">,</span>
+    <span class="n">config</span><span class="p">[</span><span class="s1">&#39;EMS_alt&#39;</span><span class="p">]:</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;NA&#39;</span><span class="p">:</span> <span class="s1">&#39;gray&#39;</span>
+<span class="p">}</span>
+
+
+<span class="n">visualsize_genotope</span><span class="p">(</span><span class="n">file_paths</span><span class="p">,</span> <span class="n">outdir</span><span class="p">,</span> <span class="n">genotype_colors</span><span class="p">,</span> <span class="n">snps_per_window</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;snps_per_window&#39;</span><span class="p">],</span> <span class="n">ratio_min_EMS</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;ratio_min_EMS&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="10">
+<li><p><strong>Identify COs</strong>:
+- The <cite>IdentifyCOs</cite> function is called to identify COs based on the smoothed offspring genotype window data.
+- Candidate COs are printed and exported to a file named “candidateCO.txt”.</p></li>
+</ol>
+<dl class="simple">
+<dt><strong>Identify COs (Qichao version)</strong>:</dt><dd><ul class="simple">
+<li><p>Another approach for identifying COs, referred to as the “Qichao version,” is implemented.</p></li>
+<li><p>This method uses additional information such as smoothed probabilities and sliding genotype ratios.</p></li>
+<li><p>Candidate COs according to this method are printed and exported to a file named “candidates_co_qichao.txt”.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"># STEP 9. Identify COs&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-------------------------------------&quot;</span><span class="p">)</span>
+
+<span class="n">candidates_co</span><span class="p">,</span> <span class="n">db_co</span> <span class="o">=</span> <span class="n">IdentifyCOs_snps</span><span class="p">(</span><span class="n">offspring_genotype_window_smoothed</span><span class="p">,</span> <span class="n">nb_windows_chr</span><span class="p">)</span>
+
+
+<span class="n">updated_candidates_co</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>  <span class="c1"># modify MY</span>
+<span class="n">warnings</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">last_co</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">last_chr_window</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">warnings_co</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">chr_window</span><span class="p">,</span> <span class="n">details</span> <span class="ow">in</span> <span class="n">candidates_co</span><span class="o">.</span><span class="n">items</span><span class="p">():</span> <span class="c1"># modify MY</span>
+    <span class="n">start_win_stop_win</span><span class="p">,</span> <span class="n">co_start</span><span class="p">,</span> <span class="n">co_stop</span><span class="p">,</span> <span class="n">pre_geno</span><span class="p">,</span> <span class="n">cur_geno</span> <span class="o">=</span> <span class="n">details</span> <span class="c1"># modify MY</span>
+    <span class="n">diff</span> <span class="o">=</span> <span class="n">co_stop</span> <span class="o">-</span> <span class="n">co_start</span>  <span class="c1"># Calcul de la différence # modify MY</span>
+    <span class="n">updated_candidates_co</span><span class="p">[</span><span class="n">chr_window</span><span class="p">]</span> <span class="o">=</span>  <span class="p">[</span><span class="n">start_win_stop_win</span><span class="p">,</span> <span class="n">co_start</span><span class="p">,</span> <span class="n">co_stop</span><span class="p">,</span><span class="n">diff</span><span class="p">,</span> <span class="n">pre_geno</span><span class="p">,</span> <span class="n">cur_geno</span><span class="p">]</span> <span class="c1"># modify MY</span>
+
+    <span class="c1"># Extract the window number of the previous crossover&#39;s end</span>
+    <span class="k">if</span> <span class="n">last_co</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Extract the current chromosome number and compare it to the last processed CO&#39;s chromosome</span>
+        <span class="n">current_chr</span> <span class="o">=</span> <span class="n">chr_window</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">last_chr</span> <span class="o">=</span> <span class="n">last_chr_window</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">co_start_win</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">chr_window</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="n">current_chr</span> <span class="o">==</span> <span class="n">last_chr</span><span class="p">:</span>  <span class="c1"># Check if the CO is on the same chromosome</span>
+            <span class="n">window_distance</span> <span class="o">=</span> <span class="n">co_start_win</span> <span class="o">-</span> <span class="n">last_co</span>  <span class="c1"># Calculate the distance between the COs</span>
+            <span class="k">if</span> <span class="n">window_distance</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Warning: CO at </span><span class="si">{</span><span class="n">chr_window</span><span class="si">}</span><span class="s2"> is only </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">window_distance</span><span class="p">)</span><span class="si">}</span><span class="s2"> windows away from CO at </span><span class="si">{</span><span class="n">last_chr_window</span><span class="si">}</span><span class="s2">. Possible double CO event.&quot;</span><span class="p">)</span>
+                <span class="n">warnings_co</span><span class="p">[</span><span class="n">last_chr_window</span><span class="p">]</span> <span class="o">=</span> <span class="n">updated_candidates_co</span><span class="p">[</span><span class="n">last_chr_window</span><span class="p">]</span>
+                <span class="n">warnings_co</span><span class="p">[</span><span class="n">chr_window</span><span class="p">]</span> <span class="o">=</span> <span class="n">updated_candidates_co</span><span class="p">[</span><span class="n">chr_window</span><span class="p">]</span>
+
+    <span class="n">last_co</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">chr_window</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">last_chr_window</span> <span class="o">=</span> <span class="n">chr_window</span>
+
+
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">CandidateCOs: &quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[chr_window] = [start_win:stop_win, co_start, co_stop, pre_geno, cur_geno]&quot;</span><span class="p">)</span>
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">updated_candidates_co</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>  <span class="c1"># modify MY</span>
+
+<span class="n">export_dict_in_file</span><span class="p">(</span><span class="n">my_dict</span> <span class="o">=</span> <span class="n">updated_candidates_co</span><span class="p">,</span>   <span class="c1"># modify MY</span>
+                <span class="n">output_file</span><span class="o">=</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;candidateCO_&quot;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;snps_per_window&#39;</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot;_snps_ratio_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;ratio_min_EMS&#39;</span><span class="p">])</span> <span class="o">+</span><span class="s2">&quot;.txt&quot;</span><span class="p">,</span>
+                <span class="n">header</span><span class="o">=</span><span class="s2">&quot;chr_mean_win</span><span class="se">\t</span><span class="s2">start_win:stop_win</span><span class="se">\t</span><span class="s2">start_co</span><span class="se">\t</span><span class="s2">stop_co</span><span class="se">\t</span><span class="s2">(stop_co-start_co)</span><span class="se">\t</span><span class="s2">pre_geno</span><span class="se">\t</span><span class="s2">cur_geno&quot;</span><span class="p">,</span>
+                <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">warnings_co</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">WARNING dbCOs&quot;</span><span class="p">)</span>
+    <span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">warnings_co</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">warning</span> <span class="ow">in</span> <span class="n">warnings</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">warning</span><span class="p">)</span>
+
+    <span class="n">export_dict_in_file</span><span class="p">(</span><span class="n">my_dict</span> <span class="o">=</span> <span class="n">warnings_co</span><span class="p">,</span>   <span class="c1"># modify MY</span>
+                <span class="n">output_file</span><span class="o">=</span> <span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;Warnings_dbCO.txt&quot;</span><span class="p">,</span>
+                <span class="n">header</span><span class="o">=</span><span class="s2">&quot;chr_mean_win</span><span class="se">\t</span><span class="s2">start_win:stop_win</span><span class="se">\t</span><span class="s2">start_co</span><span class="se">\t</span><span class="s2">stop_co</span><span class="se">\t</span><span class="s2">(stop_co-start_co)</span><span class="se">\t</span><span class="s2">pre_geno</span><span class="se">\t</span><span class="s2">cur_geno&quot;</span><span class="p">,</span>
+                <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="11">
+<li><p>Sliding with new number of snps in window:</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"># STEP 5.bis. Summary info about parental SNPs by sliding window&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;new_snp_per_window&#39;</span><span class="p">])</span> <span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-------------------------------------&quot;</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;parental_snps_window_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;new_snp_per_window&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;.txt&quot;</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Load data...&quot;</span><span class="p">)</span>
+    <span class="n">parental_snps_window_new</span> <span class="o">=</span> <span class="n">load_file_in_dict</span><span class="p">(</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;parental_snps_window_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;new_snp_per_window&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;.txt&quot;</span><span class="p">)</span>
+
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Run ParentalSlidingWindow()...&quot;</span><span class="p">)</span>
+    <span class="n">parental_snps_window_new</span> <span class="o">=</span> <span class="n">ParentalSlidingWindowSNPs</span><span class="p">(</span>
+        <span class="n">parental_snps</span><span class="o">=</span><span class="n">parental_snps</span><span class="p">,</span>
+        <span class="n">snps_per_window</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;new_snp_per_window&#39;</span><span class="p">]</span>
+    <span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">parental_snps_window_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;new_snp_per_window&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;[chr_window] = [start, stop, nb_snps]&quot;</span><span class="p">)</span>
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">parental_snps_window_new</span><span class="o">.</span><span class="n">items</span><span class="p">())[</span><span class="mi">5</span><span class="p">:</span><span class="mi">10</span><span class="p">])</span>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Save output of ParentalSlidingWindow()&quot;</span><span class="p">)</span>
+<span class="n">export_dict_in_file</span><span class="p">(</span><span class="n">my_dict</span> <span class="o">=</span> <span class="n">parental_snps_window_new</span><span class="p">,</span>
+                <span class="n">output_file</span><span class="o">=</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;parental_snps_window_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;new_snp_per_window&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;.txt&quot;</span><span class="p">,</span>
+                <span class="n">header</span><span class="o">=</span><span class="s2">&quot;chr_window</span><span class="se">\t</span><span class="s2">start</span><span class="se">\t</span><span class="s2">stop</span><span class="se">\t</span><span class="s2">nb_snps&quot;</span><span class="p">,</span>
+                <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"># STEP 6.bis. Summary info about offspring SNPs by sliding window&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;new_snp_per_window&#39;</span><span class="p">])</span> <span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-------------------------------------&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;offspring_snps_window_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;new_snp_per_window&#39;</span><span class="p">])</span> <span class="o">+</span>  <span class="s2">&quot;.txt&quot;</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Load data...&quot;</span><span class="p">)</span>
+    <span class="n">offspring_snps_window_new</span> <span class="o">=</span> <span class="n">load_file_in_dict</span><span class="p">(</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;offspring_snps_window_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;new_snp_per_window&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;.txt&quot;</span><span class="p">)</span>
+
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Run OffspringSlidingWindow()...&quot;</span><span class="p">)</span>
+    <span class="n">offspring_snps_window_new</span> <span class="o">=</span> <span class="n">OffspringSlidingWindowBySNPs</span><span class="p">(</span>
+        <span class="n">offspring_snps</span><span class="o">=</span><span class="n">offspring_snps</span><span class="p">,</span>
+        <span class="n">snps_per_window</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;new_snp_per_window&#39;</span><span class="p">]</span>
+    <span class="p">)</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">offspring_snps_window_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;new_snp_per_window&#39;</span><span class="p">])</span> <span class="o">+</span>  <span class="s2">&quot;[chr_window] = [start,stop,ADref,ADalt,DP,nbSNP_Aref,nbSNP_Aalt,TOTsnps-window]&quot;</span><span class="p">)</span>
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">offspring_snps_window_new</span><span class="o">.</span><span class="n">items</span><span class="p">())[</span><span class="mi">5</span><span class="p">:</span><span class="mi">10</span><span class="p">])</span>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Save output of OffspringSlidingWindow()&quot;</span><span class="p">)</span>
+<span class="n">export_dict_in_file</span><span class="p">(</span><span class="n">my_dict</span> <span class="o">=</span> <span class="n">offspring_snps_window_new</span><span class="p">,</span>
+                <span class="n">output_file</span><span class="o">=</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;offspring_snps_window_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;new_snp_per_window&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;.txt&quot;</span><span class="p">,</span>
+                <span class="n">header</span><span class="o">=</span><span class="s2">&quot;chr_window</span><span class="se">\t</span><span class="s2">start</span><span class="se">\t</span><span class="s2">stop</span><span class="se">\t</span><span class="s2">ADref</span><span class="se">\t</span><span class="s2">ADalt</span><span class="se">\t</span><span class="s2">DP</span><span class="se">\t</span><span class="s2">nbSNP_Aref</span><span class="se">\t</span><span class="s2">nbSNP_Aalt</span><span class="se">\t</span><span class="s2">tot_snps&quot;</span><span class="p">,</span>
+                <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"># STEP 7.bis. Identify the genotype of the offspring normalized sliding window&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;new_snp_per_window&#39;</span><span class="p">])</span> <span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-------------------------------------&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;offspring_snps_window_normalized_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;new_snp_per_window&#39;</span><span class="p">])</span> <span class="o">+</span>  <span class="s2">&quot;.txt&quot;</span><span class="p">)</span> <span class="ow">and</span> \
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;offspring_genotype_window_normalized_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;new_snp_per_window&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;.txt&quot;</span><span class="p">)</span> <span class="ow">and</span> \
+        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;nb_window_chr_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;new_snp_per_window&#39;</span><span class="p">])</span> <span class="o">+</span>  <span class="s2">&quot;.txt&quot;</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Load data...&quot;</span><span class="p">)</span>
+    <span class="n">offspring_snps_window_normalized_new</span> <span class="o">=</span> <span class="n">load_file_in_dict</span><span class="p">(</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;offspring_snps_window_normalized_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;new_snp_per_window&#39;</span><span class="p">])</span> <span class="o">+</span>  <span class="s2">&quot;.txt&quot;</span><span class="p">)</span>
+    <span class="n">offspring_genotype_window_normalized_new</span> <span class="o">=</span> <span class="n">load_file_in_dict</span><span class="p">(</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;offspring_genotype_window_normalized_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;new_snp_per_window&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;.txt&quot;</span><span class="p">)</span>
+    <span class="n">nb_windows_chr_new</span> <span class="o">=</span> <span class="n">load_file_in_dict</span><span class="p">(</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;nb_window_chr_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;new_snp_per_window&#39;</span><span class="p">])</span> <span class="o">+</span>  <span class="s2">&quot;.txt&quot;</span><span class="p">)</span>
+
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">offspring_snps_window_normalized_new</span><span class="p">,</span> <span class="n">offspring_genotype_window_normalized_new</span><span class="p">,</span> \
+        <span class="n">nb_windows_chr_new</span> <span class="o">=</span> <span class="n">NormalizeOffspringSlidingWindowsnps</span><span class="p">(</span>
+            <span class="n">parental_snps_window</span><span class="o">=</span><span class="n">parental_snps_window_new</span><span class="p">,</span>
+            <span class="n">offspring_snps_window</span><span class="o">=</span><span class="n">offspring_snps_window_new</span><span class="p">,</span>
+            <span class="n">geno_ref</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;EMS_ref&#39;</span><span class="p">],</span>
+            <span class="n">geno_alt</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;EMS_alt&#39;</span><span class="p">],</span>
+            <span class="n">min_snp_num</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;min_snp_num&#39;</span><span class="p">],</span>
+            <span class="n">min_reads_num</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;min_reads_num&#39;</span><span class="p">],</span>
+            <span class="n">ratio_min_homo</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;ratio_min_EMS&#39;</span><span class="p">],</span>
+            <span class="n">depth_division_th</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;depth_division_th&#39;</span><span class="p">]</span>   <span class="c1"># modify MY</span>
+            <span class="p">)</span>
+
+
+
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">offspring_snps_window_normalized_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;new_snp_per_window&#39;</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[chr_window] = [start, stop, ADref, ADalt, DP]&quot;</span><span class="p">)</span>
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">offspring_snps_window_normalized_new</span><span class="o">.</span><span class="n">items</span><span class="p">())[</span><span class="mi">5</span><span class="p">:</span><span class="mi">10</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">offspring_genotype_window_normalized_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;new_snp_per_window&#39;</span><span class="p">])</span> <span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[chr_window] = [start, stop, ADref/DP, ADalt/DP, probHomoRef, probHetero, probHomoAlt, genotype]&quot;</span><span class="p">)</span>
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">offspring_genotype_window_normalized_new</span><span class="o">.</span><span class="n">items</span><span class="p">())[</span><span class="mi">5</span><span class="p">:</span><span class="mi">10</span><span class="p">],</span> <span class="n">width</span> <span class="o">=</span> <span class="mi">120</span><span class="p">,</span> <span class="n">compact</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">nb_windows_chr_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;new_snp_per_window&#39;</span><span class="p">]))</span>
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">nb_windows_chr_new</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Save outputs of NormalizeOffspringSlidingWindow() &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;new_snp_per_window&#39;</span><span class="p">])</span> <span class="p">)</span>
+<span class="n">export_dict_in_file</span><span class="p">(</span><span class="n">my_dict</span> <span class="o">=</span> <span class="n">offspring_snps_window_normalized_new</span><span class="p">,</span>
+                <span class="n">output_file</span><span class="o">=</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;offspring_snps_window_normalized_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;new_snp_per_window&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;.txt&quot;</span><span class="p">,</span>
+                <span class="n">header</span><span class="o">=</span><span class="s2">&quot;chr_window</span><span class="se">\t</span><span class="s2">start</span><span class="se">\t</span><span class="s2">stop</span><span class="se">\t</span><span class="s2">ADref</span><span class="se">\t</span><span class="s2">ADalt</span><span class="se">\t</span><span class="s2">DP&quot;</span><span class="p">,</span>
+                <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">export_dict_in_file</span><span class="p">(</span><span class="n">my_dict</span> <span class="o">=</span> <span class="n">offspring_genotype_window_normalized_new</span><span class="p">,</span>
+                <span class="n">output_file</span><span class="o">=</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;offspring_genotype_window_normalized_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;new_snp_per_window&#39;</span><span class="p">])</span>  <span class="o">+</span> <span class="s2">&quot;.txt&quot;</span><span class="p">,</span>
+                <span class="n">header</span><span class="o">=</span><span class="s2">&quot;chr_window</span><span class="se">\t</span><span class="s2">start</span><span class="se">\t</span><span class="s2">stop</span><span class="se">\t</span><span class="s2">ADref/DP</span><span class="se">\t</span><span class="s2">ADalt/DP</span><span class="se">\t</span><span class="s2">probHomoRef</span><span class="se">\t</span><span class="s2">probHetero</span><span class="se">\t</span><span class="s2">probHomoAlt</span><span class="se">\t</span><span class="s2">genotype&quot;</span><span class="p">,</span>
+                <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">export_dict_in_file</span><span class="p">(</span><span class="n">my_dict</span> <span class="o">=</span> <span class="n">nb_windows_chr_new</span><span class="p">,</span>
+                <span class="n">output_file</span><span class="o">=</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;nb_window_chr_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;new_snp_per_window&#39;</span><span class="p">])</span><span class="o">+</span> <span class="s2">&quot;.txt&quot;</span><span class="p">,</span>
+                <span class="n">header</span><span class="o">=</span><span class="s2">&quot;chr</span><span class="se">\t</span><span class="s2">nb_window&quot;</span><span class="p">,</span>
+                <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"># STEP 8. Smooth offspring sliding window &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;new_snp_per_window&#39;</span><span class="p">])</span> <span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-------------------------------------&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;offspring_snps_window_normalized_smoothed_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;new_snp_per_window&#39;</span><span class="p">])</span>  <span class="o">+</span> <span class="s2">&quot;.txt&quot;</span><span class="p">)</span> <span class="ow">and</span> \
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;offspring_genotype_window_normalized_smoothed_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;new_snp_per_window&#39;</span><span class="p">])</span>  <span class="o">+</span> <span class="s2">&quot;.txt&quot;</span><span class="p">)</span> <span class="ow">and</span> \
+        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;offspring_nb_window_normalized_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;new_snp_per_window&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;.txt&quot;</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Load data...&quot;</span><span class="p">)</span>
+    <span class="n">offspring_snps_window_smoothed_new</span> <span class="o">=</span> <span class="n">load_file_in_dict</span><span class="p">(</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;offspring_snps_window_normalized_smoothed_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;new_snp_per_window&#39;</span><span class="p">])</span>  <span class="o">+</span> <span class="s2">&quot;.txt&quot;</span><span class="p">)</span>
+    <span class="n">offspring_genotype_window_smoothed_new</span> <span class="o">=</span> <span class="n">load_file_in_dict</span><span class="p">(</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;offspring_genotype_window_normalized_smoothed_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;new_snp_per_window&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;.txt&quot;</span><span class="p">)</span>
+    <span class="n">check_smoothing_new</span> <span class="o">=</span> <span class="n">load_file_in_dict</span><span class="p">(</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;check_smoothing_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;new_snp_per_window&#39;</span><span class="p">])</span>  <span class="o">+</span> <span class="s2">&quot;.txt&quot;</span><span class="p">)</span>
+
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">offspring_snps_window_smoothed_new</span><span class="p">,</span> <span class="n">offspring_genotype_window_smoothed_new</span><span class="p">,</span> \
+        <span class="n">check_smoothing_new</span> <span class="o">=</span> <span class="n">SmoothNormalizedOsffspringSlidingWindowsnps</span><span class="p">(</span>\
+            <span class="n">offspring_snps_window</span><span class="o">=</span><span class="n">offspring_snps_window_normalized_new</span><span class="p">,</span>
+            <span class="n">nb_windows_chr</span><span class="o">=</span><span class="n">nb_windows_chr_new</span><span class="p">,</span>
+            <span class="n">geno_ref</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;EMS_ref&#39;</span><span class="p">],</span>
+            <span class="n">geno_alt</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;EMS_alt&#39;</span><span class="p">],</span>
+            <span class="n">ratio_min_homo</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;ratio_min_EMS&#39;</span><span class="p">],</span>
+            <span class="n">depth_division_th</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;depth_division_th&#39;</span><span class="p">]</span>  <span class="c1"># modify MY</span>
+            <span class="p">)</span>
+
+
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">offspring_snps_window_smoothed_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;new_snp_per_window&#39;</span><span class="p">])</span>  <span class="o">+</span> <span class="s2">&quot; : &quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[chr_window] = [start, stop, ADref, ADalt, DP]&quot;</span><span class="p">)</span>
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">offspring_snps_window_smoothed_new</span><span class="o">.</span><span class="n">items</span><span class="p">())[</span><span class="mi">5</span><span class="p">:</span><span class="mi">10</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">offspring_genotype_window_normalized_smoothed_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;new_snp_per_window&#39;</span><span class="p">])</span> <span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[chr_window] = [start, stop, ADref/DP, ADalt/DP, probHomoRef, probHetero, probHomoAlt, genotype]&quot;</span><span class="p">)</span>
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">offspring_genotype_window_smoothed_new</span><span class="o">.</span><span class="n">items</span><span class="p">())[</span><span class="mi">5</span><span class="p">:</span><span class="mi">10</span><span class="p">],</span> <span class="n">width</span> <span class="o">=</span> <span class="mi">120</span><span class="p">,</span> <span class="n">compact</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">check_smoothing_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;new_snp_per_window&#39;</span><span class="p">])</span>  <span class="o">+</span> <span class="s2">&quot;[chr_window] = [start_window,stop_window,start_smooth,stop_smooth,window_smoothed&quot;</span><span class="p">)</span>
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">check_smoothing_new</span><span class="o">.</span><span class="n">items</span><span class="p">())[</span><span class="mi">5</span><span class="p">:</span><span class="mi">10</span><span class="p">])</span>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Save outputs of SmoothNormalizedOsffspringSlidingWindow()&quot;</span><span class="p">)</span>
+
+<span class="n">export_dict_in_file</span><span class="p">(</span><span class="n">my_dict</span> <span class="o">=</span> <span class="n">offspring_snps_window_smoothed_new</span><span class="p">,</span>
+                <span class="n">output_file</span><span class="o">=</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;offspring_snps_window_normalized_smoothed_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;new_snp_per_window&#39;</span><span class="p">])</span>  <span class="o">+</span> <span class="s2">&quot;.txt&quot;</span><span class="p">,</span>
+                <span class="n">header</span><span class="o">=</span><span class="s2">&quot;chr_window</span><span class="se">\t</span><span class="s2">start</span><span class="se">\t</span><span class="s2">stop</span><span class="se">\t</span><span class="s2">ADref</span><span class="se">\t</span><span class="s2">ADalt</span><span class="se">\t</span><span class="s2">DP&quot;</span><span class="p">,</span>
+                <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">export_dict_in_file</span><span class="p">(</span><span class="n">my_dict</span> <span class="o">=</span> <span class="n">offspring_genotype_window_smoothed_new</span><span class="p">,</span>
+                <span class="n">output_file</span><span class="o">=</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;offspring_genotype_window_normalized_smoothed_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;new_snp_per_window&#39;</span><span class="p">])</span>  <span class="o">+</span> <span class="s2">&quot;.txt&quot;</span><span class="p">,</span>
+                <span class="n">header</span><span class="o">=</span><span class="s2">&quot;chr_window</span><span class="se">\t</span><span class="s2">start</span><span class="se">\t</span><span class="s2">stop</span><span class="se">\t</span><span class="s2">ADref/DP</span><span class="se">\t</span><span class="s2">ADalt/DP</span><span class="se">\t</span><span class="s2">probHomoRef</span><span class="se">\t</span><span class="s2">probHetero</span><span class="se">\t</span><span class="s2">probHomoAlt</span><span class="se">\t</span><span class="s2">genotype&quot;</span><span class="p">,</span>
+                <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">export_dict_in_file</span><span class="p">(</span><span class="n">my_dict</span> <span class="o">=</span> <span class="n">check_smoothing_new</span><span class="p">,</span>
+                <span class="n">output_file</span><span class="o">=</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;check_smoothing_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;new_snp_per_window&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;.txt&quot;</span><span class="p">,</span>
+                <span class="n">header</span><span class="o">=</span><span class="s2">&quot;chr_window</span><span class="se">\t</span><span class="s2">start_window</span><span class="se">\t</span><span class="s2">stop_window</span><span class="se">\t</span><span class="s2">start_smooth</span><span class="se">\t</span><span class="s2">stop_smooth</span><span class="se">\t</span><span class="s2">window_smoothed&quot;</span><span class="p">,</span>
+                <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>11.bis <strong>Pricise COs</strong>:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>The <cite>IdentifyCOs</cite> function is called to identify crossover events (COs) based on the new smoothed offspring genotype window data, which is adjusted according to the newly specified window size.</p></li>
+<li><p>Precise COs are printed and exported to a file named “preciseCOs.txt” for further analysis and record-keeping.</p></li>
+</ul>
+</div></blockquote>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"># STEP 9.bis. Precise COs&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-------------------------------------&quot;</span><span class="p">)</span>
+
+
+<span class="n">preciseCOs</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+<span class="n">db_co_new</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">updated_candidates_co</span><span class="o">.</span><span class="n">keys</span><span class="p">()))):</span>
+    <span class="n">start_co</span><span class="o">=</span><span class="n">updated_candidates_co</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">updated_candidates_co</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="n">i</span><span class="p">]][</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">end_co</span><span class="o">=</span><span class="n">updated_candidates_co</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">updated_candidates_co</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="n">i</span><span class="p">]][</span><span class="mi">2</span><span class="p">]</span>
+    <span class="nb">chr</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">updated_candidates_co</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">before</span> <span class="o">=</span><span class="n">OrderedDict</span><span class="p">()</span>
+    <span class="n">after</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">snp_info</span> <span class="ow">in</span> <span class="n">offspring_genotype_window_smoothed</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">candidate</span> <span class="o">=</span> <span class="n">key</span>
+        <span class="n">chromosome</span> <span class="o">=</span> <span class="n">candidate</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="n">candidate</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">start</span><span class="p">,</span>      <span class="n">stop</span><span class="p">,</span> <span class="n">ratio_ADref</span><span class="p">,</span> <span class="n">ratio_ADalt</span><span class="p">,</span> <span class="n">genotype</span> <span class="o">=</span> <span class="n">snp_info</span>
+
+
+        <span class="k">if</span> <span class="n">start</span> <span class="o">&lt;</span> <span class="n">start_co</span> <span class="ow">and</span> <span class="n">chromosome</span> <span class="o">==</span> <span class="nb">chr</span> <span class="ow">and</span> <span class="n">genotype</span> <span class="o">!=</span> <span class="s1">&#39;NA&#39;</span> <span class="p">:</span>
+            <span class="n">before</span><span class="p">[</span><span class="n">candidate</span><span class="p">]</span> <span class="o">=</span> <span class="n">snp_info</span>
+        <span class="k">if</span> <span class="n">stop</span> <span class="o">&gt;</span> <span class="n">end_co</span> <span class="ow">and</span> <span class="n">chromosome</span> <span class="o">==</span> <span class="nb">chr</span> <span class="ow">and</span> <span class="n">genotype</span> <span class="o">!=</span> <span class="s1">&#39;NA&#39;</span> <span class="p">:</span>
+            <span class="n">after</span><span class="p">[</span><span class="n">candidate</span><span class="p">]</span> <span class="o">=</span> <span class="n">snp_info</span>
+    <span class="n">before</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">before</span><span class="o">.</span><span class="n">items</span><span class="p">())[</span><span class="o">-</span><span class="mi">3</span><span class="p">:])</span>
+    <span class="n">after</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">after</span><span class="o">.</span><span class="n">items</span><span class="p">())[:</span><span class="mi">3</span><span class="p">])</span>
+
+
+    <span class="n">start_co_2</span><span class="o">=</span><span class="n">before</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">before</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">after</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span><span class="o">&gt;</span><span class="mi">2</span><span class="p">:</span>
+        <span class="n">end_co_2</span><span class="o">=</span> <span class="n">after</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">after</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">2</span><span class="p">]][</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">after</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">end_co_2</span> <span class="o">=</span> <span class="n">end_co</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">after</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">end_co_2</span> <span class="o">=</span> <span class="n">after</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">after</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">1</span><span class="p">]][</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">end_co_2</span><span class="o">=</span> <span class="n">after</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">after</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]][</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">new_offspring_genotype_window_smoothed</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">cle</span><span class="p">,</span> <span class="n">valeur</span> <span class="ow">in</span> <span class="n">offspring_genotype_window_smoothed_new</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">valeur</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">start_co_2</span> <span class="o">+</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">valeur</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">end_co_2</span> <span class="ow">and</span> <span class="n">cle</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="nb">chr</span><span class="p">:</span>
+            <span class="n">new_offspring_genotype_window_smoothed</span><span class="p">[</span><span class="n">cle</span><span class="p">]</span> <span class="o">=</span> <span class="n">valeur</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">cle</span><span class="p">,</span> <span class="n">valeur</span><span class="p">)</span>
+
+    <span class="n">start_window</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">new_offspring_genotype_window_smoothed</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">end_window</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">new_offspring_genotype_window_smoothed</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">start_window</span><span class="p">,</span> <span class="n">end_window</span><span class="p">)</span>
+
+
+    <span class="n">candidates_co_2</span><span class="p">,</span> <span class="n">db_co_2</span> <span class="o">=</span> <span class="n">PreciseCOs_snps</span><span class="p">(</span><span class="n">new_offspring_genotype_window_smoothed</span><span class="p">,</span> <span class="n">start_window</span><span class="o">=</span><span class="n">start_window</span><span class="p">,</span> <span class="n">end_window</span><span class="o">=</span><span class="n">end_window</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">candidates_co_2</span> <span class="p">:</span>
+        <span class="n">candidates_co_2</span> <span class="o">=</span> <span class="n">candidates_co_2</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">start_co</span><span class="o">=</span><span class="n">updated_candidates_co</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">updated_candidates_co</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="n">i</span><span class="p">]][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">end_co</span><span class="o">=</span><span class="n">updated_candidates_co</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">updated_candidates_co</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="n">i</span><span class="p">]][</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">pre_geno</span><span class="o">=</span><span class="n">updated_candidates_co</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">updated_candidates_co</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="n">i</span><span class="p">]][</span><span class="mi">4</span><span class="p">]</span>
+        <span class="n">cur_geno</span><span class="o">=</span><span class="n">updated_candidates_co</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">updated_candidates_co</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="n">i</span><span class="p">]][</span><span class="mi">5</span><span class="p">]</span>
+        <span class="n">cur_chr</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">updated_candidates_co</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">cur_chr</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">((</span><span class="n">start_window</span> <span class="o">+</span> <span class="n">end_window</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">candidates_co_2</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">start_window</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">end_window</span><span class="p">),</span> <span class="n">start_co</span><span class="p">,</span> <span class="n">end_co</span><span class="p">,</span> <span class="n">pre_geno</span><span class="p">,</span> <span class="n">cur_geno</span><span class="p">]</span>
+    <span class="n">preciseCOs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">candidates_co_2</span><span class="p">)</span>
+    <span class="n">db_co_new</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">db_co_2</span><span class="p">)</span>
+
+
+<span class="n">updated_preciseCOs</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span> <span class="c1"># modify MY</span>
+<span class="k">for</span> <span class="n">chr_window</span><span class="p">,</span> <span class="n">details</span> <span class="ow">in</span> <span class="n">preciseCOs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span> <span class="c1"># modify MY</span>
+    <span class="n">start_win_stop_win</span><span class="p">,</span> <span class="n">co_start</span><span class="p">,</span> <span class="n">co_stop</span><span class="p">,</span> <span class="n">pre_geno</span><span class="p">,</span> <span class="n">cur_geno</span> <span class="o">=</span> <span class="n">details</span> <span class="c1"># modify MY</span>
+    <span class="n">diff</span> <span class="o">=</span> <span class="n">co_stop</span> <span class="o">-</span> <span class="n">co_start</span>  <span class="c1"># Calcul de la différence # modify MY</span>
+    <span class="n">updated_preciseCOs</span><span class="p">[</span><span class="n">chr_window</span><span class="p">]</span> <span class="o">=</span>  <span class="p">[</span><span class="n">start_win_stop_win</span><span class="p">,</span> <span class="n">co_start</span><span class="p">,</span> <span class="n">co_stop</span><span class="p">,</span><span class="n">diff</span><span class="p">,</span> <span class="n">pre_geno</span><span class="p">,</span> <span class="n">cur_geno</span><span class="p">]</span> <span class="c1"># modify MY</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">CandidateCOs new: &quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[chr_window] = [start_win:stop_win, co_start, co_stop, pre_geno, cur_geno]&quot;</span><span class="p">)</span>
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">updated_preciseCOs</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span> <span class="c1"># modify MY</span>
+
+
+<span class="n">export_dict_in_file</span><span class="p">(</span><span class="n">my_dict</span> <span class="o">=</span> <span class="n">updated_preciseCOs</span><span class="p">,</span>  <span class="c1"># modify MY</span>
+                <span class="n">output_file</span><span class="o">=</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;preciseCOs_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;new_snp_per_window&#39;</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot;_snps_ratio_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;ratio_min_EMS&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;.txt&quot;</span><span class="p">,</span>
+                <span class="n">header</span><span class="o">=</span><span class="s2">&quot;chr_mean_win</span><span class="se">\t</span><span class="s2">start_win:stop_win</span><span class="se">\t</span><span class="s2">start_co</span><span class="se">\t</span><span class="s2">stop_co</span><span class="se">\t</span><span class="s2">(stop_co-start_co)</span><span class="se">\t</span><span class="s2">pre_geno</span><span class="se">\t</span><span class="s2">cur_geno&quot;</span><span class="p">,</span>
+                <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2024, Mohamad Yassine
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/scripts/furo.js"></script>
+    </body>
+</html>
