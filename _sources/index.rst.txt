@@ -31,6 +31,11 @@ Program Information
          - Email: maela.semery@inrae.fr
       - **Mohamad Yassine**
          - Email: mohamad.yassine@inrae.fr
+   - **Collaborators**: 
+      - **Chloé Girard**
+         - Email: chloe.girard@i2bc.paris-saclay.fr
+      - **Benoît Madec**
+         - Email: benoit.madec@i2bc.paris-saclay.fr
 
 **Initial Release Date**: 06 July 2022
 
