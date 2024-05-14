@@ -5,7 +5,7 @@
 
 ## 1) General path informations 
 path_to_polyrec_project: /PATH/TO/Documentation_detectCOs/code/
-output_dir_in_polyrec:  /results/detectCOs_clasic/
+output_dir_in_polyrec:  /results/detectCOs_classic/
 
 ##-----------------------------
 ## 2) Sample information
