@@ -1,15 +1,15 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html class="no-js" lang="en" data-content_root="./">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="VisualiseGenotypesChromosome.py" href="VisualiseGenotypesChromosome.html" /><link rel="prev" title="Test_laucher_With_diff_SNPs.py" href="Test_laucher_With_diff_SNPs.html" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="prev" title="test_detectCOs_polyrec_functions.py" href="test_detectCOs_polyrec_functions.html" />
 
-    <!-- Generated with Sphinx 5.3.0 and Furo 2023.03.27 -->
+    <!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
         <title>Test_yaml_detectCOs_BC.yaml - detectCOs 2.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=362ab14a" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
     
     
 
@@ -162,16 +162,7 @@
 <li class="toctree-l1"><a class="reference internal" href="detectCOs_sliding_window.html">detectCOs_sliding_window.py</a></li>
 <li class="toctree-l1"><a class="reference internal" href="detectCOs_identifyCOs.html">detectCOs_identifyCOs.py</a></li>
 <li class="toctree-l1"><a class="reference internal" href="test_detectCOs_polyrec_functions.html">test_detectCOs_polyrec_functions.py</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Test_laucher_With_diff_SNPs.html">Test_laucher_With_diff_SNPs.py</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Test_yaml_detectCOs_BC.yaml</a></li>
-<li class="toctree-l1"><a class="reference internal" href="VisualiseGenotypesChromosome.html">VisualiseGenotypesChromosome.py</a></li>
-<li class="toctree-l1"><a class="reference internal" href="detectCOs_identifyCOs_EMS.html">detectCOs_identifyCOs_EMS.py</a></li>
-<li class="toctree-l1"><a class="reference internal" href="detectCOs_required_functions_EMS.html">detectCOs_required_functions_EMS.py</a></li>
-<li class="toctree-l1"><a class="reference internal" href="detectCOs_sliding_window_EMS.html">detectCOs_sliding_window_EMS.py</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Test_yaml_detectCOs_BC_EMS.html">Test_yaml_detectCOs_BC_EMS.yaml</a></li>
-<li class="toctree-l1"><a class="reference internal" href="detectCOs_identifyCOs_RIL.html">detectCOs_identifyCOs_RIL.py</a></li>
-<li class="toctree-l1"><a class="reference internal" href="config_rules_RIL.html">config_rules_RIL.yaml</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Launcher_Rules_RIL.html">Launcher_Rules_RIL.py</a></li>
 </ul>
 
 </div>
@@ -207,17 +198,17 @@
         </div>
         <article role="main">
           <section id="test-yaml-detectcos-bc-yaml">
-<h1>Test_yaml_detectCOs_BC.yaml<a class="headerlink" href="#test-yaml-detectcos-bc-yaml" title="Permalink to this heading">#</a></h1>
+<h1>Test_yaml_detectCOs_BC.yaml<a class="headerlink" href="#test-yaml-detectcos-bc-yaml" title="Link to this heading">#</a></h1>
 <section id="config-file-for-detectcos-tools">
-<h2>CONFIG FILE FOR detectCOs TOOLS<a class="headerlink" href="#config-file-for-detectcos-tools" title="Permalink to this heading">#</a></h2>
+<h2>CONFIG FILE FOR detectCOs TOOLS<a class="headerlink" href="#config-file-for-detectcos-tools" title="Link to this heading">#</a></h2>
 <p>This configuration file specifies the paths to various files required for the analysis as well as the tool’s parameters.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>ALL PARAMETERS ARE MANDATORY !!!</p>
 </div>
 <p><strong>1. General path informations</strong></p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">path_to_polyrec_project</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">path/to/folder/polyrec/</span>
-<span class="nt">output_dir_in_polyrec</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">path/to/folder/</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">path_to_polyrec_project</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/store/EQUIPES/MRP/Partage/Arabidopsis_commun/ALL_SCRIPTS_HERE/Git/polyrec/</span>
+<span class="nt">output_dir_in_polyrec</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">data/data_test/data_polyrec/111355_AA/</span>
 </pre></div>
 </div>
 <p><strong>2. Sample information</strong></p>
@@ -230,19 +221,19 @@
 </pre></div>
 </div>
 <p>Path to chromosome length file</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">chr_len</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">path/to/folder/chr_len_athaliana_qichao.txt</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">chr_len</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">data/data_test/data_qichao/chr_len_athaliana_qichao.txt</span>
 </pre></div>
 </div>
 <p>Path to centromeric region file</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">centromere_reg</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">path/to/folder/centromere_athaliana_qichao.txt</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">centromere_reg</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">data/data_test/data_qichao/centromere_athaliana_qichao.txt</span>
 </pre></div>
 </div>
 <p>Path to parental vcf</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">parental_vcf</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">path/to/folder/parental_golden_snps_139_genotyped_Indiv_28_merged_FORMATTED_IDpoint_noChr_dict_FORMAT.vcf</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">parental_vcf</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">data/data_test/data_polyrec/111355_AA/parental_golden_snps_139_genotyped_Indiv_28_merged_FORMATTED_IDpoint_noChr_dict_FORMAT.vcf</span>
 </pre></div>
 </div>
 <p>Path to offspring vcf</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">sample_vcf</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">path/to/folder/111355_AA_gt_by_golden_AWKED.vcf</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">sample_vcf</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">data/data_test/data_polyrec/111355_AA/111355_AA_gt_by_golden_AWKED.vcf</span>
 </pre></div>
 </div>
 <p><strong>3. Tool parameters</strong></p>
@@ -267,20 +258,8 @@
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">min_snp_num</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">16</span>
 </pre></div>
 </div>
-<p>minimum frequency of AD/DP to be homozygous (float between 0 and 1 excluded, default: 0.75)</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">ratio_min_homo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.75</span>
-</pre></div>
-</div>
-<p>depth division based on window size, default = 1 when window_size = 100 kb                   # modify MY</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">depth_division_th</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.0</span>
-</pre></div>
-</div>
-<p>Size of the window (kb). To refined the position of CO                     # modify MY</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">new_window_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
-</pre></div>
-</div>
-<p>new depth division based on window size                                  # modify MY</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">new_depth_division_th</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.1</span>
+<p>minimum frequency of AD/DP to be homozygous (float between 0 and 1 excluded, default: 0.9)</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">ratio_min_homo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.9</span>
 </pre></div>
 </div>
 <p>This configuration file allows customization of the detectCOs tool’s parameters based on the specific data to be analyzed.</p>
@@ -292,23 +271,15 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="VisualiseGenotypesChromosome.html">
-              <div class="page-info">
-                <div class="context">
-                  <span>Next</span>
-                </div>
-                <div class="title">VisualiseGenotypesChromosome.py</div>
-              </div>
-              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
-            </a>
-          <a class="prev-page" href="Test_laucher_With_diff_SNPs.html">
+          
+          <a class="prev-page" href="test_detectCOs_polyrec_functions.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Test_laucher_With_diff_SNPs.py</div>
+                <div class="title">test_detectCOs_polyrec_functions.py</div>
                 
               </div>
             </a>
@@ -355,12 +326,9 @@
       
     </aside>
   </div>
-</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
-    <script src="_static/scripts/furo.js"></script>
+</div><script src="_static/documentation_options.js?v=60dbed4a"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>
