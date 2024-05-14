@@ -1,0 +1,5 @@
+chr_mean_win	start_win:stop_win	start_co	stop_co	(stop_co-start_co)	pre_geno	cur_geno
+Chr2_20.5	20:21	7602531	8044593	442062	A	-
+Chr3_47.5	47:48	15506745	16245814	739069	-	A
+Chr5_25.5	25:26	10096125	10503158	407033	A	-
+Chr5_35.5	35:36	14279193	15729398	1450205	-	A

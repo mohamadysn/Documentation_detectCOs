@@ -1,0 +1,5 @@
+chr_mean_win	start_win:stop_win	start_co	stop_co	(stop_co-start_co)	pre_geno	cur_geno
+Chr2_155.5	155:156	7750000	7800000	50000	A	RIL
+Chr3_312.5	312:313	15600000	15650000	50000	RIL	A
+Chr5_203.5	203:204	10150000	10200000	50000	A	RIL
+Chr5_298.5	298:299	14900000	14950000	50000	RIL	A

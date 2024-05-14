@@ -1,0 +1,9 @@
+chr_mean_win	start_win:stop_win	start_co	stop_co	pre_geno	cur_geno
+Chr2_156.5	7750000	7800000	Col	Col/Ct
+Chr2_351.5	17500000	17550000	Col/Ct	Col
+Chr3_133.5	6600000	6650000	Col	Col/Ct
+Chr3_313.5	15600000	15650000	Col/Ct	Col
+Chr4_104.5	5150000	5200000	Col	Col/Ct
+Chr4_159.5	7900000	7950000	Col/Ct	Col
+Chr5_204.5	10150000	10200000	Col	Col/Ct
+Chr5_283.5	14100000	14150000	Col/Ct	Col

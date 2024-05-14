@@ -1,0 +1,6 @@
+chr	nb_window
+Chr1	70
+Chr2	37
+Chr3	51
+Chr4	36
+Chr5	33

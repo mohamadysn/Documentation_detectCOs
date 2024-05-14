@@ -1,0 +1,11 @@
+#####  CONFIG FILE FOR RULES             #####
+##############################################
+
+
+output: /PATH/TO/Documentation_detectCOs/code/results/RULES/111374_A/
+
+Path_info_RIL: /PATH/TO/Documentation_detectCOs/code/data/
+
+Path_offspring_basic: /PATH/TO/Documentation_detectCOs/code/results/detectCOs_clasic/111374_A/
+
+Path_offspring_EMS: /PATH/TO/Documentation_detectCOs/code/results/detectCOs_EMS/111374_A/

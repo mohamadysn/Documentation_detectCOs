@@ -1,0 +1,47 @@
+#####  CONFIG FILE FOR DETECT_COS TOOLS  #####
+##############################################
+
+## NOTE : ALL PARAMETERS ARE MANDATORY !!! 
+
+## 1) General path informations 
+path_to_polyrec_project: /PATH/TO/Documentation_detectCOs/code/
+output_dir_in_polyrec:  /results/detectCOs_clasic/
+
+##-----------------------------
+## 2) Sample information
+# Name of your sample, a directory `analyze_id` will be created in `output_dir_in_polyrec`
+analyze_id: 111374_A
+# Prefix used or to be added in CHROM column in parental_vcf and offspring_vcf (they have to be the same between the two files).
+prefix_chr: "Chr"
+# Path to chromosome length file
+chr_len: data/data_test/data_qichao/chr_len_athaliana_qichao.txt
+# Path to centromeric region file
+centromere_reg: data/data_test/data_qichao/centromere_athaliana_qichao.txt
+# Path to parental vcf
+parental_vcf: data/parental_goldensnps_Indiv_28.vcf
+# Path to offspring vcf
+sample_vcf: data/Individus_XV_15/ALE/inGAP/111374_A/111374_A_markdup_inGAP_ALE_golden28_Ct.vcf
+
+##-----------------------------
+## 3) Parameter of the tools
+# Reference genotype 
+genotype_ref: Col
+# Alternative genotype 
+genotype_alt: Ct
+# Size of the window (kb). The step size is automatically calcultaed as half the size window. (default: 100 kb)
+window_size: 100
+# minimum number of coverage in the window to calculate the ratio and determine the genotype (default: 10)
+min_reads_num: 10
+# minimum number of SNPs in the window to calculate the ratio and determine the genotype (default: 16)
+min_snp_num: 16
+# minimum frequency of AD/DP to be homozygous (float between 0 and 1 excluded, default: 0.75)                       # modify MY
+ratio_min_homo: 0.75  # modify MY
+
+# depth division based on window size, default = 1 when window_size = 100 kb                   # modify MY
+depth_division_th: 1.0 
+
+# Size of the window (kb). To refined the position of CO                     # modify MY
+new_window_size: 10
+
+# new depth division based on window size                                  # modify MY
+new_depth_division_th: 0.1
