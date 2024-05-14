@@ -25,7 +25,7 @@ Each tool comes with specific instructions detailed in the documentation linked 
 
 For more comprehensive guidance and detailed instructions, please visit our documentation page:
 
-[DetectCos Documentation](https://sps-bioinfo.pages.mia.inra.fr/doc_detectcos/index.html)
+[DetectCos Documentation](https://mohamadysn.github.io/Documentation_detectCOs/)
 
 URL :  https://mohamadysn.github.io/Documentation_detectCOs/
 
