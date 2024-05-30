@@ -30,7 +30,7 @@ For more comprehensive guidance and detailed instructions, please visit our docu
 URL :  https://mohamadysn.github.io/Documentation_detectCOs/
 
 Thank you for using detectCos!
-
+ 
 
   
  
